@@ -1,0 +1,301 @@
+{
+  "heldout_episodes": 16,
+  "episode_length": 90,
+  "train_split": 0.8,
+  "heldout_rng_seed": 20260419,
+  "results": {
+    "default": {
+      "n_episodes": 16,
+      "episode_length": 90,
+      "mean_network_profit": -36433.515748438964,
+      "std_network_profit": 1489.6217294844396,
+      "mean_service_level": 1.0,
+      "per_store": {
+        "A": {
+          "mean_orders_placed_per_episode": 13.375,
+          "order_frequency": 0.1486111111111111,
+          "mean_order_qty": 388.06089743589746,
+          "mean_store_profit": -5179.489490994616,
+          "mean_service_level": 1.0,
+          "mean_demand_per_episode": 2639.886012848033,
+          "mean_sales_per_episode": 2639.886012848033,
+          "mean_procurement_cost": 4305.625,
+          "mean_holding_cost": 4516.907188724899,
+          "mean_stockout_cost": 0.0,
+          "cost_per_unit_sold": 3.3420125512187315
+        },
+        "B": {
+          "mean_orders_placed_per_episode": 11.9375,
+          "order_frequency": 0.1326388888888889,
+          "mean_order_qty": 332.8689539627039,
+          "mean_store_profit": -5787.6913718113365,
+          "mean_service_level": 1.0,
+          "mean_demand_per_episode": 1502.209361312705,
+          "mean_sales_per_episode": 1502.209361312705,
+          "mean_procurement_cost": 3294.0625,
+          "mean_holding_cost": 4566.677790422868,
+          "mean_stockout_cost": 0.0,
+          "cost_per_unit_sold": 5.232786116812482
+        },
+        "C": {
+          "mean_orders_placed_per_episode": 14.8125,
+          "order_frequency": 0.16458333333333333,
+          "mean_order_qty": 239.35582646520146,
+          "mean_store_profit": -6014.616135633009,
+          "mean_service_level": 1.0,
+          "mean_demand_per_episode": 897.6478077994268,
+          "mean_sales_per_episode": 897.6478077994268,
+          "mean_procurement_cost": 2943.90625,
+          "mean_holding_cost": 4309.4638603962185,
+          "mean_stockout_cost": 0.0,
+          "cost_per_unit_sold": 8.08041867575856
+        }
+      },
+      "mean_store_profits": {
+        "A": -5179.489490994616,
+        "B": -5787.6913718113365,
+        "C": -6014.616135633009
+      }
+    },
+    "uniform": {
+      "n_episodes": 16,
+      "episode_length": 90,
+      "mean_network_profit": -2335.4550007189728,
+      "std_network_profit": 505.39262163426577,
+      "mean_service_level": 0.9130151601027277,
+      "per_store": {
+        "A": {
+          "mean_orders_placed_per_episode": 62.375,
+          "order_frequency": 0.6930555555555555,
+          "mean_order_qty": 42.17804183962495,
+          "mean_store_profit": 1084.412310204612,
+          "mean_service_level": 0.9882179169578436,
+          "mean_demand_per_episode": 2639.886012848033,
+          "mean_sales_per_episode": 2608.78265662283,
+          "mean_procurement_cost": 2176.15625,
+          "mean_holding_cost": 277.3447934844878,
+          "mean_stockout_cost": 62.20671245040484,
+          "cost_per_unit_sold": 0.9643224779758286
+        },
+        "B": {
+          "mean_orders_placed_per_episode": 34.1875,
+          "order_frequency": 0.3798611111111111,
+          "mean_order_qty": 39.745356626442046,
+          "mean_store_profit": 552.6948030779346,
+          "mean_service_level": 0.9508185409008912,
+          "mean_demand_per_episode": 1502.209361312705,
+          "mean_sales_per_episode": 1428.3285130510058,
+          "mean_procurement_cost": 1112.71875,
+          "mean_holding_cost": 157.91809840905532,
+          "mean_stockout_cost": 147.76169652339797,
+          "cost_per_unit_sold": 0.9930478401657463
+        },
+        "C": {
+          "mean_orders_placed_per_episode": 11.75,
+          "order_frequency": 0.13055555555555556,
+          "mean_order_qty": 32.46593592810699,
+          "mean_store_profit": -307.4371140015188,
+          "mean_service_level": 0.6366816096751199,
+          "mean_demand_per_episode": 897.6478077994268,
+          "mean_sales_per_episode": 571.5158511910817,
+          "mean_procurement_cost": 347.5625,
+          "mean_holding_cost": 96.30257542852131,
+          "mean_stockout_cost": 652.2639132166903,
+          "cost_per_unit_sold": 1.9179327858725126
+        }
+      },
+      "mean_store_profits": {
+        "A": 1084.412310204612,
+        "B": 552.6948030779346,
+        "C": -307.4371140015188
+      }
+    },
+    "segmented_mean": {
+      "n_episodes": 16,
+      "episode_length": 90,
+      "mean_network_profit": -29877.017055673998,
+      "std_network_profit": 2069.594185128478,
+      "mean_service_level": 0.8623699787955939,
+      "per_store": {
+        "A": {
+          "mean_orders_placed_per_episode": 90.0,
+          "order_frequency": 1.0,
+          "mean_order_qty": 89.79166666666666,
+          "mean_store_profit": -10679.989490994616,
+          "mean_service_level": 1.0,
+          "mean_demand_per_episode": 2639.886012848033,
+          "mean_sales_per_episode": 2639.886012848033,
+          "mean_procurement_cost": 6707.4375,
+          "mean_holding_cost": 7615.5946887249,
+          "mean_stockout_cost": 0.0,
+          "cost_per_unit_sold": 5.425625242535583
+        },
+        "B": {
+          "mean_orders_placed_per_episode": 60.875,
+          "order_frequency": 0.6763888888888889,
+          "mean_order_qty": 60.340686823752435,
+          "mean_store_profit": -4206.003871811337,
+          "mean_service_level": 1.0,
+          "mean_demand_per_episode": 1502.209361312705,
+          "mean_sales_per_episode": 1502.209361312705,
+          "mean_procurement_cost": 3003.5625,
+          "mean_holding_cost": 3275.4902904228693,
+          "mean_stockout_cost": 0.0,
+          "cost_per_unit_sold": 4.179878618873685
+        },
+        "C": {
+          "mean_orders_placed_per_episode": 0.0,
+          "order_frequency": 0.0,
+          "mean_order_qty": 0.0,
+          "mean_store_profit": -1172.7424428680442,
+          "mean_service_level": 0.22280453231462535,
+          "mean_demand_per_episode": 897.6478077994268,
+          "mean_sales_per_episode": 200.0,
+          "mean_procurement_cost": 0.0,
+          "mean_holding_cost": 53.44682726919068,
+          "mean_stockout_cost": 1395.2956155988536,
+          "cost_per_unit_sold": 7.2437122143402215
+        }
+      },
+      "mean_store_profits": {
+        "A": -10679.989490994616,
+        "B": -4206.003871811337,
+        "C": -1172.7424428680442
+      }
+    },
+    "segmented_pernode": {
+      "n_episodes": 16,
+      "episode_length": 90,
+      "mean_network_profit": -6083.4701928297,
+      "std_network_profit": 1207.0498828796515,
+      "mean_service_level": 0.9316815010831543,
+      "per_store": {
+        "A": {
+          "mean_orders_placed_per_episode": 45.3125,
+          "order_frequency": 0.5034722222222222,
+          "mean_order_qty": 49.80994897959184,
+          "mean_store_profit": 472.61839312621305,
+          "mean_service_level": 0.870316496775649,
+          "mean_demand_per_episode": 2639.886012848033,
+          "mean_sales_per_episode": 2297.536346588936,
+          "mean_procurement_cost": 1872.6875,
+          "mean_holding_cost": 140.59493264832486,
+          "mean_stockout_cost": 684.6993325181929,
+          "cost_per_unit_sold": 1.174293398740833
+        },
+        "B": {
+          "mean_orders_placed_per_episode": 33.25,
+          "order_frequency": 0.36944444444444446,
+          "mean_order_qty": 50.0,
+          "mean_store_profit": 153.93362818866336,
+          "mean_service_level": 1.0,
+          "mean_demand_per_episode": 1502.209361312705,
+          "mean_sales_per_episode": 1502.209361312705,
+          "mean_procurement_cost": 1379.875,
+          "mean_holding_cost": 539.2402904228691,
+          "mean_stockout_cost": 0.0,
+          "cost_per_unit_sold": 1.2775285122347069
+        },
+        "C": {
+          "mean_orders_placed_per_episode": 19.375,
+          "order_frequency": 0.2152777777777778,
+          "mean_order_qty": 49.851190476190474,
+          "mean_store_profit": -10.053635633008916,
+          "mean_service_level": 1.0,
+          "mean_demand_per_episode": 897.6478077994268,
+          "mean_sales_per_episode": 897.6478077994268,
+          "mean_procurement_cost": 801.46875,
+          "mean_holding_cost": 447.3388603962179,
+          "mean_stockout_cost": 0.0,
+          "cost_per_unit_sold": 1.391199977926371
+        }
+      },
+      "mean_store_profits": {
+        "A": 472.61839312621305,
+        "B": 153.93362818866336,
+        "C": -10.053635633008916
+      }
+    },
+    "segmented": {
+      "n_episodes": 16,
+      "episode_length": 90,
+      "mean_network_profit": -6083.4701928297,
+      "std_network_profit": 1207.0498828796515,
+      "mean_service_level": 0.9316815010831543,
+      "per_store": {
+        "A": {
+          "mean_orders_placed_per_episode": 45.3125,
+          "order_frequency": 0.5034722222222222,
+          "mean_order_qty": 49.80994897959184,
+          "mean_store_profit": 472.61839312621305,
+          "mean_service_level": 0.870316496775649,
+          "mean_demand_per_episode": 2639.886012848033,
+          "mean_sales_per_episode": 2297.536346588936,
+          "mean_procurement_cost": 1872.6875,
+          "mean_holding_cost": 140.59493264832486,
+          "mean_stockout_cost": 684.6993325181929,
+          "cost_per_unit_sold": 1.174293398740833
+        },
+        "B": {
+          "mean_orders_placed_per_episode": 33.25,
+          "order_frequency": 0.36944444444444446,
+          "mean_order_qty": 50.0,
+          "mean_store_profit": 153.93362818866336,
+          "mean_service_level": 1.0,
+          "mean_demand_per_episode": 1502.209361312705,
+          "mean_sales_per_episode": 1502.209361312705,
+          "mean_procurement_cost": 1379.875,
+          "mean_holding_cost": 539.2402904228691,
+          "mean_stockout_cost": 0.0,
+          "cost_per_unit_sold": 1.2775285122347069
+        },
+        "C": {
+          "mean_orders_placed_per_episode": 19.375,
+          "order_frequency": 0.2152777777777778,
+          "mean_order_qty": 49.851190476190474,
+          "mean_store_profit": -10.053635633008916,
+          "mean_service_level": 1.0,
+          "mean_demand_per_episode": 897.6478077994268,
+          "mean_sales_per_episode": 897.6478077994268,
+          "mean_procurement_cost": 801.46875,
+          "mean_holding_cost": 447.3388603962179,
+          "mean_stockout_cost": 0.0,
+          "cost_per_unit_sold": 1.391199977926371
+        }
+      },
+      "mean_store_profits": {
+        "A": 472.61839312621305,
+        "B": 153.93362818866336,
+        "C": -10.053635633008916
+      }
+    }
+  },
+  "diagnostics": {
+    "theta_distances": {
+      "A_vs_B": 5.608555292759738,
+      "A_vs_C": 8.418315553438331,
+      "B_vs_C": 9.167586168915557,
+      "max_pairwise": 9.167586168915557
+    },
+    "behavioural_cv": {
+      "mean_order_qty": 0.0016362066532876183,
+      "order_frequency": 0.3246219605900509,
+      "mean_service_level": 0.06389545169738373,
+      "cost_per_unit_sold": 0.06915331403836768
+    },
+    "specialization_check": {
+      "max_pairwise_theta_distance": 9.167586168915557,
+      "mean_behavioural_cv": 0.13180382709390207,
+      "stores_differentiated": true,
+      "note": "stores_differentiated=True when max_pairwise_theta_distance>5 AND mean behavioural CV across (order qty, order frequency, cost/unit sold) > 0.10. If False, segmentation did NOT buy distinct policies and the uniform baseline is the honest comparison."
+    },
+    "segmented_vs_uniform": {
+      "uniform_profit": -2335.4550007189728,
+      "segmented_mean_profit": -29877.017055673998,
+      "segmented_pernode_profit": -6083.4701928297,
+      "pernode_vs_uniform_delta": -3748.015192110727,
+      "pernode_beats_uniform": false,
+      "pernode_vs_mean_delta": 23793.546862844298
+    }
+  }
+}

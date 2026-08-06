@@ -1,0 +1,1744 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Apparel ERP</title>
+<style>
+:root{
+ --ink:#191A2E;--ink2:#3F4157;--ink3:#6E7085;--ink4:#9B9DB0;
+ --line:#E7E3DC;--line2:#F4F1EC;--bg:#FAF8F5;--card:#FFFFFF;
+ --brand:#1B1C3A;--brand2:#4338CA;--soft:#EEEBFF;--brandL:#DDD8FB;
+ --accent:#C2410C;--accentS:#FFF4ED;
+ --ok:#0F766E;--okS:#EFFCF8;--warn:#B45309;--warnS:#FFFBEB;
+ --bad:#B91C1C;--badS:#FEF2F2;--purple:#6D28D9;--purpleS:#F5F3FF;
+ --r:11px;--sh:0 1px 2px rgba(11,18,32,.04),0 2px 6px rgba(11,18,32,.05);
+ --shL:0 18px 50px rgba(11,18,32,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+/* 14.5px base, not 13.5. This gets used at a shop counter, often by someone
+   over forty, frequently on a cheap laptop at 1366x768. Small type reads as
+   "complicated software" before a single word is understood. */
+body{font:14.5px/1.55 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+ color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+.num{font-variant-numeric:tabular-nums}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:none}
+#app{display:flex;height:100vh;overflow:hidden}
+
+/* sidebar */
+#side{width:232px;flex:0 0 232px;background:linear-gradient(168deg,#262750 0%,#1B1C3A 58%,#141530 100%);display:flex;flex-direction:column;overflow-y:auto}
+.brand{padding:17px 17px 15px;border-bottom:1px solid rgba(255,255,255,.08)}
+.brand .n{color:#fff;font-weight:700;font-size:16px;letter-spacing:-.3px}
+.brand .s{color:#8FA6CC;font-size:11px;margin-top:2px}
+nav{padding:9px 8px 18px;flex:1}
+.grp{color:rgba(255,255,255,.34);font-size:9.5px;font-weight:700;letter-spacing:.9px;
+ text-transform:uppercase;padding:11px 9px 5px}
+.nav{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 11px;
+ border-radius:9px;color:rgba(255,255,255,.80);font-size:13.6px;transition:.13s}
+.nav:hover{background:rgba(255,255,255,.09);color:#fff}
+.nav.on{background:#fff;color:var(--brand);font-weight:680;box-shadow:0 3px 12px rgba(0,0,0,.22)}
+.nav.on svg{color:var(--brand2)}
+.nav .b{margin-left:auto;background:var(--bad);color:#fff;font-size:9.5px;font-weight:700;
+ padding:1px 5px;border-radius:9px;min-width:16px;text-align:center}
+.nav svg{width:16.5px;height:16.5px;flex:0 0 auto}
+
+/* main */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+#top{height:60px;flex:0 0 60px;background:var(--card);border-bottom:1px solid var(--line);
+ display:flex;align-items:center;gap:12px;padding:0 18px}
+#top h1{font-size:17.5px;font-weight:680;letter-spacing:-.35px;color:var(--brand)}
+#top .sub{font-size:12.5px;color:var(--ink3);margin-top:-1px}
+.spacer{flex:1}
+#tsw{display:flex;align-items:center;gap:8px;background:var(--soft);border:1px solid var(--brandL);
+ border-radius:8px;padding:5px 9px}
+#tsw label{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--brand2)}
+#tsw select{border:none;background:none;font-size:12.5px;font-weight:650;color:var(--brand);cursor:pointer;outline:none}
+#body{flex:1;overflow-y:auto;padding:18px}
+.page{display:none;max-width:1500px}.page.on{display:block;animation:f .16s ease}
+@keyframes f{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+
+/* atoms */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:9px;
+ font-size:12.5px;font-weight:550;border:1px solid var(--line);background:#fff;color:var(--ink2);transition:.12s}
+.btn:hover{border-color:var(--ink4);background:var(--bg)}
+.btn.p{background:var(--brand2);color:#fff;border-color:var(--brand2);box-shadow:0 2px 8px rgba(36,86,230,.28);font-weight:650}
+.btn.p:hover{background:#1B45C9;border-color:#1B45C9}
+.btn.g{background:var(--ok);color:#fff;border-color:var(--ok)}
+.btn.d{background:var(--badS);color:var(--bad);border-color:#FECACA}
+.btn.sm{padding:4px 9px;font-size:11.5px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.inp{width:100%;padding:8px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;
+ font-size:12.5px;outline:none;transition:.12s}
+.inp:focus{border-color:var(--brand2);box-shadow:0 0 0 3px var(--soft)}
+select.inp{cursor:pointer}
+.card{background:var(--card);border:1px solid var(--line);border-radius:11px;box-shadow:var(--sh)}
+.ch{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.ct{letter-spacing:-.2px;font-size:13px;font-weight:650}.cs{font-size:11px;color:var(--ink3)}
+.cb{padding:16px}
+.grid{display:grid;gap:13px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}.g5{grid-template-columns:repeat(5,1fr)}
+@media(max-width:1200px){.g4,.g5{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:1fr}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 17px;box-shadow:var(--sh);transition:.15s}
+.kpi:hover{box-shadow:0 4px 16px rgba(11,18,32,.09)}
+.kpi .l{font-size:10.5px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--ink3)}
+.kpi .v{font-size:27px;font-weight:720;letter-spacing:-1px;margin-top:6px;line-height:1.1}
+.kpi .d{font-size:12px;color:var(--ink3);margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;padding:9px 11px;font-size:11px;font-weight:700;letter-spacing:.5px;
+ text-transform:uppercase;color:var(--ink3);background:var(--bg);border-bottom:1px solid var(--line);
+ white-space:nowrap;position:sticky;top:0;z-index:2}
+td{padding:11px 11px;border-bottom:1px solid var(--line2);vertical-align:middle}
+tbody tr:hover{background:var(--soft)}
+tbody tr:last-child td{border-bottom:none}
+.r{text-align:right}.c{text-align:center}
+.tw{overflow:auto;max-height:calc(100vh - 260px)}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;
+ font-size:10px;font-weight:700;letter-spacing:.2px;text-transform:uppercase;white-space:nowrap}
+.p-ok{background:var(--okS);color:var(--ok)}.p-warn{background:var(--warnS);color:var(--warn)}
+.p-bad{background:var(--badS);color:var(--bad)}.p-info{background:var(--soft);color:var(--brand2)}
+.p-grey{background:var(--line2);color:var(--ink3)}.p-pur{background:var(--purpleS);color:var(--purple)}
+.bar{display:flex;gap:9px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.mini{font-size:12px;color:var(--ink3)}
+.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:11.5px}
+.empty{padding:46px 20px;text-align:center;color:var(--ink3)}
+.empty h4{font-size:14px;color:var(--ink2);margin-bottom:5px}
+.ov{position:fixed;inset:0;background:rgba(11,18,32,.5);z-index:100;display:none;
+ align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto;backdrop-filter:blur(2px)}
+.ov.on{display:flex}
+.modal{background:#fff;border-radius:12px;box-shadow:var(--shL);width:100%;max-width:640px;margin:auto 0;
+ animation:pop .17s cubic-bezier(.2,.9,.3,1.1)}
+.modal.w{max-width:940px}
+@keyframes pop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+.mh{padding:15px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.mb{padding:18px;max-height:calc(100vh - 220px);overflow-y:auto}
+.mf{padding:13px 18px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center;background:var(--bg);border-radius:0 0 12px 12px}
+#toast{position:fixed;bottom:22px;right:22px;z-index:200;display:flex;flex-direction:column;gap:8px}
+.tst{background:var(--ink);color:#fff;padding:11px 16px;border-radius:9px;font-size:12.5px;
+ box-shadow:var(--shL);animation:sl .2s;max-width:420px}
+.tst.ok{background:var(--ok)}.tst.bad{background:var(--bad)}
+@keyframes sl{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:15px;overflow-x:auto}
+.tab{padding:9px 14px;font-size:12.5px;color:var(--ink3);border-bottom:2px solid transparent;
+ margin-bottom:-1px;white-space:nowrap}
+.tab.on{color:var(--brand);border-bottom-color:var(--brand);font-weight:650}
+.spark{display:flex;align-items:flex-end;gap:3px;height:64px}
+.spark div{flex:1;background:var(--brand2);border-radius:2px 2px 0 0;min-height:2px;opacity:.85}
+.matrix td,.matrix th{border:1px solid var(--line);text-align:center;padding:7px 9px}
+.matrix .z{background:var(--badS);color:var(--bad);font-weight:600}
+.matrix .lo{background:var(--warnS);color:var(--warn);font-weight:600}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:11px;font-weight:650;color:var(--ink2);margin-bottom:4px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.f3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+/* billing */
+.billwrap{display:grid;grid-template-columns:1fr 372px;gap:14px;align-items:start}
+@media(max-width:1100px){.billwrap{grid-template-columns:1fr}}
+.res{max-height:290px;overflow-y:auto;border:1px solid var(--line);border-radius:8px;margin-top:7px}
+.res .it{padding:9px 11px;border-bottom:1px solid var(--line2);cursor:pointer;display:flex;gap:10px;align-items:center}
+.res .it:hover{background:var(--soft)}
+.res .it:last-child{border-bottom:none}
+.tot{display:flex;justify-content:space-between;padding:4px 0;font-size:12.5px}
+.tot.big{font-size:19px;font-weight:700;padding-top:9px;border-top:2px solid var(--line);margin-top:6px}
+@media print{#side,#top,.bar,.mf,#toast{display:none!important}
+ #body{padding:0;overflow:visible}.ov{position:static;background:none;padding:0;display:block}
+ .modal{box-shadow:none;max-width:100%}.noprint{display:none!important}}
+.inv-print{font-size:11.5px}
+.inv-print table{font-size:11px}
+.inv-print th,.inv-print td{border:1px solid #bbb;padding:11px 7px}
+
+/* ── skeleton loading: shimmer that matches the shape of what is coming ── */
+.sk{background:linear-gradient(90deg,var(--line2) 25%,#ECE8E1 37%,var(--line2) 63%);
+ background-size:400% 100%;border-radius:6px;animation:shim 1.4s ease infinite}
+@keyframes shim{0%{background-position:100% 50%}100%{background-position:0 50%}}
+
+/* ── page + row entrances: fast enough to feel responsive, not decorative ── */
+.page.on{animation:pg .22s cubic-bezier(.2,.7,.3,1)}
+@keyframes pg{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+tbody tr{transition:background .12s}
+tbody tr:hover{background:var(--line2)}
+.card{transition:box-shadow .16s,border-color .16s}
+.kpi .v{transition:color .2s}
+
+/* ── the counter that ticks up when a number lands ── */
+@keyframes pop{0%{transform:scale(.94);opacity:.55}100%{transform:none;opacity:1}}
+.kpi.fresh .v{animation:pop .3s cubic-bezier(.2,.8,.3,1)}
+
+/* ── dashboard chart ── */
+.chart{width:100%;height:170px;display:block}
+.chart .grid-l{stroke:var(--line);stroke-width:1}
+.chart .axis{font-size:10px;fill:var(--ink3)}
+.bar-r{transition:opacity .15s}
+.bar-r:hover{opacity:.75}
+
+/* ── empty states: an invitation, not an apology ── */
+.empty{text-align:center;padding:38px 20px}
+.empty h4{font-size:15.5px;font-weight:650;margin-bottom:5px}
+.empty p{max-width:420px;margin:0 auto}
+
+/* ── sidebar identity: a thin accent rail on the active item ── */
+.nav{position:relative}
+.nav.on::before{content:"";position:absolute;left:-8px;top:9px;bottom:9px;width:3px;
+ border-radius:0 3px 3px 0;background:var(--accent)}
+
+/* ── focus that is visible without being loud ── */
+.inp:focus,select.inp:focus,textarea.inp:focus{outline:none;border-color:var(--brand2);
+ box-shadow:0 0 0 3px var(--soft)}
+.btn:focus-visible{outline:2px solid var(--brand2);outline-offset:2px}
+</style></head><body>
+<div id="app">
+ <aside id="side">
+  <div class="brand"><div class="n" id="bizName">—</div><div class="s" id="bizGst">—</div></div>
+  <nav id="nav"></nav>
+ </aside>
+ <div id="main">
+  <header id="top">
+   <div><h1 id="ptitle">Dashboard</h1><div class="sub" id="psub"></div></div>
+   <div class="spacer"></div>
+   <div id="tsw"><label>Business</label><select id="tenantSel" onchange="switchTenant(this.value)"></select></div>
+   <button class="btn p" onclick="go('billing')">＋ New Bill</button>
+  </header>
+  <div id="body">
+   <div class="page on" id="p-dashboard"></div><div class="page" id="p-billing"></div>
+   <div class="page" id="p-invoices"></div><div class="page" id="p-customers"></div>
+   <div class="page" id="p-receivables"></div><div class="page" id="p-inventory"></div>
+   <div class="page" id="p-styles"></div><div class="page" id="p-purchase"></div>
+   <div class="page" id="p-reports"></div><div class="page" id="p-import"></div><div class="page" id="p-prices"></div><div class="page" id="p-receiving"></div>
+   <div class="page" id="p-returns"></div><div class="page" id="p-payables"></div>
+   <div class="page" id="p-tax"></div><div class="page" id="p-stocktakes"></div><div class="page" id="p-transfers"></div>
+  </div>
+ </div>
+</div>
+<div class="ov" id="ov" onclick="if(event.target===this)closeM()">
+ <div class="modal" id="modal"><div class="mh"><div><div class="ct" id="mt"></div><div class="cs" id="ms"></div></div>
+ <div class="spacer"></div><button class="btn sm noprint" onclick="closeM()">✕</button></div>
+ <div class="mb" id="mb"></div><div class="mf noprint" id="mf"></div></div></div>
+<div id="toast"></div>
+<script>
+const API=location.origin;
+let TENANT=localStorage.getItem("erp_tenant")||"kurta-house";
+let TENANTS=[],PAGE="dashboard",CACHE={};
+
+const money=n=>"₹"+(Math.round(n||0)).toLocaleString("en-IN");
+const money2=n=>"₹"+(n||0).toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2});
+const compact=n=>{n=n||0;const a=Math.abs(n);
+ return a>=1e7?"₹"+(n/1e7).toFixed(2)+" Cr":a>=1e5?"₹"+(n/1e5).toFixed(2)+" L":
+        a>=1e3?"₹"+(n/1e3).toFixed(1)+"K":"₹"+Math.round(n)};
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const dt=s=>s?new Date(String(s).slice(0,10)+"T00:00:00").toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"2-digit"}):"—";
+/* Quantities are pieces. 14 not 14.0, 2.5 not 2.500000000000001. */
+const fmt=n=>{n=+n||0;return Number.isInteger(n)?n.toLocaleString("en-IN"):n.toFixed(1)};
+/* A screen that is fetching should look like the screen it is about to be,
+   not like a blank page or a spinner — the layout must not jump. */
+const skeleton=(rows=3)=>`<div class="grid g3" style="margin-bottom:14px">
+  ${[0,1,2].map(()=>`<div class="kpi"><div class="sk" style="width:52%;height:10px"></div>
+   <div class="sk" style="width:38%;height:22px;margin-top:9px"></div>
+   <div class="sk" style="width:64%;height:10px;margin-top:7px"></div></div>`).join("")}
+ </div><div class="card"><div class="cb">
+  ${Array.from({length:rows},()=>`<div class="sk" style="height:15px;margin-bottom:11px"></div>`).join("")}
+ </div></div>`;
+const emptyState=(title,body,action="")=>`<div class="cb"><div class="empty">
+  <h4>${esc(title)}</h4><p class="mini">${esc(body)}</p>${action}</div></div>`;
+const num=n=>(Math.round(n||0)).toLocaleString("en-IN");
+
+async function api(path,opts){
+ const r=await fetch(API+path,{...opts,headers:{"Content-Type":"application/json","X-Tenant":TENANT,...(opts?.headers||{})}});
+ if(!r.ok){let d=r.statusText;try{const b=await r.json();d=b.error||b.detail||d}catch{}throw new Error(d)}
+ return r.json();
+}
+function toast(m,k=""){const d=document.createElement("div");d.className="tst "+k;d.textContent=m;
+ document.getElementById("toast").appendChild(d);
+ setTimeout(()=>{d.style.opacity=0;d.style.transition="opacity .3s";setTimeout(()=>d.remove(),300)},3000)}
+function openM(t,s,b,f,cls=""){document.getElementById("mt").textContent=t;
+ document.getElementById("ms").textContent=s||"";document.getElementById("mb").innerHTML=b;
+ document.getElementById("mf").innerHTML=f||"";document.getElementById("modal").className="modal "+cls;
+ document.getElementById("ov").classList.add("on")}
+const closeM=()=>document.getElementById("ov").classList.remove("on");
+
+const IC={dash:'<path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>',
+ bill:'<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/>',
+ doc:'<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/>',
+ user:'<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>',
+ cash:'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>',
+ box:'<path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.3 7L12 12l8.7-5M12 22V12"/>',
+ grid:'<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>',
+ cart:'<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 002 1.6h9.7a2 2 0 002-1.6L23 6H6"/>',
+ chart:'<path d="M18 20V10M12 20V4M6 20v-6"/>',
+ up:'<path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>',
+ tag:'<path d="M20.6 13.4L12 22l-9-9V3h10l7.6 7.6a2 2 0 010 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+ truck:'<path d="M1 3h15v13H1zM16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2"/><circle cx="18.5" cy="18.5" r="2"/>',
+ undo:'<path d="M3 7v6h6"/><path d="M3.5 13a9 9 0 102.1-9.4L3 7"/>',
+ wallet:'<path d="M21 12V7H5a2 2 0 010-4h14v4"/><path d="M3 5v14a2 2 0 002 2h16v-5"/><path d="M18 12a1 1 0 100 4 1 1 0 000-4z"/>'};
+const sv=p=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const NAV=[["",[["dashboard","Dashboard",IC.dash]]],
+ ["Sell",[["billing","Billing",IC.bill],["invoices","Invoices",IC.doc],
+   ["customers","Customers",IC.user],["receivables","Receivables",IC.cash],["returns","Returns",IC.undo]]],
+ ["Stock",[["inventory","Inventory",IC.box],["styles","Styles & Variants",IC.grid],
+   ["stocktakes","Stocktakes",IC.doc],["transfers","Stock Transfers",IC.truck],
+   ["import","Bring in your stock",IC.up]]],
+ ["Buy",[["purchase","Reorder & POs",IC.cart],["receiving","Receive stock",IC.truck],["payables","Payables",IC.wallet]]],
+ ["Insight",[["prices","Price Advisor",IC.tag],["tax","Tax & Compliance",IC.doc],["reports","Reports",IC.chart]]]];
+const TITLES={dashboard:["Dashboard","Your business at a glance"],
+ billing:["Billing","Scan or search, bill in seconds - GST calculated live"],
+ invoices:["Invoices","Every tax invoice raised"],customers:["Customers","Who buys from you, and what they owe"],
+ receivables:["Receivables","Money owed to you, oldest first"],
+ inventory:["Inventory","Stock by size and colour"],styles:["Styles & Variants","Your catalogue, size x colour"],
+ stocktakes:["Stocktakes","Physical counts and discrepancy adjustments"],
+ transfers:["Stock Transfers","Move inventory between locations"],
+ purchase:["Reorder & Purchase Orders","AI suggests, you decide"],reports:["Reports","What sells, what doesn't"],
+ import:["Bring in your stock","Paste your existing list - we read it, you check it, then it's in"],
+ tax:["Tax & Compliance","GSTR-1 and GSTR-3B working papers, month by month"],
+ prices:["Price Advisor","What each style should sell for, from your own sales"],
+ receiving:["Receive stock","Book in what the supplier delivered"],
+ returns:["Returns & credit notes","Take a garment back, restock it or write it off"],
+ payables:["Payables","What you owe suppliers, oldest first"]};
+
+function buildNav(){document.getElementById("nav").innerHTML=NAV.map(([g,items])=>
+ `<div>${g?`<div class="grp">${g}</div>`:""}${items.map(([id,t,ic])=>
+ `<button class="nav" data-p="${id}" onclick="go('${id}')">${sv(ic)}<span>${t}</span><span id="bdg-${id}"></span></button>`).join("")}</div>`).join("")}
+function go(p){PAGE=p;document.querySelectorAll(".page").forEach(x=>x.classList.remove("on"));
+ const el=document.getElementById("p-"+p);if(el)el.classList.add("on");
+ document.querySelectorAll(".nav").forEach(n=>n.classList.toggle("on",n.dataset.p===p));
+ const[t,s]=TITLES[p]||[p,""];document.getElementById("ptitle").textContent=t;
+ document.getElementById("psub").textContent=s;document.getElementById("body").scrollTop=0;
+ (RENDER[p]||(()=>{}))()}
+async function switchTenant(id){TENANT=id;localStorage.setItem("erp_tenant",id);CACHE={};await boot(true);
+ toast("Switched to "+(TENANTS.find(t=>t.id===id)?.name||id))}
+
+/* ───────── dashboard ───────── */
+async function renderDashboard(){
+ const host=document.getElementById("p-dashboard");
+ if(!CACHE.dash) host.innerHTML=skeleton(4);
+ let d;
+ try{ d=await api("/api/v1/dashboard"); }
+ catch(e){ host.innerHTML=errorCard("We could not load your dashboard",e.message,"renderDashboard()"); return; }
+ CACHE.dash=d;
+ host.innerHTML=`
+ <div class="grid g5" style="margin-bottom:14px">
+  ${[["Sales today",money(d.today.sales),`${d.today.invoices} invoice${d.today.invoices==1?"":"s"}`],
+     ["Sales this month",compact(d.month.sales),`GST ${compact(d.month.gst)} collected`],
+     ["Stock on hand",compact(d.inventory.stock_cost),`${num(d.inventory.units)} pieces · ${d.inventory.low_stock} low`],
+     ["Money owed to you",compact(d.receivables.value),
+      d.receivables.overdue_count?`<b style="color:var(--bad)">${compact(d.receivables.overdue_value)} overdue</b>`:"nothing overdue"],
+     ["Need reordering",d.procurement.pending,
+      d.procurement.critical?`<b style="color:var(--bad)">${d.procurement.critical} urgent</b>`:"all healthy"]]
+   .map(([l,v,sub])=>`<div class="kpi fresh"><div class="l">${l}</div>
+     <div class="v num">${v}</div><div class="d">${sub}</div></div>`).join("")}
+ </div>
+ <div class="grid" style="grid-template-columns:1.7fr 1fr">
+  <div class="card"><div class="cb" style="padding-bottom:4px">
+    <div class="ct">Sales, last 30 days</div>
+    <div class="mini">${d.trend.length} trading days · hover a bar for the day</div></div>
+   <div class="cb" style="padding-top:6px">${trendChart(d.trend)}</div></div>
+  <div class="card"><div class="cb" style="padding-bottom:4px"><div class="ct">Top styles</div>
+    <div class="mini">by value sold</div></div>
+   <div class="cb" style="display:flex;flex-direction:column;gap:11px">
+    ${d.top_styles.length?d.top_styles.map((x,i)=>`<div>
+      <div style="display:flex;justify-content:space-between;font-size:13px">
+       <span>${esc(x.style)}</span><span class="num" style="font-weight:650">${money(x.value)}</span></div>
+      <div style="height:6px;background:var(--line2);border-radius:4px;margin-top:4px;overflow:hidden">
+       <div style="height:6px;width:${(x.value/d.top_styles[0].value*100).toFixed(1)}%;
+        background:${i?"var(--brand2)":"var(--accent)"};border-radius:4px;
+        transition:width .5s cubic-bezier(.2,.8,.3,1)"></div></div>
+      <div class="mini">${num(x.qty)} pieces</div></div>`).join("")
+     :`<div class="mini">Nothing sold yet. Raise a bill and this fills in.</div>`}
+   </div></div></div>
+ <div class="grid g3" style="margin-top:14px">
+  <div class="card"><div class="cb">
+   <div class="l mini" style="font-weight:700;text-transform:uppercase;letter-spacing:.7px">What now</div>
+   <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+    <button class="btn p" onclick="go('billing')">Bill a customer</button>
+    ${d.receivables.overdue_count?`<button class="btn" onclick="go('receivables')">Chase ${d.receivables.overdue_count} overdue bill${d.receivables.overdue_count==1?"":"s"}</button>`:""}
+    <button class="btn" onclick="go('receiving')">Receive a delivery</button>
+    <button class="btn" onclick="go('purchase')">Review reorder suggestions</button></div></div></div>
+  <div class="card" style="grid-column:span 2"><div class="cb">
+   <div class="l mini" style="font-weight:700;text-transform:uppercase;letter-spacing:.7px">This month</div>
+   <table style="margin-top:8px"><tbody>
+    <tr><td>Invoices raised</td><td class="r num">${d.month.invoices}</td></tr>
+    <tr><td>Taxable sales</td><td class="r num">${money2(d.month.taxable)}</td></tr>
+    <tr><td>GST collected</td><td class="r num">${money2(d.month.gst)}</td></tr>
+    <tr><td>Stock at retail value</td><td class="r num">${money(d.inventory.stock_retail)}</td></tr>
+    <tr><td>Out of stock lines</td><td class="r num">${d.inventory.out_of_stock}</td></tr>
+   </tbody></table></div></div></div>`;
+ document.getElementById("bdg-purchase").innerHTML=d.procurement.critical?`<span class="b">${d.procurement.critical}</span>`:"";
+ document.getElementById("bdg-receivables").innerHTML=d.receivables.overdue_count?`<span class="b">${d.receivables.overdue_count}</span>`:"";
+}
+
+/* A real chart, drawn as SVG with a viewBox so it scales to the card rather
+   than to a fixed pixel width. Bars carry a <title> so hovering gives the
+   actual day and figure — a chart you cannot read a value off is decoration. */
+function trendChart(trend){
+ if(!trend||!trend.length)
+   return `<div class="mini" style="padding:26px 0;text-align:center">No sales in the last 30 days.</div>`;
+ const W=560,H=150,pad=26,max=Math.max(...trend.map(x=>x.v),1);
+ const bw=(W-pad)/trend.length, gap=Math.min(3,bw*0.22);
+ const ticks=[0,.5,1].map(f=>({y:H-f*(H-14),v:max*f}));
+ return `<svg class="chart" viewBox="0 0 ${W} ${H+20}" preserveAspectRatio="none"
+   role="img" aria-label="Daily sales for the last ${trend.length} days">
+  ${ticks.map(t=>`<line class="grid-l" x1="${pad}" y1="${t.y.toFixed(1)}" x2="${W}" y2="${t.y.toFixed(1)}"/>
+    <text class="axis" x="0" y="${(t.y+3).toFixed(1)}">${compact(t.v)}</text>`).join("")}
+  ${trend.map((x,i)=>{
+    const h=Math.max(2,(x.v/max)*(H-16));
+    return `<rect class="bar-r" x="${(pad+i*bw+gap/2).toFixed(1)}" y="${(H-h).toFixed(1)}"
+      width="${Math.max(1,bw-gap).toFixed(1)}" height="${h.toFixed(1)}" rx="2"
+      fill="${x.v>=max*0.999?"var(--accent)":"var(--brand2)"}"
+      ><title>${esc(x.d)}: ${money(x.v)}</title></rect>`;}).join("")}
+  <text class="axis" x="${pad}" y="${H+15}">${esc(trend[0].d)}</text>
+  <text class="axis" x="${W}" y="${H+15}" text-anchor="end">${esc(trend[trend.length-1].d)}</text>
+ </svg>`;
+}
+
+/* Every screen can fail. Say what broke and give a way back. */
+function errorCard(title,detail,retry){
+ return `<div class="card"><div class="cb"><div class="empty">
+  <h4 style="color:var(--bad)">${esc(title)}</h4>
+  <p class="mini">${esc(detail||"")}</p>
+  ${retry?`<button class="btn p" style="margin-top:12px" onclick="${retry}">Try again</button>`:""}
+ </div></div></div>`;
+}
+
+/* ───────── billing ───────── */
+let BILL={lines:[],customer:null,location:null,search:""};
+async function renderBilling(){
+ if(!CACHE.customers)CACHE.customers=(await api("/api/v1/customers")).items;
+ if(!CACHE.locations)CACHE.locations=(await api("/api/v1/locations")).items;
+ if(!BILL.customer)BILL.customer=CACHE.customers.find(c=>c.is_walkin)?.id||CACHE.customers[0]?.id;
+ if(!BILL.location)BILL.location=CACHE.locations[0]?.id;
+ drawBill();
+ setTimeout(()=>document.getElementById("bsearch")?.focus(),60);
+}
+function drawBill(){
+ const cust=CACHE.customers.find(c=>c.id===BILL.customer);
+ document.getElementById("p-billing").innerHTML=`
+ <div class="billwrap">
+  <div class="card"><div class="ch"><div><div class="ct">Add items</div>
+    <div class="cs">Scan a barcode or type a style / SKU — press Enter to add the first match</div></div></div>
+   <div class="cb">
+    <input class="inp" id="bsearch" placeholder="Scan barcode or search…" autocomplete="off"
+      oninput="searchItems(this.value)" onkeydown="if(event.key==='Enter'){event.preventDefault();addFirst()}">
+    <div class="res" id="bres" style="display:none"></div>
+    <table style="margin-top:14px"><thead><tr><th>Item</th><th class="c">Size</th><th class="c">Colour</th>
+     <th class="r">Qty</th><th class="r">Rate</th><th class="r">Disc %</th><th class="r">Amount</th><th></th></tr></thead>
+     <tbody>${BILL.lines.length?BILL.lines.map((l,i)=>`<tr>
+      <td><div style="font-weight:550">${esc(l.name.split(" · ")[0])}</div><div class="mono">${esc(l.sku)}</div></td>
+      <td class="c"><span class="pill p-grey">${esc(l.size||"—")}</span></td>
+      <td class="c">${esc(l.colour||"—")}</td>
+      <td class="r"><input class="inp num r" style="width:62px;padding:4px 6px" type="number" min="1" value="${l.quantity}"
+        oninput="setLine(${i},'quantity',this.value)"></td>
+      <td class="r"><input class="inp num r" style="width:86px;padding:4px 6px" type="number" step="0.01" value="${l.unit_price}"
+        oninput="setLine(${i},'unit_price',this.value)"></td>
+      <td class="r"><input class="inp num r" style="width:58px;padding:4px 6px" type="number" min="0" max="100" value="${l.discount_pct}"
+        oninput="setLine(${i},'discount_pct',this.value)"></td>
+      <td class="r num" style="font-weight:600">${money2(l.quantity*l.unit_price*(1-l.discount_pct/100))}</td>
+      <td class="c"><button class="btn sm" onclick="BILL.lines.splice(${i},1);drawBill()">✕</button></td></tr>`).join("")
+      :`<tr><td colspan="8"><div class="empty"><h4>No items yet</h4>
+        <p class="mini">Scan a barcode or search above. Stock is checked before the bill saves.</p></div></td></tr>`}
+     </tbody></table></div></div>
+  <div class="card"><div class="ch"><div class="ct">Bill</div></div><div class="cb">
+   <div class="field"><label>Customer</label>
+    <select class="inp" onchange="BILL.customer=this.value;drawBill()">
+     ${CACHE.customers.map(c=>`<option value="${c.id}" ${BILL.customer===c.id?"selected":""}>${esc(c.name)}${c.gstin?" · "+c.gstin:""}</option>`).join("")}
+    </select>
+    ${cust&&!cust.is_walkin?`<div class="mini" style="margin-top:4px">
+      ${cust.credit_days}d credit · outstanding ${money(cust.outstanding)}${cust.credit_limit?` of ${money(cust.credit_limit)} limit`:""}</div>`:""}</div>
+   <div class="field"><label>Bill from</label>
+    <select class="inp" onchange="BILL.location=this.value">
+     ${CACHE.locations.map(l=>`<option value="${l.id}" ${BILL.location===l.id?"selected":""}>${esc(l.name)}</option>`).join("")}</select></div>
+   <div id="btot"></div>
+   <div style="display:flex;gap:8px;margin-top:14px">
+    <button class="btn g" style="flex:1" onclick="saveBill(true)" ${BILL.lines.length?"":"disabled"}>Save &amp; mark paid</button>
+    <button class="btn p" style="flex:1" onclick="saveBill(false)" ${BILL.lines.length?"":"disabled"}>Save on credit</button></div>
+   <button class="btn" style="width:100%;margin-top:7px" onclick="BILL.lines=[];drawBill()" ${BILL.lines.length?"":"disabled"}>Clear</button>
+  </div></div></div>`;
+ drawTotals();
+}
+function drawTotals(){
+ const cust=CACHE.customers.find(c=>c.id===BILL.customer);
+ const seller=(TENANTS.find(t=>t.id===TENANT)||{}).state_code;
+ const inter=cust&&cust.state_code&&seller&&cust.state_code!==seller;
+ let taxable=0,tax=0,byRate={};
+ BILL.lines.forEach(l=>{
+  const tv=+(l.quantity*l.unit_price*(1-l.discount_pct/100)).toFixed(2);
+  const per=l.quantity?tv/l.quantity:0;
+  const apparel=["61","62","63","64"].includes((l.hsn_code||"").slice(0,2));
+  const rate=apparel?(per<=2500?5:18):18;
+  const t=+(tv*rate/100).toFixed(2);
+  taxable+=tv;tax+=t;byRate[rate]=(byRate[rate]||0)+t;});
+ const exact=taxable+tax,grand=Math.round(exact),round=+(grand-exact).toFixed(2);
+ document.getElementById("btot").innerHTML=`
+  <div class="tot"><span class="mini">Taxable value</span><span class="num">${money2(taxable)}</span></div>
+  ${Object.entries(byRate).sort().map(([r,v])=>inter
+    ?`<div class="tot"><span class="mini">IGST @ ${r}%</span><span class="num">${money2(v)}</span></div>`
+    :`<div class="tot"><span class="mini">CGST @ ${r/2}%</span><span class="num">${money2(v/2)}</span></div>
+      <div class="tot"><span class="mini">SGST @ ${r/2}%</span><span class="num">${money2(v/2)}</span></div>`).join("")}
+  ${round?`<div class="tot"><span class="mini">Round off</span><span class="num">${money2(round)}</span></div>`:""}
+  <div class="tot big"><span>Total</span><span class="num">${money(grand)}</span></div>
+  ${Object.keys(byRate).length>1?`<div class="mini" style="margin-top:7px;padding:7px 9px;background:var(--soft);border-radius:7px">
+    This bill spans two GST slabs — garments up to ₹2,500 a piece are 5%, above that 18%.</div>`:""}
+  ${inter?`<div class="mini" style="margin-top:6px"><span class="pill p-pur">Inter-state</span> IGST applies</div>`:""}`;
+}
+let searchTimer;
+function searchItems(v){BILL.search=v;clearTimeout(searchTimer);
+ if(!v.trim()){document.getElementById("bres").style.display="none";return}
+ searchTimer=setTimeout(async()=>{
+  try{const r=await api("/api/v1/products/search?q="+encodeURIComponent(v));
+   const box=document.getElementById("bres");CACHE.lastSearch=r.items;
+   box.innerHTML=r.items.length?r.items.map((p,i)=>`<div class="it" onclick="addItem(${i})">
+     <div style="flex:1"><div style="font-weight:550">${esc(p.name)}</div>
+      <div class="mono">${esc(p.sku)}${p.barcode?" · "+esc(p.barcode):""}</div></div>
+     <div class="r"><div class="num" style="font-weight:650">${money(p.unit_price)}</div>
+      <div class="mini ${p.on_hand<=0?"":""}" style="${p.on_hand<=0?"color:var(--bad)":""}">${num(p.on_hand)} in stock</div></div></div>`).join("")
+    :`<div class="it mini">No item matches “${esc(v)}”</div>`;
+   box.style.display="block";
+  }catch(e){toast(e.message,"bad")}},180)}
+function addItem(i){const p=(CACHE.lastSearch||[])[i];if(!p)return;
+ const ex=BILL.lines.find(l=>l.product_id===p.id);
+ if(ex)ex.quantity++;else BILL.lines.push({product_id:p.id,sku:p.sku,name:p.name,size:p.size,
+  colour:p.colour,hsn_code:p.hsn_code,quantity:1,unit_price:p.unit_price,discount_pct:0});
+ document.getElementById("bsearch").value="";document.getElementById("bres").style.display="none";
+ drawBill();setTimeout(()=>document.getElementById("bsearch").focus(),30)}
+const addFirst=()=>{if((CACHE.lastSearch||[]).length)addItem(0)};
+function setLine(i,f,v){BILL.lines[i][f]=Math.max(f==="quantity"?1:0,+v||0);
+ const q=document.activeElement;drawBill();if(q&&q.id!=="bsearch"){}}
+async function saveBill(paid){
+ try{const inv=await api("/api/v1/sales/invoices",{method:"POST",body:JSON.stringify({
+   customer_id:BILL.customer,location_id:BILL.location,auto_pay:paid,
+   lines:BILL.lines.map(l=>({product_id:l.product_id,quantity:l.quantity,
+     unit_price:l.unit_price,discount_pct:l.discount_pct}))})});
+  BILL.lines=[];CACHE={};toast(inv.invoice_number+" saved · "+money(inv.grand_total),"ok");
+  drawBill();showInvoice(inv.id);
+ }catch(e){toast(e.message,"bad")}}
+
+/* ───────── invoices ───────── */
+async function renderInvoices(){
+ const d=await api("/api/v1/sales/invoices");
+ document.getElementById("p-invoices").innerHTML=`
+ <div class="bar"><input class="inp" style="width:250px" placeholder="Invoice no. or customer…"
+   oninput="filterTable('invTbl',this.value)"><span class="spacer"></span>
+  <span class="pill p-info">${d.items.length} invoices</span></div>
+ <div class="card"><div class="tw"><table id="invTbl"><thead><tr><th>Invoice</th><th>Date</th><th>Customer</th>
+  <th class="c">Supply</th><th class="r">Taxable</th><th class="r">GST</th><th class="r">Total</th>
+  <th class="r">Due</th><th class="c">Status</th><th></th></tr></thead><tbody>
+  ${d.items.map(i=>`<tr>
+   <td class="mono" style="font-weight:600">${esc(i.invoice_number)}</td><td class="mini">${dt(i.invoice_date)}</td>
+   <td>${esc(i.customer_name)}${i.customer_gstin?`<div class="mono">${esc(i.customer_gstin)}</div>`:""}</td>
+   <td class="c"><span class="pill ${i.is_interstate?"p-pur":"p-grey"}">${i.is_interstate?"IGST":"CGST+SGST"}</span></td>
+   <td class="r num">${money2(i.taxable_total)}</td>
+   <td class="r num">${money2(i.cgst_total+i.sgst_total+i.igst_total)}</td>
+   <td class="r num" style="font-weight:650">${money(i.grand_total)}</td>
+   <td class="r num ${i.balance_due>0?"":"mini"}">${i.balance_due>0?money(i.balance_due):"—"}</td>
+   <td class="c"><span class="pill ${i.status==="paid"?"p-ok":i.status==="part_paid"?"p-warn":"p-info"}">${i.status.replace("_"," ")}</span></td>
+   <td class="r"><button class="btn sm" onclick="showInvoice('${i.id}')">View</button></td></tr>`).join("")}
+ </tbody></table></div></div>`}
+async function showInvoice(id){
+ const i=await api("/api/v1/sales/invoices/"+id);const t=i.tenant;
+ openM("Tax Invoice "+i.invoice_number,dt(i.invoice_date)+" · "+i.customer_name,`
+ <div class="inv-print">
+  <div style="text-align:center;border-bottom:2px solid #333;padding-bottom:8px;margin-bottom:10px">
+   <div style="font-size:10px;letter-spacing:2px;font-weight:700">TAX INVOICE</div>
+   <div style="font-size:16px;font-weight:700;margin-top:2px">${esc(t.name)}</div>
+   <div>${esc(t.address||"")}</div>
+   <div>GSTIN <b>${esc(t.gstin||"")}</b> · ${esc(t.phone||"")}</div></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:10px">
+   <div><div class="mini" style="font-weight:700">BILL TO</div>
+    <div style="font-weight:650">${esc(i.customer_name)}</div>
+    <div>${esc(i.customer_address||"")}</div><div>${esc(i.customer_phone||"")}</div>
+    <div>GSTIN: <b>${esc(i.customer_gstin||"Unregistered")}</b></div></div>
+   <div><table style="border:none"><tbody>
+    ${[["Invoice no.",i.invoice_number],["Date",dt(i.invoice_date)],["Due date",dt(i.due_date)],
+       ["Place of supply",i.place_of_supply||"—"],["Supply type",i.is_interstate?"Inter-state (IGST)":"Intra-state (CGST+SGST)"]]
+      .map(([k,v])=>`<tr><td style="border:none;padding:1px 0" class="mini">${k}</td>
+        <td style="border:none;padding:1px 0"><b>${esc(v)}</b></td></tr>`).join("")}
+   </tbody></table></div></div>
+  <table><thead><tr><th>#</th><th>Description</th><th>HSN</th><th>Qty</th><th>Rate</th><th>Disc</th>
+   <th>Taxable</th><th>GST%</th>${i.is_interstate?"<th>IGST</th>":"<th>CGST</th><th>SGST</th>"}<th>Amount</th></tr></thead>
+   <tbody>${i.lines.map((l,n)=>`<tr><td>${n+1}</td>
+    <td>${esc(l.product_name)}</td><td>${esc(l.hsn_code||"")}</td>
+    <td class="r num">${l.quantity}</td><td class="r num">${l.unit_price.toFixed(2)}</td>
+    <td class="r num">${l.discount_pct?l.discount_pct+"%":"—"}</td>
+    <td class="r num">${l.taxable_value.toFixed(2)}</td><td class="c">${l.gst_rate}%</td>
+    ${i.is_interstate?`<td class="r num">${l.igst.toFixed(2)}</td>`
+      :`<td class="r num">${l.cgst.toFixed(2)}</td><td class="r num">${l.sgst.toFixed(2)}</td>`}
+    <td class="r num"><b>${l.line_total.toFixed(2)}</b></td></tr>`).join("")}</tbody></table>
+  <div style="display:grid;grid-template-columns:1fr 250px;gap:14px;margin-top:10px">
+   <div><div class="mini" style="font-weight:700">RATE-WISE SUMMARY</div>
+    <table style="margin-top:3px"><thead><tr><th>Rate</th><th>Taxable</th><th>Tax</th></tr></thead><tbody>
+     ${i.rate_summary.map(r=>`<tr><td>${r.rate}%</td><td class="r num">${r.taxable.toFixed(2)}</td>
+      <td class="r num">${(r.cgst+r.sgst+r.igst).toFixed(2)}</td></tr>`).join("")}</tbody></table>
+    <div style="margin-top:9px"><span class="mini" style="font-weight:700">AMOUNT IN WORDS</span><br><b>${esc(i.amount_in_words)}</b></div></div>
+   <div><table style="border:none"><tbody>
+    ${[["Taxable value",i.taxable_total],...(i.is_interstate?[["IGST",i.igst_total]]:[["CGST",i.cgst_total],["SGST",i.sgst_total]]),
+       ...(i.round_off?[["Round off",i.round_off]]:[])].map(([k,v])=>
+      `<tr><td style="border:none;padding:2px 0" class="mini">${k}</td>
+        <td style="border:none;padding:2px 0" class="r num">${v.toFixed(2)}</td></tr>`).join("")}
+    <tr><td style="border:none;border-top:1px solid #333;padding:4px 0"><b>TOTAL</b></td>
+     <td style="border:none;border-top:1px solid #333;padding:4px 0" class="r num"><b style="font-size:14px">₹${i.grand_total.toFixed(2)}</b></td></tr>
+    ${i.balance_due>0?`<tr><td style="border:none;padding:2px 0" class="mini">Balance due</td>
+      <td style="border:none;padding:2px 0" class="r num" style="color:var(--bad)"><b>${i.balance_due.toFixed(2)}</b></td></tr>`:""}
+   </tbody></table>
+   <div style="margin-top:26px;text-align:right;font-size:10px">For <b>${esc(t.name)}</b><br><br>Authorised Signatory</div></div>
+  </div></div>`,
+ `<button class="btn" onclick="closeM()">Close</button><div class="spacer"></div>
+  <button class="btn p" onclick="window.print()">Print / PDF</button>`,"w")}
+
+/* ───────── customers / receivables ───────── */
+async function renderCustomers(){
+ const d=await api("/api/v1/customers");
+ document.getElementById("p-customers").innerHTML=`
+ <div class="bar"><input class="inp" style="width:240px" placeholder="Search…" oninput="filterTable('cusTbl',this.value)">
+  <span class="spacer"></span><button class="btn p" onclick="newCustomer()">＋ New customer</button></div>
+ <div class="card"><div class="tw"><table id="cusTbl"><thead><tr><th>Customer</th><th>Phone</th><th>GSTIN</th>
+  <th class="c">State</th><th class="r">Credit</th><th class="r">Invoices</th><th class="r">Outstanding</th></tr></thead><tbody>
+  ${d.items.map(c=>`<tr><td><div style="font-weight:600">${esc(c.name)}${c.is_walkin?' <span class="pill p-grey">walk-in</span>':""}</div>
+   <div class="mono">${esc(c.code)}</div></td><td class="mini">${esc(c.phone||"—")}</td>
+   <td class="mono">${esc(c.gstin||"—")}</td><td class="c">${esc(c.state_code||"—")}</td>
+   <td class="r mini">${c.credit_days}d${c.credit_limit?" / "+compact(c.credit_limit):""}</td>
+   <td class="r num">${c.invoice_count}</td>
+   <td class="r num" style="font-weight:650;${c.outstanding>0?"color:var(--bad)":""}">${c.outstanding>0?money(c.outstanding):"—"}</td></tr>`).join("")}
+ </tbody></table></div></div>`}
+function newCustomer(){openM("New customer","",`
+ <div class="field"><label>Name *</label><input class="inp" id="cn"></div>
+ <div class="f3"><div class="field"><label>Phone</label><input class="inp" id="cp"></div>
+  <div class="field"><label>GSTIN</label><input class="inp mono" id="cg" maxlength="15"></div>
+  <div class="field"><label>State code</label><input class="inp" id="cs" maxlength="2" placeholder="29"></div></div>
+ <div class="f2"><div class="field"><label>Credit limit (₹)</label><input class="inp num" id="cl" type="number" value="0"></div>
+  <div class="field"><label>Credit days</label><input class="inp num" id="cd" type="number" value="0"></div></div>`,
+ `<div class="spacer"></div><button class="btn" onclick="closeM()">Cancel</button>
+  <button class="btn p" onclick="saveCustomer()">Save</button>`)}
+async function saveCustomer(){
+ const name=document.getElementById("cn").value.trim();
+ if(!name)return toast("Name is required","bad");
+ try{await api("/api/v1/customers",{method:"POST",body:JSON.stringify({name,
+   phone:document.getElementById("cp").value,gstin:document.getElementById("cg").value,
+   state_code:document.getElementById("cs").value,credit_limit:document.getElementById("cl").value,
+   credit_days:document.getElementById("cd").value})});
+  CACHE={};closeM();toast("Customer added","ok");renderCustomers()}catch(e){toast(e.message,"bad")}}
+
+async function renderReceivables(){
+ const d=await api("/api/v1/sales/receivables");
+ document.getElementById("p-receivables").innerHTML=`
+ <div class="grid g5" style="margin-bottom:14px">
+  ${[["Not yet due",d.buckets.current,"p-ok"],["1–30 days",d.buckets["1-30"],"p-info"],
+     ["31–60 days",d.buckets["31-60"],"p-warn"],["61–90 days",d.buckets["61-90"],"p-warn"],
+     ["Over 90 days",d.buckets["90+"],"p-bad"]].map(([l,v,c])=>
+   `<div class="kpi"><div class="l">${l}</div><div class="v num">${compact(v)}</div>
+    <div class="d">${d.total?(v/d.total*100).toFixed(0):0}% of ${compact(d.total)}</div></div>`).join("")}
+ </div>
+ <div class="grid" style="grid-template-columns:1fr 1.4fr">
+  <div class="card"><div class="ch"><div><div class="ct">Who owes you most</div>
+    <div class="cs">Call the top of this list first</div></div></div>
+   <div class="tw"><table><thead><tr><th>Customer</th><th class="c">Oldest</th><th class="r">Owed</th><th></th></tr></thead><tbody>
+    ${d.by_customer.map(c=>`<tr><td><div style="font-weight:600">${esc(c.customer_name)}</div>
+     <div class="mini">${esc(c.phone||"")} · ${c.invoices} invoice${c.invoices==1?"":"s"}</div></td>
+     <td class="c">${c.oldest_days>0?`<span class="pill ${c.oldest_days>60?"p-bad":c.oldest_days>30?"p-warn":"p-info"}">${c.oldest_days}d</span>`:'<span class="pill p-ok">current</span>'}</td>
+     <td class="r num" style="font-weight:650">${money(c.total)}</td>
+     <td class="r"><button class="btn sm g" onclick="collect('${esc(c.customer_name)}',${c.total})">Collect</button></td></tr>`).join("")
+     ||'<tr><td colspan="4"><div class="empty"><h4>Nothing outstanding</h4><p class="mini">Every invoice is settled.</p></div></td></tr>'}
+   </tbody></table></div></div>
+  <div class="card"><div class="ch"><div class="ct">Open invoices</div></div>
+   <div class="tw"><table><thead><tr><th>Invoice</th><th>Customer</th><th>Due</th><th class="c">Age</th><th class="r">Balance</th></tr></thead><tbody>
+    ${d.items.map(i=>`<tr><td class="mono">${esc(i.invoice_number)}</td><td>${esc(i.customer_name)}</td>
+     <td class="mini">${dt(i.due_date)}</td>
+     <td class="c"><span class="pill ${i.days_overdue>60?"p-bad":i.days_overdue>0?"p-warn":"p-grey"}">${i.days_overdue>0?i.days_overdue+"d late":"current"}</span></td>
+     <td class="r num" style="font-weight:600">${money(i.balance)}</td></tr>`).join("")}
+   </tbody></table></div></div></div>`}
+async function collect(name,amt){
+ const cs=CACHE.customers||(CACHE.customers=(await api("/api/v1/customers")).items);
+ const c=cs.find(x=>x.name===name);if(!c)return;
+ openM("Record payment",name,`
+  <div class="f2"><div class="field"><label>Amount received (₹)</label>
+   <input class="inp num" id="pa" type="number" step="0.01" value="${amt.toFixed(2)}"></div>
+   <div class="field"><label>Method</label><select class="inp" id="pm">
+    <option value="cash">Cash</option><option value="upi">UPI</option>
+    <option value="card">Card</option><option value="bank">Bank transfer</option></select></div></div>
+  <div class="field"><label>Reference (UTR / cheque no.)</label><input class="inp" id="pr"></div>
+  <div class="mini" style="padding:9px 11px;background:var(--soft);border-radius:7px">
+   Applied to the oldest outstanding invoices first, which is what keeps the ageing report honest.</div>`,
+  `<div class="spacer"></div><button class="btn" onclick="closeM()">Cancel</button>
+   <button class="btn g" onclick="savePayment('${c.id}')">Record payment</button>`)}
+async function savePayment(cid){
+ try{const r=await api("/api/v1/sales/payments",{method:"POST",body:JSON.stringify({
+   customer_id:cid,amount:+document.getElementById("pa").value,
+   method:document.getElementById("pm").value,reference:document.getElementById("pr").value})});
+  closeM();CACHE={};toast(`${r.payment_number} — settled ${r.applied.length} invoice(s)`+(r.on_account>0?`, ${money(r.on_account)} on account`:""),"ok");
+  renderReceivables()}catch(e){toast(e.message,"bad")}}
+
+/* ───────── inventory / styles ───────── */
+async function renderInventory(){
+ const d=await api("/api/v1/inventory");
+ const val=d.items.reduce((a,i)=>a+i.stock_value,0);
+ document.getElementById("p-inventory").innerHTML=`
+ <div class="bar"><input class="inp" style="width:250px" placeholder="SKU, name or barcode…" oninput="filterTable('invT',this.value)">
+  <button class="btn" onclick="renderInventoryLow()">Low stock only</button>
+  <button class="btn" id="lblBtn" disabled onclick="printLabels()">Print labels</button>
+  <span class="spacer"></span><span class="pill p-info">${d.items.length} lines · ${compact(val)} at cost</span></div>
+ <div class="card"><div class="tw"><table id="invT"><thead><tr>
+  <th class="c" style="width:30px"><input type="checkbox" title="Select all" onclick="toggleAllLabels(this.checked)"></th>
+  <th>Item</th><th>Style</th><th class="c">Size</th>
+  <th class="c">Colour</th><th>Barcode</th><th>Location</th><th class="r">On hand</th><th class="r">On order</th>
+  <th class="r">Reorder at</th><th class="r">Value</th><th class="c">Status</th></tr></thead><tbody>
+  ${d.items.map(i=>`<tr><td class="c"><input type="checkbox" class="lblPick" value="${i.product_id}" onchange="syncLabelBtn()"></td>
+   <td><div style="font-weight:550">${esc((i.name||"").split(" · ")[0])}</div>
+   <div class="mono">${esc(i.sku)}</div></td><td class="mini">${esc(i.style_code||"—")}</td>
+   <td class="c"><span class="pill p-grey">${esc(i.size||"—")}</span></td><td class="c">${esc(i.colour||"—")}</td>
+   <td class="mono">${esc(i.barcode||"—")}</td><td class="mini">${esc(i.location_code)}</td>
+   <td class="r num" style="font-weight:650">${num(i.on_hand)}</td><td class="r num mini">${i.on_order?num(i.on_order):"—"}</td>
+   <td class="r num mini">${i.reorder_point??"—"}</td><td class="r num">${money(i.stock_value)}</td>
+   <td class="c"><span class="pill ${i.status==="out"?"p-bad":i.status==="low"?"p-warn":"p-ok"}">${i.status}</span></td></tr>`).join("")}
+ </tbody></table></div></div>`}
+async function renderInventoryLow(){
+ const d=await api("/api/v1/inventory?low_only=true");
+ document.getElementById("p-inventory").innerHTML=`
+ <div class="bar"><button class="btn" onclick="renderInventory()">← All stock</button>
+  <span class="spacer"></span><span class="pill p-warn">${d.items.length} lines at or below reorder level</span></div>
+ <div class="card"><div class="tw"><table><thead><tr><th>Item</th><th class="c">Size</th><th class="c">Colour</th>
+  <th>Location</th><th class="r">On hand</th><th class="r">Reorder at</th><th class="r">Short by</th></tr></thead><tbody>
+  ${d.items.map(i=>`<tr><td><div style="font-weight:550">${esc((i.name||"").split(" · ")[0])}</div>
+   <div class="mono">${esc(i.sku)}</div></td><td class="c"><span class="pill p-grey">${esc(i.size||"—")}</span></td>
+   <td class="c">${esc(i.colour||"—")}</td><td class="mini">${esc(i.location_code)}</td>
+   <td class="r num" style="font-weight:650;${i.on_hand<=0?"color:var(--bad)":""}">${num(i.on_hand)}</td>
+   <td class="r num mini">${i.reorder_point}</td>
+   <td class="r num" style="color:var(--warn);font-weight:600">${num(Math.max(0,i.reorder_point-i.on_hand))}</td></tr>`).join("")}
+ </tbody></table></div></div>`}
+async function renderStyles(){
+ const d=await api("/api/v1/styles");
+ document.getElementById("p-styles").innerHTML=`
+ <div class="bar"><span class="pill p-info">${d.total} styles</span>
+  <span class="mini">Sizes are shown in wearing order — not alphabetical, which would read L, M, S, XL.</span></div>
+ ${d.items.map(s=>{
+  const colours=s.colours,sizes=s.sizes;
+  const cell=(sz,co)=>{const v=s.variants.find(v=>v.size===sz&&v.colour===co);
+   if(!v)return '<td class="mini">—</td>';
+   const cls=v.on_hand<=0?"z":v.on_hand<=4?"lo":"";
+   return `<td class="${cls}" title="${esc(v.sku)} · ${money(v.unit_price)}">${num(v.on_hand)}</td>`};
+  return `<div class="card" style="margin-bottom:13px"><div class="ch">
+   <div><div class="ct">${esc(s.style_code)} · ${esc(s.name)}</div>
+    <div class="cs">${esc(s.brand||"")} · ${esc(s.category||"")} · HSN ${esc(s.hsn_code||"—")} ·
+     ${s.variant_count} variants · ${num(s.on_hand)} pieces in stock</div></div></div>
+   <div class="cb" style="overflow-x:auto"><table class="matrix" style="width:auto;min-width:340px">
+    <thead><tr><th>Colour \\ Size</th>${sizes.map(z=>`<th>${esc(z)}</th>`).join("")}</tr></thead>
+    <tbody>${colours.map(c=>`<tr><th style="text-align:left">${esc(c)}</th>
+     ${sizes.map(z=>cell(z,c)).join("")}</tr>`).join("")}</tbody></table>
+    <div class="mini" style="margin-top:8px">
+     <span class="pill p-bad">0</span> out of stock &nbsp; <span class="pill p-warn">≤4</span> running low</div>
+   </div></div>`}).join("")}`}
+
+/* ───────── purchase ───────── */
+let PICK={};
+async function renderPurchase(){
+ const d=await api("/api/v1/procurement/recommendations");CACHE.reco=d.items;
+ document.getElementById("p-purchase").innerHTML=`
+ <div class="grid g4" style="margin-bottom:14px">
+  ${["critical","high","medium","low"].map(u=>{const s=d.summary[u]||{count:0,value:0};
+   return `<div class="kpi"><div class="l">${u}</div><div class="v num">${s.count}</div>
+    <div class="d">${compact(s.value)} to commit</div></div>`}).join("")}
+ </div>
+ <div class="bar"><span class="mini">SmartStock suggests quantities from demand history and supplier lead times.
+   Nothing is ordered until you approve it.</span><span class="spacer"></span>
+  <button class="btn" onclick="bulkPick('approve')">Approve all</button>
+  <button class="btn" onclick="bulkPick(null)">Clear</button>
+  <button class="btn p" id="commitBtn" onclick="commitPicks()">Commit</button></div>
+ <div class="card"><div class="tw"><table><thead><tr><th class="c">Urgency</th><th>Item</th><th class="c">Size</th>
+  <th>Supplier</th><th class="r">On hand</th><th class="r">AI suggests</th><th class="r">Order</th>
+  <th class="r">Value</th><th class="c">Confidence</th><th class="c">Decision</th></tr></thead><tbody>
+  ${d.items.map(r=>`<tr>
+   <td class="c"><span class="pill ${r.urgency==="critical"?"p-bad":r.urgency==="high"?"p-warn":"p-info"}">${r.urgency}</span></td>
+   <td><div style="font-weight:550">${esc((r.product_name||"").split(" · ")[0])}</div><div class="mono">${esc(r.sku)}</div></td>
+   <td class="c"><span class="pill p-grey">${esc(r.size||"—")}</span></td>
+   <td class="mini">${esc(r.supplier_name||"—")}</td>
+   <td class="r num ${r.on_hand<=0?"":""}" style="${r.on_hand<=0?"color:var(--bad);font-weight:650":""}">${num(r.on_hand)}</td>
+   <td class="r num" style="font-weight:650">${num(r.recommended_qty)}</td>
+   <td class="r"><input class="inp num r" style="width:74px;padding:4px 6px" type="number" min="0"
+     value="${PICK[r.id]?.qty??r.recommended_qty}" oninput="setPick('${r.id}',this.value)"></td>
+   <td class="r num">${money(r.line_value)}</td>
+   <td class="c"><div style="width:52px;height:5px;background:var(--line2);border-radius:3px;margin:0 auto">
+     <div style="height:5px;width:${(r.confidence*100).toFixed(0)}%;border-radius:3px;background:${r.confidence>.7?"var(--ok)":r.confidence>.45?"var(--warn)":"var(--bad)"}"></div></div>
+    <div class="mini">${(r.confidence*100).toFixed(0)}%</div></td>
+   <td class="c">${["approve","reject"].map(a=>`<button class="btn sm" style="padding:3px 7px;${PICK[r.id]?.action===a?`background:${a==="approve"?"var(--ok)":"var(--bad)"};color:#fff;border-color:transparent`:""}"
+     onclick="setPickAction('${r.id}','${a}')">${a==="approve"?"✓":"✕"}</button>`).join(" ")}</td></tr>`).join("")
+   ||'<tr><td colspan="10"><div class="empty"><h4>Nothing to reorder</h4><p class="mini">Every line is above its reorder level.</p></div></td></tr>'}
+ </tbody></table></div></div>`;updateCommit()}
+function setPick(id,v){PICK[id]={...(PICK[id]||{action:"approve"}),qty:+v||0};
+ const r=CACHE.reco.find(x=>x.id===id);if(r&&+v!==r.recommended_qty)PICK[id].action="modify";updateCommit()}
+function setPickAction(id,a){PICK[id]=PICK[id]?.action===a?undefined:{...(PICK[id]||{}),action:a,
+  qty:PICK[id]?.qty??CACHE.reco.find(x=>x.id===id)?.recommended_qty};renderPurchase()}
+function bulkPick(a){PICK={};if(a)CACHE.reco.forEach(r=>PICK[r.id]={action:a,qty:r.recommended_qty});renderPurchase()}
+function updateCommit(){const n=Object.values(PICK).filter(Boolean).length;
+ const b=document.getElementById("commitBtn");if(b){b.textContent=`Commit ${n} decision${n==1?"":"s"}`;b.disabled=!n}}
+async function commitPicks(){
+ const dec=Object.entries(PICK).filter(([,v])=>v).map(([id,v])=>({id,action:v.action,final_qty:v.qty}));
+ if(!dec.length)return;
+ try{const r=await api("/api/v1/procurement/recommendations/decide",{method:"POST",
+   body:JSON.stringify({actor:"owner",decisions:dec})});
+  PICK={};CACHE={};toast(`${r.approved+r.modified} approved · POs ${r.purchase_orders_created.join(", ")||"none"}`,"ok");
+  renderPurchase()}catch(e){toast(e.message,"bad")}}
+
+/* ───────── reports ───────── */
+let REP="sales_by_style";
+async function renderReports(){
+ const kinds=[["sales_by_style","Sales by style"],["size_curve","Size curve"],
+   ["gst_summary","GST summary"],["dead_stock","Dead stock"]];
+ const d=await api("/api/v1/reports?kind="+REP);
+ const cols={sales_by_style:[["style_code","Style"],["style","Name"],["category","Category"],
+    ["qty","Pieces",1],["revenue","Revenue",2],["cost","Cost",2],["margin","Margin",2]],
+  size_curve:[["size","Size"],["qty","Pieces sold",1],["revenue","Revenue",2]],
+  gst_summary:[["month","Month"],["rate","Rate %"],["taxable","Taxable",2],["cgst","CGST",2],["sgst","SGST",2],["igst","IGST",2]],
+  dead_stock:[["sku","SKU"],["name","Item"],["size","Size"],["colour","Colour"],["on_hand","On hand",1],["tied_up","Capital tied up",2]]}[REP];
+ document.getElementById("p-reports").innerHTML=`
+ <div class="tabs">${kinds.map(([k,l])=>`<button class="tab ${REP===k?"on":""}" onclick="REP='${k}';renderReports()">${l}</button>`).join("")}</div>
+ ${REP==="size_curve"?`<div class="mini" style="margin-bottom:10px;padding:9px 11px;background:var(--soft);border-radius:7px">
+   Sizes appear in wearing order. Sorted as text they would read L, M, S, XL — which is why every size is stored with a sort key.</div>`:""}
+ ${REP==="dead_stock"?`<div class="mini" style="margin-bottom:10px;padding:9px 11px;background:var(--warnS);border-radius:7px">
+   Stock that has not sold a single piece in 90 days. This is where a season's cash quietly goes.</div>`:""}
+ <div class="card"><div class="tw"><table><thead><tr>${cols.map(c=>`<th class="${c[2]?"r":""}">${c[1]}</th>`).join("")}</tr></thead>
+  <tbody>${d.rows.map(row=>`<tr>${cols.map(c=>{const v=row[c[0]];
+   return `<td class="${c[2]?"r num":""}">${c[2]===2?money(v):c[2]===1?num(v):esc(v??"—")}</td>`}).join("")}</tr>`).join("")
+   ||`<tr><td colspan="${cols.length}"><div class="empty"><h4>No data yet</h4></div></td></tr>`}</tbody></table></div></div>`}
+
+function filterTable(id,term){const t=(term||"").toLowerCase();
+ document.querySelectorAll(`#${id} tbody tr`).forEach(r=>{
+  r.style.display=!t||r.textContent.toLowerCase().includes(t)?"":"none"})}
+
+/* ───────── import: the screen you run with the shop's own file ─────────
+   Two steps on purpose. Nothing is written until the owner has looked at
+   their own data and pressed the second button. "It read my sheet" is what
+   convinces; "it silently changed my stock" is what loses the account.      */
+let IMP={text:"",res:null};
+const SAMPLE=`Particulars\tArticle No\tSize\tColour\tHSN Code\tTax %\tUnit\tPurchase Price\tMRP\tClosing Stock
+Anarkali Gown Small Maroon\tANK-S\tSmall\tMaroon\t6104\t5%\tPcs\tRs. 1,450.00\t3,299.00\t6
+Anarkali Gown Medium Maroon\tANK-M\tMED\tMAROON\t6104\t5\tNos\t1450\t3,299\t4
+Anarkali Gown Large Maroon\tANK-L\tLarge\tmaroon\t6104\t0.05\tPC\t1450\t3299\t2
+Chikankari Kurti S White\tCHK-S\tS\tWhite\t6106\t5\tPcs\t690\t1,699\t10
+Chikankari Kurti M White\tCHK-M\tM\twhite\t610\t5\tPcs\t690\t1699\t7
+\tORPHAN-1\tL\tWhite\t6106\t5\tPcs\t690\t1699\t3
+Banarasi Saree Free Gold\tBNS-F\tFree Size\tGold\t\t28\tNos\t4200\t\t2
+Kids Tee Toddler Red\tKID-T3\tToddler-3\tRed\t6109\t5\tPcs\t180\t399\t(4)`;
+
+function renderImport(){
+ document.getElementById("p-import").innerHTML=`
+ <div class="card" style="margin-bottom:14px"><div class="cb">
+  <div class="ct">Step 1 — paste your list</div>
+  <div class="mini" style="margin:4px 0 10px">Copy the rows straight out of Excel, or out of
+   whatever you use today, and paste them below — header row included. Tabs, commas and
+   semicolons all work. <b>Nothing is saved until you have checked it on the next screen.</b></div>
+  <textarea id="impText" class="inp mono" rows="9" spellcheck="false"
+   style="width:100%;font-size:11.5px;line-height:1.5">${esc(IMP.text)}</textarea>
+  <div class="bar" style="margin-top:10px">
+   <button class="btn p" onclick="impAnalyse()">Read my sheet →</button>
+   <button class="btn" onclick="impSample()">Try a deliberately messy sample</button>
+   <span class="spacer"></span>
+   <span class="mini">Read on this machine. Nothing is uploaded anywhere.</span>
+  </div>
+ </div></div>
+ <div id="impOut"></div>`;
+ if(IMP.res) impShow(IMP.res);
+}
+function impSample(){IMP.text=SAMPLE;document.getElementById("impText").value=SAMPLE;impAnalyse()}
+async function impAnalyse(){
+ IMP.text=document.getElementById("impText").value;
+ if(!IMP.text.trim())return toast("Paste your stock list first","bad");
+ try{
+  IMP.res=await api("/api/v1/import/analyse",{method:"POST",body:JSON.stringify({text:IMP.text})});
+  impShow(IMP.res);
+ }catch(e){toast(e.message,"bad")}
+}
+function impShow(r){
+ const out=document.getElementById("impOut");
+ if(r.fatal){out.innerHTML=`<div class="card"><div class="cb">
+   <div class="ct" style="color:var(--bad)">We could not read that</div>
+   <div class="cs">${esc(r.fatal)}</div></div></div>`;return}
+ const s=r.summary, F=Object.fromEntries(r.fields.map(f=>[f.key,f.label]));
+ const mapped=Object.entries(r.mapping).filter(([,v])=>v);
+ const missed=r.headers.filter(h=>!Object.values(r.mapping).includes(h));
+ out.innerHTML=`
+ <div class="grid g4" style="margin-bottom:14px">
+  ${[["Rows read",s.total,"",`${s.styles} style${s.styles==1?"":"s"}`],
+     ["Will be imported",s.importable,"var(--ok)",`${s.units} pieces`],
+     ["Need a look",s.flagged,s.flagged?"var(--warn)":"","imported, but flagged"],
+     ["Refused",s.refused,s.refused?"var(--bad)":"","nothing will be saved for these"]]
+   .map(([l,v,c,d])=>`<div class="kpi"><div class="l">${l}</div>
+    <div class="v num" ${c?`style="color:${c}"`:""}>${v}</div><div class="d">${d}</div></div>`).join("")}
+ </div>
+ <div class="card" style="margin-bottom:14px"><div class="cb">
+  <div class="ct">Step 2 — check what we understood</div>
+  <div class="mini" style="margin-top:4px">Your headings, matched to ours. Stock worth
+   <b>${money(s.stock_value)}</b> at cost.</div>
+  ${(r.notes||[]).map(n=>`<div class="mini" style="margin-top:10px;padding:9px 11px;
+    background:var(--warnS);color:var(--warn);border-radius:8px">${esc(n)}</div>`).join("")}
+  <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px">
+   ${mapped.map(([k,v])=>`<span class="pill p-info"><b>${esc(v)}</b> → ${esc(F[k]||k)}</span>`).join("")}
+  </div>
+  ${missed.length?`<div class="mini" style="margin-top:8px">Columns we did not use:
+    ${missed.map(esc).join(", ")}</div>`:""}
+  <div class="mini" style="margin-top:12px;padding:10px 12px;background:var(--soft);
+   border-radius:8px;line-height:1.55"><b>We deliberately do not import your GST rate.</b>
+   The slab depends on what the garment sells for on the day — a ₹2,800 kurta is 18%, and the
+   same kurta discounted to ₹2,240 is 5%. We take the HSN from your sheet and work the tax out
+   on every bill, so your own discounts can never put you on the wrong rate.</div>
+ </div></div>
+ <div class="card"><div class="cb" style="padding-bottom:2px">
+  <div class="ct">Every row, exactly as we read it</div>
+  <div class="mini">Rows in red will be skipped. Rows in amber come in, with a note.</div></div>
+  <div class="tw"><table><thead><tr>
+   <th>Line</th><th>Style</th><th>Size</th><th>Colour</th><th>Code</th><th>HSN</th>
+   <th class="r">Cost</th><th class="r">Price</th><th class="r">Stock</th><th>What we noticed</th>
+  </tr></thead><tbody>
+  ${r.rows.map(x=>`<tr style="${x.ok?(x.warnings.length?"background:var(--warnS)":""):"background:var(--badS)"}">
+   <td class="mini">${x.line}</td><td>${esc(x.style_name||"—")}</td>
+   <td>${esc(x.size||"—")}</td><td>${esc(x.colour||"—")}</td>
+   <td class="mono mini">${esc(x.sku||"")}</td><td class="mono mini">${esc(x.hsn||"—")}</td>
+   <td class="r num">${x.cost?money(x.cost):"—"}</td><td class="r num">${x.price?money(x.price):"—"}</td>
+   <td class="r num">${x.qty}</td>
+   <td>${[...x.errors.map(e=>`<span class="pill p-bad">${esc(e)}</span>`),
+          ...x.warnings.map(w=>`<span class="pill p-warn">${esc(w)}</span>`)]
+        .join(" ")||`<span class="pill p-ok">clean</span>`}</td>
+  </tr>`).join("")}
+  </tbody></table></div>
+  <div class="cb bar">
+   <button class="btn p" onclick="impCommit()" ${s.importable?"":"disabled"}>
+    Import ${s.importable} item${s.importable==1?"":"s"} into ${esc(
+      (TENANTS.find(t=>t.id===TENANT)||{}).name||"my shop")}</button>
+   <span class="spacer"></span>
+   ${s.refused?`<span class="mini">${s.refused} row${s.refused==1?"":"s"} will be skipped — fix
+     ${s.refused==1?"it":"them"} in your sheet and paste again.</span>`:
+     `<span class="mini">Re-importing a corrected sheet updates these items — it never doubles your stock.</span>`}
+  </div>
+ </div>`;
+}
+async function impCommit(){
+ try{
+  const r=await api("/api/v1/import/commit",{method:"POST",body:JSON.stringify({text:IMP.text})});
+  toast(`Imported ${r.products_created} new item${r.products_created==1?"":"s"}`
+        +(r.products_updated?`, updated ${r.products_updated}`:"")
+        +` across ${r.styles_created+r.styles_updated} styles`,"ok");
+  IMP.res=null;CACHE={};go("styles");
+ }catch(e){toast(e.message,"bad")}
+}
+
+/* ───────── price advisor ─────────
+   Every number here comes from this shop's own bills. The one thing to make
+   unmissable is the GST line at Rs 2,500 a piece: above it the tax triples,
+   so there is a band of tags — Rs 2,625 to Rs 2,950 — where the customer pays
+   more and the shop keeps less, and the whole difference is tax. Shops sit in
+   that band constantly because they price on the tag, not the taxable value. */
+let PRICES=null;
+async function renderPrices(){
+ const el=document.getElementById("p-prices");
+ el.innerHTML=`<div class="card"><div class="cb"><div class="mini">Reading your sales…</div></div></div>`;
+ const r=await api("/api/v1/prices");PRICES=r;
+ const s=r.summary,dz=r.dead_zone;
+ el.innerHTML=`
+ <div class="grid g4" style="margin-bottom:14px">
+  ${[["Styles priced",s.styles,"","from your own bills"],
+     ["Over the GST line",s.in_dead_zone,s.in_dead_zone?"var(--bad)":"var(--ok)",
+      s.in_dead_zone?"costing you customers":"none — good"],
+     ["Need a markdown",s.need_markdown,s.need_markdown?"var(--warn)":"","before season end"],
+     ["Worth per year",compact(s.opportunity),"var(--ok)","if you act on all of it"]]
+   .map(([l,v,c,d])=>`<div class="kpi"><div class="l">${l}</div>
+    <div class="v num" ${c?`style="color:${c}"`:""}>${v}</div><div class="d">${d}</div></div>`).join("")}
+ </div>
+
+ ${s.in_dead_zone?`<div class="card" style="margin-bottom:14px;border-color:#FECACA">
+  <div class="cb">
+   <div class="ct" style="color:var(--bad)">${s.in_dead_zone} style${s.in_dead_zone==1?" is":"s are"} priced in the GST dead zone</div>
+   <div class="mini" style="margin:6px 0 12px;line-height:1.6">
+    Garments up to <b>₹2,500 a piece</b> are taxed at <b>5%</b>. Above that it jumps to <b>18%</b>
+    — a step, not a slope. So a tag of ₹2,625 and a tag of ₹2,950 leave you with
+    <i>the same money</i>; everything in between goes to tax.
+    <b>No garment should ever be tagged between ₹${dz.low.toLocaleString("en-IN")} and
+    ₹${dz.high.toLocaleString("en-IN")}.</b></div>
+   ${deadZoneBar(dz)}
+  </div></div>`:""}
+
+ <div class="card"><div class="cb" style="padding-bottom:2px">
+   <div class="ct">Every style, biggest opportunity first</div>
+   <div class="mini">Click a row to see the price curve and change the price.</div></div>
+  <div class="tw"><table><thead><tr>
+   <th>Style</th><th class="r">Tag now</th><th class="r">GST</th><th class="r">Suggested</th>
+   <th class="r">Stock</th><th>How sure</th><th>What to do</th><th></th>
+  </tr></thead><tbody>
+  ${r.items.map(d=>`<tr style="cursor:pointer${d.cliff?";background:var(--badS)":""}"
+     onclick="priceDetail('${d.style_id}')">
+   <td><b>${esc(d.style_name)}</b><div class="mini">${esc(d.style_code)}</div></td>
+   <td class="r num">${money(d.current_shelf)}</td>
+   <td class="r"><span class="pill ${d.current_gst>5?"p-bad":"p-ok"}">${d.current_gst}%</span></td>
+   <td class="r num"><b>${money(d.best.shelf)}</b>
+     ${d.best.gst_rate!=d.current_gst?`<div class="mini" style="color:var(--ok)">→ ${d.best.gst_rate}% GST</div>`:""}</td>
+   <td class="r num">${d.on_hand.toFixed(0)}</td>
+   <td><span class="pill ${d.elasticity.confidence=="high"?"p-ok":d.elasticity.confidence=="medium"?"p-warn":"p-grey"}"
+     >${d.elasticity.confidence}</span>
+     <div class="mini">${d.elasticity.n_points} price points</div></td>
+   <td style="max-width:360px"><div class="mini" style="line-height:1.5">${esc(d.headline)}</div></td>
+   <td class="r"><span class="pill ${d.is_test?"p-info":"p-pur"}">${d.is_test?"test it":"act"}</span></td>
+  </tr>`).join("")}
+  </tbody></table></div>
+ </div>`;
+}
+
+function deadZoneBar(dz){
+ /* A tag inside the shaded band is strictly worse than the band's left edge. */
+ const lo=2000,hi=3600,pos=v=>((v-lo)/(hi-lo)*100).toFixed(1);
+ const marks=(PRICES?.items||[]).filter(d=>d.current_shelf>lo&&d.current_shelf<hi);
+ return `<div style="position:relative;height:74px;margin-top:6px">
+  <div style="position:absolute;left:0;right:0;top:26px;height:12px;border-radius:6px;
+   background:linear-gradient(90deg,var(--okS),var(--okS));border:1px solid var(--line)"></div>
+  <div style="position:absolute;top:26px;height:12px;border-radius:0;
+   left:${pos(dz.low)}%;width:${pos(dz.high)-pos(dz.low)}%;
+   background:repeating-linear-gradient(45deg,var(--badS),var(--badS) 5px,#fff 5px,#fff 10px);
+   border:1px solid var(--bad)"></div>
+  ${[[dz.low,"₹2,625 · 5% tax","var(--ok)"],[dz.high,"₹2,950 · 18% tax","var(--bad)"]].map(([v,t,c])=>
+   `<div style="position:absolute;left:${pos(v)}%;top:14px;width:1px;height:36px;background:${c}"></div>
+    <div style="position:absolute;left:${pos(v)}%;top:52px;transform:translateX(-50%);
+     font-size:10px;font-weight:700;color:${c};white-space:nowrap">${t}</div>`).join("")}
+  ${marks.map(d=>`<div title="${esc(d.style_name)}" style="position:absolute;left:${pos(d.current_shelf)}%;
+    top:4px;transform:translateX(-50%);font-size:10px;font-weight:700;white-space:nowrap;
+    color:${d.cliff?"var(--bad)":"var(--ink2)"}">▼ ${esc(d.style_name.split(" ")[0])}</div>`).join("")}
+  <div style="position:absolute;left:0;top:52px;font-size:10px;color:var(--ink3)">₹2,000</div>
+  <div style="position:absolute;right:0;top:52px;font-size:10px;color:var(--ink3)">₹3,600</div>
+ </div>`;
+}
+
+async function priceDetail(id){
+ const d=await api("/api/v1/prices/"+id);
+ const c=d.curve,maxP=Math.max(...c.map(p=>p.profit),1);
+ const w=560,h=150;
+ const x=i=>(i/(c.length-1))*w, y=p=>h-(p.profit/maxP)*(h-14);
+ const path=c.map((p,i)=>`${i?"L":"M"}${x(i).toFixed(1)},${y(p).toFixed(1)}`).join("");
+ const bi=c.findIndex(p=>p.taxable===d.best.taxable);
+ const ci=c.reduce((a,p,i)=>Math.abs(p.taxable-d.current_taxable)<Math.abs(c[a].taxable-d.current_taxable)?i:a,0);
+ const cliffI=c.findIndex(p=>p.is_cliff_edge);
+ openM(`Price advisor — ${esc(d.style_name)}`,
+  `${esc(d.style_code)} · ${d.elasticity.n_points} price points · ${d.elasticity.confidence} confidence`,
+  `
+  <div class="mini" style="padding:11px 13px;background:var(--soft);border-radius:9px;line-height:1.6;margin-bottom:14px">
+   <b>${esc(d.headline)}</b></div>
+  ${d.cliff_note?`<div class="mini" style="padding:11px 13px;background:var(--badS);color:var(--bad);
+    border-radius:9px;line-height:1.6;margin-bottom:14px">${esc(d.cliff_note)}</div>`:""}
+  <div class="grid g4" style="margin-bottom:14px">
+   ${[["Cost to you",money(d.cost)],["Tag now",money(d.current_shelf)],
+      ["Suggested",money(d.best.shelf)],["In stock",d.on_hand.toFixed(0)+" pcs"]]
+    .map(([l,v])=>`<div class="kpi" style="padding:9px 11px"><div class="l">${l}</div>
+     <div class="v num" style="font-size:17px">${v}</div></div>`).join("")}
+  </div>
+  <div class="ct" style="margin-bottom:2px">Profit at each price</div>
+  <div class="mini" style="margin-bottom:8px">Built from ${d.elasticity.n_points} prices this
+   style has actually sold at. A 10% cut moves about
+   <b>${d.elasticity.volume_gain_per_10pct_cut}% more pieces</b>.</div>
+  <svg viewBox="0 0 ${w} ${h+22}" style="width:100%;height:172px">
+   ${cliffI>=0?`<line x1="${x(cliffI)}" y1="0" x2="${x(cliffI)}" y2="${h}" stroke="var(--bad)"
+     stroke-width="1" stroke-dasharray="3 3"/>
+     <text x="${x(cliffI)+4}" y="11" font-size="9" fill="var(--bad)">₹2,500 GST line</text>`:""}
+   <path d="${path}" fill="none" stroke="var(--brand2)" stroke-width="2"/>
+   <circle cx="${x(ci)}" cy="${y(c[ci])}" r="4" fill="var(--ink3)"/>
+   <text x="${x(ci)}" y="${h+14}" font-size="9" fill="var(--ink3)" text-anchor="middle">now</text>
+   <circle cx="${x(bi)}" cy="${y(c[bi])}" r="5" fill="var(--ok)"/>
+   <text x="${x(bi)}" y="${h+14}" font-size="9" fill="var(--ok)" text-anchor="middle"
+     font-weight="700">best</text>
+  </svg>
+  <div class="mini" style="margin-top:10px;padding:10px 12px;background:var(--bg);border-radius:8px;line-height:1.6">
+   <b>Clearing the stock:</b> ${esc(d.markdown.reason)}</div>`,
+  `<button class="btn" onclick="closeM()">Leave it</button>
+   <span class="spacer"></span>
+   ${d.markdown.urgency!="none"&&Math.round(d.markdown.recommended_taxable)!=Math.round(d.best.taxable)?
+     `<button class="btn" onclick="applyPrice('${d.style_id}',${d.markdown.recommended_taxable})">
+       Markdown to ${money(d.markdown.recommended_shelf)}</button>`:""}
+   <button class="btn p" onclick="applyPrice('${d.style_id}',${d.best.taxable})">
+    Set the tag to ${money(d.best.shelf)}</button>`);
+}
+
+async function applyPrice(id,taxable){
+ try{
+  const r=await api("/api/v1/prices/apply",{method:"POST",
+    body:JSON.stringify({style_id:id,taxable})});
+  closeM();toast(`${r.style_name}: ${r.variants_updated} sizes repriced`,"ok");
+  CACHE={};renderPrices();
+ }catch(e){toast(e.message,"bad")}
+}
+
+/* ───────── receive stock ─────────
+   The screen that lets stock go UP. Until this existed the ERP could only
+   count down and the only way back was editing inventory by hand. */
+async function renderReceiving(){
+ const el=document.getElementById("p-receiving");
+ el.innerHTML=skeleton(3);
+ const [open,past]=await Promise.all([
+   api("/api/v1/receiving/open-pos"), api("/api/v1/receiving/receipts")]);
+ const waiting=open.items.filter(p=>!p.fully_received);
+ el.innerHTML=`
+ <div class="grid g3" style="margin-bottom:14px">
+  ${[["Orders in transit",waiting.length,waiting.length?"var(--accent)":"var(--ok)",
+      waiting.length?"waiting on the supplier":"nothing outstanding"],
+     ["Pieces due",fmt(waiting.reduce((a,p)=>a+p.outstanding,0)),"","not yet delivered"],
+     ["Received recently",past.items.length,"var(--ok)",
+      past.items.length?money(past.items.reduce((a,r)=>a+(r.total_value||0),0))+" booked in":"no deliveries yet"]]
+   .map(([l,v,c,d])=>`<div class="kpi"><div class="l">${l}</div>
+    <div class="v num" ${c?`style="color:${c}"`:""}>${v}</div><div class="d">${d}</div></div>`).join("")}
+ </div>
+ <div class="card" style="margin-bottom:14px"><div class="cb" style="padding-bottom:2px">
+   <div class="ct">Orders waiting on delivery</div>
+   <div class="mini">Open one when the boxes arrive. Count what actually came.</div></div>
+  ${waiting.length?`<div class="tw"><table><thead><tr>
+   <th>Order</th><th>Supplier</th><th>Placed</th><th class="r">Ordered</th>
+   <th class="r">Received</th><th class="r">Still due</th><th></th></tr></thead><tbody>
+   ${waiting.map(p=>`<tr>
+    <td><b>${esc(p.po_number)}</b><div class="mini">${esc(p.location_code||"")}</div></td>
+    <td>${esc(p.supplier_name||"—")}</td><td class="mini">${dt(p.created_at)}</td>
+    <td class="r num">${fmt(p.ordered)}</td><td class="r num">${fmt(p.received)}</td>
+    <td class="r num"><b>${fmt(p.outstanding)}</b></td>
+    <td class="r"><button class="btn p sm" onclick="openReceive('${p.id}')">Receive</button></td>
+   </tr>`).join("")}</tbody></table></div>`
+  :emptyState("Nothing in transit","Every order you have placed has been delivered.")}
+ </div>
+ <div class="card"><div class="cb" style="padding-bottom:2px">
+   <div class="ct">Deliveries booked in</div></div>
+  ${past.items.length?`<div class="tw"><table><thead><tr>
+   <th>GRN</th><th>Date</th><th>Order</th><th>Supplier invoice</th>
+   <th class="r">Accepted</th><th class="r">Rejected</th><th class="r">Value</th>
+  </tr></thead><tbody>
+  ${past.items.map(r=>`<tr>
+   <td><b>${esc(r.grn_number)}</b></td><td class="mini">${dt(r.received_date)}</td>
+   <td class="mini">${esc(r.po_number||"—")}</td><td class="mini">${esc(r.supplier_invoice||"—")}</td>
+   <td class="r num">${fmt(r.accepted)}</td>
+   <td class="r num">${r.rejected?`<span style="color:var(--bad)">${fmt(r.rejected)}</span>`:"—"}</td>
+   <td class="r num">${money(r.total_value)}</td></tr>`).join("")}
+  </tbody></table></div>`:emptyState("No deliveries yet","Receive an order above and it appears here.")}
+ </div>`;
+}
+
+async function openReceive(id){
+ const d=await api("/api/v1/receiving/po/"+id);
+ const due=d.lines.filter(l=>l.outstanding>0.001);
+ openM(`Receive ${d.po_number}`,
+  `${d.supplier_name||"supplier"} · ${d.location_name||d.location_code||""} · ${fmt(d.outstanding)} pieces due`,
+  `<div class="mini" style="padding:10px 12px;background:var(--soft);border-radius:9px;
+    line-height:1.55;margin-bottom:12px">Count what physically arrived. Anything damaged or
+   wrong goes in <b>Rejected</b> — the customer never sees it and it does not touch your stock.
+   If the supplier's price changed, correct it here: your cost is re-averaged across what you
+   already hold, not overwritten.</div>
+  <div class="f2" style="margin-bottom:10px">
+   <div class="field"><label>Supplier invoice / challan no.</label>
+    <input class="inp" id="grnInv" placeholder="SUP/2026/881"></div>
+   <div class="field"><label>Notes</label><input class="inp" id="grnNote" placeholder="optional"></div>
+  </div>
+  <div class="tw"><table><thead><tr>
+   <th>Item</th><th class="r">Due</th><th class="r">Accepted</th><th class="r">Rejected</th>
+   <th class="r">Cost each</th></tr></thead><tbody>
+   ${due.map((l,i)=>`<tr data-line="${l.id}" data-prod="${l.product_id}">
+    <td><b>${esc(l.name)}</b><div class="mini">${esc(l.sku)}${l.size?" · "+esc(l.size):""}${l.colour?" · "+esc(l.colour):""}</div></td>
+    <td class="r num">${fmt(l.outstanding)}</td>
+    <td class="r"><input class="inp num r" style="width:80px" type="number" min="0" step="1"
+      id="acc${i}" value="${l.outstanding}"></td>
+    <td class="r"><input class="inp num r" style="width:80px" type="number" min="0" step="1"
+      id="rej${i}" value="0"></td>
+    <td class="r"><input class="inp num r" style="width:100px" type="number" min="0" step="0.01"
+      id="cst${i}" value="${(l.unit_cost||l.current_cost||0).toFixed(2)}"></td>
+   </tr>`).join("")}
+  </tbody></table></div>`,
+  `<button class="btn" onclick="closeM()">Cancel</button><span class="spacer"></span>
+   <button class="btn p" onclick='doReceive("${d.id}",${JSON.stringify(due.map(l=>({id:l.id,p:l.product_id})))})'>
+     Book this delivery in</button>`);
+}
+
+async function doReceive(poId,rows){
+ const lines=rows.map((r,i)=>({po_line_id:r.id,product_id:r.p,
+   accepted_qty:+(document.getElementById("acc"+i)?.value||0),
+   rejected_qty:+(document.getElementById("rej"+i)?.value||0),
+   unit_cost:+(document.getElementById("cst"+i)?.value||0)}))
+  .filter(l=>l.accepted_qty>0||l.rejected_qty>0);
+ if(!lines.length)return toast("Enter what arrived first","bad");
+ try{
+  const r=await api("/api/v1/receiving/receive",{method:"POST",body:JSON.stringify({
+    purchase_order_id:poId,lines,
+    supplier_invoice:document.getElementById("grnInv")?.value||"",
+    notes:document.getElementById("grnNote")?.value||""})});
+  closeM();
+  toast(`${r.grn_number}: ${fmt(r.accepted)} pieces in, ${money(r.total_value)}`+
+        (r.rejected?`, ${fmt(r.rejected)} rejected`:""),"ok");
+  CACHE={};renderReceiving();
+ }catch(e){toast(e.message,"bad")}
+}
+
+/* ───────── returns & credit notes ───────── */
+async function renderReturns(){
+ const el=document.getElementById("p-returns");
+ el.innerHTML=skeleton(2);
+ const r=await api("/api/v1/returns");
+ el.innerHTML=`
+ <div class="grid g3" style="margin-bottom:14px">
+  ${[["Credit notes",r.items.length,"","raised so far"],
+     ["Value returned",compact(r.value),r.value?"var(--bad)":"","off your sales"],
+     ["Pieces back",fmt(r.units),"","of which "+fmt(r.items.reduce((a,x)=>a+(x.restocked||0),0))+" restocked"]]
+   .map(([l,v,c,d])=>`<div class="kpi"><div class="l">${l}</div>
+    <div class="v num" ${c?`style="color:${c}"`:""}>${v}</div><div class="d">${d}</div></div>`).join("")}
+ </div>
+ <div class="card" style="margin-bottom:14px"><div class="cb">
+   <div class="ct">Take something back</div>
+   <div class="mini" style="margin:4px 0 10px">Find the bill it was sold on — the GST is
+    reversed at the rate that bill charged, not today's rate.</div>
+   <div class="bar">
+    <input class="inp" id="cnSearch" placeholder="Invoice number, e.g. INV/2026-27/0081"
+      style="max-width:340px" onkeydown="if(event.key==='Enter')findInvoiceForReturn()">
+    <button class="btn p" onclick="findInvoiceForReturn()">Find the bill</button>
+   </div></div></div>
+ <div class="card"><div class="cb" style="padding-bottom:2px">
+   <div class="ct">Credit notes raised</div></div>
+  ${r.items.length?`<div class="tw"><table><thead><tr>
+   <th>Note</th><th>Date</th><th>Against</th><th>Customer</th><th>Reason</th>
+   <th class="r">Pieces</th><th class="r">Restocked</th><th class="r">Value</th>
+  </tr></thead><tbody>
+  ${r.items.map(n=>`<tr>
+   <td><b>${esc(n.cn_number)}</b><div class="mini">${esc(n.refund_mode)}</div></td>
+   <td class="mini">${dt(n.note_date)}</td><td class="mini">${esc(n.invoice_number)}</td>
+   <td>${esc(n.customer_name)}</td><td class="mini">${esc(n.reason||"—")}</td>
+   <td class="r num">${fmt(n.units)}</td><td class="r num">${fmt(n.restocked)}</td>
+   <td class="r num">${money(n.grand_total)}</td></tr>`).join("")}
+  </tbody></table></div>`
+  :emptyState("Nothing returned yet","When a customer brings a garment back, find their bill above.")}
+ </div>`;
+}
+
+async function findInvoiceForReturn(){
+ const term=(document.getElementById("cnSearch")?.value||"").trim();
+ if(!term)return toast("Type an invoice number","bad");
+ const list=await api("/api/v1/sales/invoices?search="+encodeURIComponent(term));
+ if(!list.items.length)return toast("No bill matches that","bad");
+ openReturn(list.items[0].id);
+}
+
+async function openReturn(id){
+ let d;
+ try{ d=await api("/api/v1/returns/returnable/"+id); }
+ catch(e){ return toast(e.message,"bad"); }
+ const rows=d.lines.filter(l=>l.returnable>0.001);
+ if(!rows.length)return toast("Everything on that bill has already been returned","bad");
+ openM(`Return against ${d.invoice_number}`,
+  `${d.customer_name} · billed ${dt(d.invoice_date)}`,
+  `<div class="mini" style="padding:10px 12px;background:var(--soft);border-radius:9px;
+    line-height:1.55;margin-bottom:12px">Untick <b>Back on the shelf</b> for anything you
+   cannot sell again — the customer is still credited, but your stock does not go up.</div>
+  <div class="tw"><table><thead><tr>
+   <th>Item</th><th class="r">Sold</th><th class="r">Left</th><th class="r">Taking back</th>
+   <th class="r">GST</th><th>Back on the shelf</th></tr></thead><tbody>
+   ${rows.map((l,i)=>`<tr>
+    <td><b>${esc(l.name)}</b><div class="mini">${esc(l.sku)}</div></td>
+    <td class="r num">${fmt(l.quantity)}</td><td class="r num">${fmt(l.returnable)}</td>
+    <td class="r"><input class="inp num r" style="width:76px" type="number" min="0"
+      max="${l.returnable}" step="1" id="rq${i}" value="0"></td>
+    <td class="r"><span class="pill ${l.gst_rate>5?"p-bad":"p-ok"}">${l.gst_rate}%</span></td>
+    <td><label class="mini" style="display:flex;gap:6px;align-items:center;cursor:pointer">
+      <input type="checkbox" id="rs${i}" checked> yes</label></td>
+   </tr>`).join("")}
+  </tbody></table></div>
+  <div class="f2" style="margin-top:12px">
+   <div class="field"><label>Reason</label>
+    <input class="inp" id="cnReason" placeholder="size exchange, damaged, changed mind"></div>
+   <div class="field"><label>How is the customer squared up?</label>
+    <select class="inp" id="cnMode">
+     <option value="credit">Reduce what they owe</option>
+     <option value="refund">Refund from the till</option>
+    </select></div>
+  </div>`,
+  `<button class="btn" onclick="closeM()">Cancel</button><span class="spacer"></span>
+   <button class="btn p" onclick='doReturn("${d.id}",${JSON.stringify(rows.map(l=>l.id))})'>
+     Raise the credit note</button>`);
+}
+
+async function doReturn(invoiceId,ids){
+ const lines=ids.map((id,i)=>({invoice_line_id:id,
+   quantity:+(document.getElementById("rq"+i)?.value||0),
+   restock:!!document.getElementById("rs"+i)?.checked}))
+  .filter(l=>l.quantity>0);
+ if(!lines.length)return toast("Enter how many are coming back","bad");
+ try{
+  const r=await api("/api/v1/returns/create",{method:"POST",body:JSON.stringify({
+    invoice_id:invoiceId,lines,
+    reason:document.getElementById("cnReason")?.value||"",
+    refund_mode:document.getElementById("cnMode")?.value||"credit"})});
+  closeM();
+  toast(`${r.cn_number}: ${money(r.grand_total)} credited`+
+        (r.restocked?`, ${fmt(r.restocked)} back on the shelf`:"")+
+        (r.written_off?`, ${fmt(r.written_off)} written off`:""),"ok");
+  CACHE={};renderReturns();
+ }catch(e){toast(e.message,"bad")}
+}
+
+/* ───────── payables ───────── */
+async function renderPayables(){
+ const el=document.getElementById("p-payables");
+ el.innerHTML=skeleton();
+ const [pa,bl]=await Promise.all([api("/api/v1/procurement/payables"),api("/api/v1/procurement/bills")]);
+ CACHE.paySuppliers=pa.items;
+ const total=pa.items.reduce((s,x)=>s+x.balance,0);
+ const billsPaid=bl.items.filter(b=>b.status==="paid").length;
+ const billsOpen=bl.items.filter(b=>b.status!=="paid").length;
+ el.innerHTML=`
+  <div class="grid g3" style="margin-bottom:14px">
+   <div class="kpi"><div class="l">Total payable</div><div class="v num">${compact(total)}</div>
+    <div class="d">${pa.items.length} supplier${pa.items.length===1?"":"s"} with open balance</div></div>
+   <div class="kpi"><div class="l">Open bills</div><div class="v num">${billsOpen}</div>
+    <div class="d">Awaiting payment</div></div>
+   <div class="kpi"><div class="l">Settled bills</div><div class="v num">${billsPaid}</div>
+    <div class="d">Fully paid</div></div>
+  </div>
+  <div class="grid" style="grid-template-columns:1fr 1.4fr">
+   <div class="card"><div class="ch"><div><div class="ct">Who you owe most</div>
+    <div class="cs">Pay the top of this list first</div></div></div>
+    <div class="tw"><table><thead><tr><th>Supplier</th><th class="r">Balance</th><th></th></tr></thead><tbody>
+     ${pa.items.map(s=>`<tr><td style="font-weight:600">${esc(s.supplier_name)}</td>
+      <td class="r num" style="font-weight:650">${money(s.balance)}</td>
+      <td class="r"><button class="btn sm p" onclick="paySupplier('${s.supplier_id}','${esc(s.supplier_name)}',${s.balance})">Pay</button></td></tr>`).join("")
+      ||'<tr><td colspan="3"><div class="empty"><h4>Nothing owed</h4><p class="mini">Every supplier bill is settled.</p></div></td></tr>'
+     }
+    </tbody></table></div></div>
+   <div class="card"><div class="ch"><div class="ct">All supplier bills</div></div>
+    <div class="tw"><table><thead><tr><th>Bill #</th><th>Supplier</th><th>Date</th><th class="c">Status</th><th class="r">Total</th><th class="r">Paid</th></tr></thead><tbody>
+     ${bl.items.map(b=>`<tr><td class="mono">${esc(b.bill_number)}</td><td>${esc(b.supplier_name)}</td>
+      <td class="mini">${dt(b.bill_date)}</td>
+      <td class="c"><span class="pill ${b.status==="paid"?"p-ok":b.status==="part_paid"?"p-warn":"p-info"}">${esc(b.status)}</span></td>
+      <td class="r num">${money(b.grand_total)}</td>
+      <td class="r num">${money(b.amount_paid)}</td></tr>`).join("")
+      ||'<tr><td colspan="6"><div class="empty"><h4>No supplier bills yet</h4><p class="mini">Bills appear here when you record a supplier invoice.</p></div></td></tr>'
+     }
+    </tbody></table></div></div></div>`
+}
+function paySupplier(sid,name,bal){
+ openM("Pay supplier",name,`
+  <div class="f2"><div class="field"><label>Amount to pay (₹)</label>
+   <input class="inp num" id="spa" type="number" step="0.01" value="${bal.toFixed(2)}"></div>
+   <div class="field"><label>Method</label><select class="inp" id="spm">
+    <option value="bank">Bank transfer</option><option value="upi">UPI</option>
+    <option value="cash">Cash</option><option value="card">Card</option></select></div></div>
+  <div class="field"><label>Reference (UTR / cheque no.)</label><input class="inp" id="spr"></div>
+  <div class="mini" style="padding:9px 11px;background:var(--soft);border-radius:7px">
+   Applied to the oldest outstanding supplier bills first — the mirror of how customer payments work.</div>`,
+  `<div class="spacer"></div><button class="btn" onclick="closeM()">Cancel</button>
+   <button class="btn p" onclick="saveSupplierPayment('${sid}')">Record payment</button>`)}
+async function saveSupplierPayment(sid){
+ try{const r=await api("/api/v1/procurement/payments",{method:"POST",body:JSON.stringify({
+   supplier_id:sid,amount:+document.getElementById("spa").value,
+   method:document.getElementById("spm").value,reference:document.getElementById("spr").value})});
+  closeM();CACHE={};toast(`${r.payment_number} — settled ${r.applied.length} bill(s)`+(r.on_account>0?`, ${money(r.on_account)} on account`:""),"ok");
+  renderPayables()}catch(e){toast(e.message,"bad")}}
+
+/* ───────── tax & compliance ─────────
+   Deliberately labelled "working papers". The arithmetic is right and the
+   tables mirror the portal's, but nothing here has been through a live upload,
+   and telling a shopkeeper this files their return would be a lie they only
+   discover at the deadline. */
+let TAXMONTH=null;
+async function renderTax(){
+ const host=document.getElementById("p-tax");
+ host.innerHTML=skeleton(3);
+ let months;
+ try{ months=(await api("/api/v1/tax/months")).items||[]; }
+ catch(e){ host.innerHTML=errorCard("We could not read your tax periods",e.message,"renderTax()"); return; }
+ if(!months.length){
+  host.innerHTML=`<div class="card">${emptyState("Nothing to report yet",
+    "Raise a bill and the month it falls in will appear here.")}</div>`;
+  return;
+ }
+ if(!TAXMONTH||!months.includes(TAXMONTH))TAXMONTH=months[0];
+ let d;
+ try{ d=await api("/api/v1/tax/summary?month="+encodeURIComponent(TAXMONTH)); }
+ catch(e){ host.innerHTML=errorCard("We could not build the summary",e.message,"renderTax()"); return; }
+ const g1=d.gstr1,g3=d.gstr3b;
+ const monthName=new Date(TAXMONTH+"-01T00:00:00")
+   .toLocaleDateString("en-IN",{month:"long",year:"numeric"});
+ host.innerHTML=`
+ <div class="card" style="margin-bottom:14px"><div class="cb">
+  <div class="bar">
+   <div class="field" style="margin:0">
+    <label>Return period</label>
+    <select class="inp" id="taxMonth" onchange="TAXMONTH=this.value;renderTax()">
+     ${months.map(m=>`<option value="${m}" ${m===TAXMONTH?"selected":""}>${
+       new Date(m+"-01T00:00:00").toLocaleDateString("en-IN",{month:"long",year:"numeric"})
+     }</option>`).join("")}
+    </select></div>
+   <span class="spacer"></span>
+   <button class="btn p" onclick="downloadTax('gstr1')">Download GSTR-1</button>
+   <button class="btn p" onclick="downloadTax('gstr3b')">Download GSTR-3B summary</button>
+  </div>
+  <div class="mini" style="margin-top:11px;padding:10px 12px;background:var(--warnS);
+   color:var(--warn);border-radius:9px;line-height:1.55">
+   <b>These are working papers, not a filing.</b> The figures come from your own bills and they
+   add up, but the portal takes its own JSON or Excel template — so this is what you hand your
+   accountant, not something you upload yourself.</div>
+ </div></div>
+
+ <div class="grid g4" style="margin-bottom:14px">
+  ${[["Outward taxable value",compact(g1.taxable_total),"",`${g1.documents} document${g1.documents==1?"":"s"}`],
+     ["Tax collected",compact(g1.tax_total),"var(--brand2)",`${g1.credit_notes} credit note${g1.credit_notes==1?"":"s"} netted off`],
+     ["Input credit",compact(g3.inward.tax),"var(--ok)",`${g3.supplier_bills} supplier bill${g3.supplier_bills==1?"":"s"}`],
+     ["Net payable",compact(g3.net_payable_total),g3.net_payable_total>0?"var(--bad)":"var(--ok)",
+      g3.credit_carried_total>0?`${compact(g3.credit_carried_total)} credit carried forward`:"after offsetting credit"]]
+   .map(([l,v,c,sub])=>`<div class="kpi fresh"><div class="l">${l}</div>
+    <div class="v num" ${c?`style="color:${c}"`:""}>${v}</div><div class="d">${sub}</div></div>`).join("")}
+ </div>
+
+ <div class="grid" style="grid-template-columns:1.2fr 1fr">
+  <div class="card"><div class="cb" style="padding-bottom:2px">
+    <div class="ct">GSTR-1 · outward supplies for ${esc(monthName)}</div>
+    <div class="mini">Split by slab. Credit notes are already netted off.</div></div>
+   <div class="tw"><table><thead><tr><th>Slab</th><th class="r">Taxable</th>
+    <th class="r">CGST</th><th class="r">SGST</th><th class="r">IGST</th>
+    <th class="r">Tax</th></tr></thead><tbody>
+    ${g1.by_slab.map(r=>`<tr>
+     <td><span class="pill ${r.rate>5?"p-bad":r.rate>0?"p-ok":"p-grey"}">${r.rate}%</span></td>
+     <td class="r num">${money(r.taxable)}</td><td class="r num">${money(r.cgst)}</td>
+     <td class="r num">${money(r.sgst)}</td><td class="r num">${money(r.igst)}</td>
+     <td class="r num" style="font-weight:650">${money(r.tax)}</td></tr>`).join("")
+     ||`<tr><td colspan="6" class="mini">No outward supply this month.</td></tr>`}
+   </tbody><tfoot><tr>
+     <td><b>Total</b></td><td class="r num"><b>${money(g1.taxable_total)}</b></td>
+     <td class="r"></td><td class="r"></td><td class="r"></td>
+     <td class="r num"><b>${money(g1.tax_total)}</b></td></tr></tfoot></table></div>
+   <div class="cb mini">B2B ${g1.b2b.rows} row${g1.b2b.rows==1?"":"s"} ·
+    B2C summary ${g1.b2cs.rows} · HSN ${g1.hsn_rows}</div>
+  </div>
+
+  <div class="card"><div class="cb" style="padding-bottom:2px">
+    <div class="ct">GSTR-3B · what you actually owe</div>
+    <div class="mini">Credit is offset head by head, not as one lump.</div></div>
+   <div class="tw"><table><thead><tr><th></th><th class="r">CGST</th>
+    <th class="r">SGST</th><th class="r">IGST</th></tr></thead><tbody>
+    <tr><td>Tax on sales</td><td class="r num">${money(g3.outward.cgst)}</td>
+     <td class="r num">${money(g3.outward.sgst)}</td><td class="r num">${money(g3.outward.igst)}</td></tr>
+    <tr><td>Credit on purchases</td>
+     <td class="r num" style="color:var(--ok)">−${money(g3.inward.cgst)}</td>
+     <td class="r num" style="color:var(--ok)">−${money(g3.inward.sgst)}</td>
+     <td class="r num" style="color:var(--ok)">−${money(g3.inward.igst)}</td></tr>
+   </tbody><tfoot><tr><td><b>Payable</b></td>
+    <td class="r num"><b>${money(g3.net_payable.cgst)}</b></td>
+    <td class="r num"><b>${money(g3.net_payable.sgst)}</b></td>
+    <td class="r num"><b>${money(g3.net_payable.igst)}</b></td></tr></tfoot></table></div>
+   <div class="cb">
+    <div style="display:flex;justify-content:space-between;align-items:baseline">
+     <span class="l mini" style="font-weight:700;text-transform:uppercase;letter-spacing:.7px">Net payable</span>
+     <span class="num" style="font-size:22px;font-weight:720;color:${g3.net_payable_total>0?"var(--bad)":"var(--ok)"}">
+      ${money(g3.net_payable_total)}</span></div>
+    ${g3.credit_carried_total>0?`<div class="mini" style="margin-top:6px">
+     ${money(g3.credit_carried_total)} of credit carries forward to next month.</div>`:""}
+   </div>
+  </div>
+ </div>`;
+}
+
+function downloadTax(which){
+ // Same reasoning as the label sheet: the tenant travels in the header, never
+ // the URL, so the CSV is fetched and handed to an object URL rather than
+ // linked to directly.
+ const month=TAXMONTH;
+ if(!month)return toast("Pick a month first","bad");
+ const label=which==="gstr1"?"GSTR-1":"GSTR-3B";
+ fetch(`${API}/api/v1/tax/${which}.csv?month=${encodeURIComponent(month)}`,
+       {headers:{"X-Tenant":TENANT}})
+  .then(r=>{if(!r.ok)throw new Error(`${label} could not be built`);return r.blob()})
+  .then(b=>{
+   const url=URL.createObjectURL(b);
+   const a=document.createElement("a");
+   a.href=url;a.download=`${label}-${month}.csv`;
+   document.body.appendChild(a);a.click();a.remove();
+   setTimeout(()=>URL.revokeObjectURL(url),1500);
+   toast(`${label} for ${month} downloaded`,"ok");
+  })
+  .catch(e=>toast(e.message,"bad"));
+}
+
+/* ───────── label printing ─────────
+   Vanilla DOM: the checkboxes carry the product id in `value`, so nothing has
+   to be mirrored into a JS array that can drift out of sync with the table. */
+function labelPicks(){
+ return Array.from(document.querySelectorAll(".lblPick"))
+   .filter(c=>c.checked).map(c=>c.value);
+}
+function syncLabelBtn(){
+ const n=labelPicks().length, b=document.getElementById("lblBtn");
+ if(!b)return;
+ b.disabled=n===0;
+ b.textContent=n?`Print ${n} label${n==1?"":"s"}`:"Print labels";
+ b.classList.toggle("p",n>0);
+}
+function toggleAllLabels(on){
+ document.querySelectorAll(".lblPick").forEach(c=>{c.checked=on});
+ syncLabelBtn();
+}
+function printLabels(){
+ const ids=labelPicks();
+ if(!ids.length)return toast("Tick the items you want tags for","bad");
+ openM("Print labels",`${ids.length} item${ids.length==1?"":"s"} selected`,
+  `<div class="mini" style="padding:10px 12px;background:var(--soft);border-radius:9px;
+    line-height:1.55;margin-bottom:12px">Opens a printable sheet in a new tab. Load your
+   label stock, then press Print. Any barcode that would not scan is corrected and listed
+   at the top of the sheet.</div>
+   <div class="f2">
+    <div class="field"><label>Label stock</label>
+     <select class="inp" id="lblSheet">
+      <option value="l7159">Avery L7159 — 24 per sheet (63.5 × 33.9 mm)</option>
+      <option value="l7160">Avery L7160 — 21 per sheet (63.5 × 38.1 mm)</option>
+      <option value="l7651">Avery L7651 — 65 per sheet (38.1 × 21.2 mm)</option>
+     </select></div>
+    <div class="field"><label>Copies of each</label>
+     <input class="inp num r" id="lblCopies" type="number" min="1" max="50" value="1"></div>
+   </div>`,
+  `<button class="btn" onclick="closeM()">Cancel</button><span class="spacer"></span>
+   <button class="btn p" onclick='openLabelSheet(${JSON.stringify(ids)})'>Open the sheet</button>`);
+}
+async function openLabelSheet(ids){
+ const sheet=document.getElementById("lblSheet")?.value||"l7159";
+ const copies=Math.max(1,+(document.getElementById("lblCopies")?.value||1));
+ // The tenant NEVER travels in the URL. `window.open` on the route directly
+ // would send no X-Tenant header, so the server would fall back to the default
+ // business and cheerfully print the wrong shop's tags — or an empty sheet.
+ // Passing the tenant as a query parameter would "fix" that by breaking the
+ // one rule this codebase does not bend: no request value ever selects a
+ // tenant. So the page is FETCHED with the header like every other call and
+ // written into the tab. The window is opened first, synchronously, because a
+ // pop-up opened after an await is blocked by default.
+ const w=window.open("","_blank");
+ if(!w){toast("Your browser blocked the pop-up — allow pop-ups for this page","bad");return}
+ w.document.write("<!DOCTYPE html><title>Preparing labels…</title>"+
+   "<body style='font:14px system-ui;padding:32px;color:#444'>Preparing labels…");
+ try{
+  const url=`${API}/api/v1/labels/print?product_ids=${encodeURIComponent(ids.join(","))}`
+    +`&sheet=${encodeURIComponent(sheet)}&copies=${copies}`;
+  const res=await fetch(url,{headers:{"X-Tenant":TENANT}});
+  if(!res.ok)throw new Error("could not build the label sheet");
+  const html=await res.text();
+  w.document.open();w.document.write(html);w.document.close();
+  closeM();
+ }catch(e){ w.close(); toast(e.message,"bad"); }
+}
+
+/* ───────── stocktakes ─────────
+   Counting the shelves is the only way shrinkage ever gets found. The screen
+   leads with the count sheet rather than the history, because a shopkeeper
+   opens this WHILE standing in front of the rack. */
+async function renderStocktakes(){
+ const host=document.getElementById("p-stocktakes");
+ host.innerHTML=skeleton(3);
+ let d;
+ try{ d=await api("/api/v1/inventory/stocktakes"); }
+ catch(e){ host.innerHTML=errorCard("We could not load your stocktakes",e.message,"renderStocktakes()"); return; }
+ const items=d.items||[];
+ const short=items.filter(x=>x.total_variance<0).length;
+ const over=items.filter(x=>x.total_variance>0).length;
+ host.innerHTML=`
+ <div class="grid g3" style="margin-bottom:14px">
+  ${[["Counts done",items.length,"",items.length?"most recent first":"none yet"],
+     ["Came up short",short,short?"var(--bad)":"var(--ok)","stock missing from the shelf"],
+     ["Came up over",over,over?"var(--warn)":"","more on the shelf than the books said"]]
+   .map(([l,v,c,sub])=>`<div class="kpi fresh"><div class="l">${l}</div>
+    <div class="v num" ${c?`style="color:${c}"`:""}>${v}</div><div class="d">${sub}</div></div>`).join("")}
+ </div>
+ <div class="card" style="margin-bottom:14px"><div class="cb">
+   <div class="ct">Count a shelf</div>
+   <div class="mini" style="margin:4px 0 12px;line-height:1.55">Pick a location, then type what
+    you actually counted. Anything that differs from the books is adjusted and written to the
+    stock ledger, so the discrepancy is recorded rather than quietly overwritten.</div>
+   <button class="btn p" onclick="openStocktake()">Start a count</button>
+ </div></div>
+ <div class="card"><div class="cb" style="padding-bottom:2px">
+   <div class="ct">Counts already done</div></div>
+  ${items.length?`<div class="tw"><table><thead><tr>
+   <th>Count</th><th>Location</th><th>When</th><th class="r">Lines adjusted</th>
+   <th class="r">Net variance</th><th>Status</th></tr></thead><tbody>
+   ${items.map(x=>`<tr>
+    <td><b>${esc(x.stocktake_number)}</b></td>
+    <td>${esc(x.location_name||"—")}</td>
+    <td class="mini">${dt(x.created_at)}</td>
+    <td class="r num">${fmt(x.lines_counted)}</td>
+    <td class="r num" style="color:${x.total_variance<0?"var(--bad)":x.total_variance>0?"var(--warn)":"var(--ink3)"}">
+      ${x.total_variance>0?"+":""}${fmt(x.total_variance)}</td>
+    <td><span class="pill ${x.status==="completed"?"p-ok":"p-grey"}">${esc(x.status)}</span></td>
+   </tr>`).join("")}
+  </tbody></table></div>`
+  :emptyState("No counts yet","Count a shelf and anything that does not match the books gets adjusted here.")}
+ </div>`;
+}
+
+async function openStocktake(){
+ const [locs,inv]=await Promise.all([api("/api/v1/locations"),api("/api/v1/inventory")]);
+ const rows=(inv.items||[]).slice(0,60);
+ if(!rows.length)return toast("Nothing in stock to count yet","bad");
+ openM("Count a shelf",
+  `${rows.length} lines · type what you actually see`,
+  `<div class="mini" style="padding:10px 12px;background:var(--soft);border-radius:9px;
+    line-height:1.55;margin-bottom:12px">The <b>Counted</b> boxes start at what the books say.
+   Change only the ones that are wrong — lines you do not touch are left alone.</div>
+  <div class="field"><label>Which location did you count?</label>
+   <select class="inp" id="stLoc">
+    ${(locs.items||[]).map(l=>`<option value="${l.id}">${esc(l.name||l.code)}</option>`).join("")}
+   </select></div>
+  <div class="tw" style="max-height:340px;overflow:auto"><table><thead><tr>
+   <th>Item</th><th>Where</th><th class="r">Books say</th><th class="r">Counted</th>
+  </tr></thead><tbody>
+   ${rows.map((r,i)=>`<tr>
+    <td><b>${esc(r.name)}</b><div class="mini">${esc(r.sku)}</div></td>
+    <td class="mini">${esc(r.location_code||"")}</td>
+    <td class="r num">${fmt(r.on_hand)}</td>
+    <td class="r"><input class="inp num r" style="width:84px" type="number" min="0" step="1"
+      id="stq${i}" value="${r.on_hand}"></td>
+   </tr>`).join("")}
+  </tbody></table></div>
+  <div class="field" style="margin-top:12px"><label>Notes</label>
+   <input class="inp" id="stNote" placeholder="e.g. quarterly count, back rack"></div>`,
+  `<button class="btn" onclick="closeM()">Cancel</button><span class="spacer"></span>
+   <button class="btn p" onclick='doStocktake(${JSON.stringify(rows.map(r=>({p:r.product_id,e:r.on_hand})))})'>
+     Post the count</button>`);
+}
+
+async function doStocktake(rows){
+ const lines=rows.map((r,i)=>({product_id:r.p,
+   counted_qty:+(document.getElementById("stq"+i)?.value ?? r.e)}));
+ const changed=lines.filter((l,i)=>l.counted_qty!==rows[i].e);
+ if(!changed.length)return toast("Nothing differs from the books — nothing to adjust","bad");
+ try{
+  const r=await api("/api/v1/inventory/stocktakes",{method:"POST",body:JSON.stringify({
+    location_id:document.getElementById("stLoc")?.value,
+    lines,notes:document.getElementById("stNote")?.value||""})});
+  closeM();
+  toast(`${r.stocktake_number}: ${r.lines_adjusted} line${r.lines_adjusted==1?"":"s"} adjusted, `+
+        `net ${r.total_variance>0?"+":""}${fmt(r.total_variance)}`,"ok");
+  CACHE={};renderStocktakes();
+ }catch(e){toast(e.message,"bad")}
+}
+
+/* ───────── stock transfers ─────────
+   Warehouse to shop floor. Both sides move in one transaction and both get a
+   ledger row, so the total never changes — only where it sits. */
+async function renderTransfers(){
+ const host=document.getElementById("p-transfers");
+ host.innerHTML=skeleton(3);
+ let d;
+ try{ d=await api("/api/v1/inventory/transfers"); }
+ catch(e){ host.innerHTML=errorCard("We could not load your transfers",e.message,"renderTransfers()"); return; }
+ const items=d.items||[];
+ host.innerHTML=`
+ <div class="grid g3" style="margin-bottom:14px">
+  ${[["Transfers",items.length,"","between your locations"],
+     ["Pieces moved",fmt(items.reduce((a,x)=>a+(x.total_qty||0),0)),"","total across all transfers"],
+     ["Last move",items.length?dt(items[0].created_at):"—","",items.length?esc(items[0].transfer_number):"nothing yet"]]
+   .map(([l,v,c,sub])=>`<div class="kpi fresh"><div class="l">${l}</div>
+    <div class="v num" ${c?`style="color:${c}"`:""}>${v}</div><div class="d">${sub}</div></div>`).join("")}
+ </div>
+ <div class="card" style="margin-bottom:14px"><div class="cb">
+   <div class="ct">Move stock</div>
+   <div class="mini" style="margin:4px 0 12px;line-height:1.55">Send pieces from one location to
+    another — warehouse to shop floor, or between shops. Your total stock does not change, only
+    where it sits, and both sides are written in one go.</div>
+   <button class="btn p" onclick="openTransfer()">New transfer</button>
+ </div></div>
+ <div class="card"><div class="cb" style="padding-bottom:2px">
+   <div class="ct">Transfers made</div></div>
+  ${items.length?`<div class="tw"><table><thead><tr>
+   <th>Transfer</th><th>From</th><th>To</th><th>When</th>
+   <th class="r">Lines</th><th class="r">Pieces</th><th>Status</th></tr></thead><tbody>
+   ${items.map(x=>`<tr>
+    <td><b>${esc(x.transfer_number)}</b></td>
+    <td>${esc(x.from_location||"—")}</td>
+    <td>${esc(x.to_location||"—")}</td>
+    <td class="mini">${dt(x.created_at)}</td>
+    <td class="r num">${fmt(x.lines)}</td>
+    <td class="r num">${fmt(x.total_qty)}</td>
+    <td><span class="pill ${x.status==="completed"?"p-ok":"p-grey"}">${esc(x.status)}</span></td>
+   </tr>`).join("")}
+  </tbody></table></div>`
+  :emptyState("Nothing moved yet","Send stock from the warehouse to the shop floor and it shows up here.")}
+ </div>`;
+}
+
+async function openTransfer(){
+ const locs=(await api("/api/v1/locations")).items||[];
+ if(locs.length<2)return toast("You need two locations before you can transfer","bad");
+ const from=locs[0];
+ const inv=(await api("/api/v1/inventory?location="+encodeURIComponent(from.code))).items||[];
+ const stocked=inv.filter(r=>r.on_hand>0).slice(0,60);
+ openM("Move stock",
+  `${esc(from.name||from.code)} → pick a destination`,
+  `<div class="mini" style="padding:10px 12px;background:var(--soft);border-radius:9px;
+    line-height:1.55;margin-bottom:12px">You can only send what is actually on the shelf at the
+   source. Leave a line at 0 to skip it.</div>
+  <div class="f2">
+   <div class="field"><label>From</label>
+    <select class="inp" id="trFrom" onchange="reloadTransferSource()">
+     ${locs.map((l,i)=>`<option value="${l.id}" data-code="${esc(l.code)}" ${i===0?"selected":""}>${esc(l.name||l.code)}</option>`).join("")}
+    </select></div>
+   <div class="field"><label>To</label>
+    <select class="inp" id="trTo">
+     ${locs.map((l,i)=>`<option value="${l.id}" ${i===1?"selected":""}>${esc(l.name||l.code)}</option>`).join("")}
+    </select></div>
+  </div>
+  <div id="trBody">${transferLines(stocked)}</div>
+  <div class="field" style="margin-top:12px"><label>Notes</label>
+   <input class="inp" id="trNote" placeholder="e.g. weekend restock"></div>`,
+  `<button class="btn" onclick="closeM()">Cancel</button><span class="spacer"></span>
+   <button class="btn p" onclick="doTransfer()">Move it</button>`);
+ TRANSFER_ROWS=stocked;
+}
+
+let TRANSFER_ROWS=[];
+function transferLines(rows){
+ if(!rows.length)return `<div class="mini" style="padding:22px 0;text-align:center">
+   Nothing on the shelf at this location to move.</div>`;
+ return `<div class="tw" style="max-height:320px;overflow:auto"><table><thead><tr>
+  <th>Item</th><th class="r">On hand</th><th class="r">Send</th></tr></thead><tbody>
+  ${rows.map((r,i)=>`<tr>
+   <td><b>${esc(r.name)}</b><div class="mini">${esc(r.sku)}</div></td>
+   <td class="r num">${fmt(r.on_hand)}</td>
+   <td class="r"><input class="inp num r" style="width:84px" type="number" min="0"
+     max="${r.on_hand}" step="1" id="trq${i}" value="0"></td>
+  </tr>`).join("")}
+ </tbody></table></div>`;
+}
+
+async function reloadTransferSource(){
+ const sel=document.getElementById("trFrom");
+ const code=sel?.options?.[sel.selectedIndex]?.dataset?.code;
+ if(!code)return;
+ const inv=(await api("/api/v1/inventory?location="+encodeURIComponent(code))).items||[];
+ TRANSFER_ROWS=inv.filter(r=>r.on_hand>0).slice(0,60);
+ const body=document.getElementById("trBody");
+ if(body)body.innerHTML=transferLines(TRANSFER_ROWS);
+}
+
+async function doTransfer(){
+ const from=document.getElementById("trFrom")?.value;
+ const to=document.getElementById("trTo")?.value;
+ if(from===to)return toast("Pick two different locations","bad");
+ const lines=TRANSFER_ROWS.map((r,i)=>({product_id:r.product_id,
+   quantity:+(document.getElementById("trq"+i)?.value||0)})).filter(l=>l.quantity>0);
+ if(!lines.length)return toast("Enter how many pieces to send","bad");
+ try{
+  const r=await api("/api/v1/inventory/transfers",{method:"POST",body:JSON.stringify({
+    from_location_id:from,to_location_id:to,lines,
+    notes:document.getElementById("trNote")?.value||""})});
+  closeM();
+  toast(`${r.transfer_number}: ${fmt(r.total_qty)} pieces moved across ${r.lines} line${r.lines==1?"":"s"}`,"ok");
+  CACHE={};renderTransfers();
+ }catch(e){toast(e.message,"bad")}
+}
+
+const RENDER={dashboard:renderDashboard,billing:renderBilling,invoices:renderInvoices,
+ customers:renderCustomers,receivables:renderReceivables,inventory:renderInventory,
+ styles:renderStyles,purchase:renderPurchase,reports:renderReports,import:renderImport,
+ prices:renderPrices,receiving:renderReceiving,returns:renderReturns,payables:renderPayables,
+ stocktakes:renderStocktakes,transfers:renderTransfers,tax:renderTax};
+
+async function boot(keepPage){
+ try{
+  TENANTS=(await (await fetch(API+"/api/v1/tenants")).json()).items;
+  const t=TENANTS.find(x=>x.id===TENANT)||TENANTS[0];TENANT=t.id;
+  document.getElementById("tenantSel").innerHTML=TENANTS.map(x=>
+   `<option value="${x.id}" ${x.id===TENANT?"selected":""}>${esc(x.name)}</option>`).join("");
+  document.getElementById("bizName").textContent=t.name;
+  document.getElementById("bizGst").textContent=t.gstin||"";
+  buildNav();BILL={lines:[],customer:null,location:null,search:""};PICK={};
+  go(keepPage?PAGE:"dashboard");
+  const d=CACHE.dash||await api("/api/v1/dashboard");
+  document.getElementById("bdg-purchase").innerHTML=d.procurement.critical?`<span class="b">${d.procurement.critical}</span>`:"";
+  document.getElementById("bdg-receivables").innerHTML=d.receivables.overdue_count?`<span class="b">${d.receivables.overdue_count}</span>`:"";
+ }catch(e){document.getElementById("body").innerHTML=
+  `<div class="card"><div class="empty"><h4>Cannot reach the server</h4><p class="mini">${esc(e.message)}<br>Start it with <b>python3 demo/erp_server.py</b></p></div></div>`}}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeM()});
+boot();
+</script></body></html>

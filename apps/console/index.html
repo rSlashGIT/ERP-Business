@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ERP · Procurement Approval — SmartStock</title>
+<style>
+:root{--ink:#0F172A;--ink2:#334155;--ink3:#64748B;--line:#E2E8F0;--line2:#F1F5F9;--bg:#F8FAFC;
+--brand:#1E3A8A;--brand2:#2563EB;--soft:#EFF6FF;--green:#047857;--greenL:#ECFDF5;
+--amber:#B45309;--amberL:#FFFBEB;--red:#B91C1C;--redL:#FEF2F2;--purple:#6D28D9;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:13.5px/1.5 Inter,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+.num{font-variant-numeric:tabular-nums}
+header{background:var(--brand);color:#fff;padding:14px 22px;display:flex;align-items:center;gap:14px}
+header h1{font-size:16px;font-weight:700;letter-spacing:-.2px}
+header .sub{font-size:11.5px;color:#AEBAD8}
+.badge{margin-left:auto;font-size:11px;background:rgba(255,255,255,.14);padding:4px 10px;border-radius:20px;font-family:ui-monospace,monospace}
+main{max-width:1560px;margin:0 auto;padding:18px 22px 120px}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi .l{font-size:10px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--ink3)}
+.kpi .v{font-size:23px;font-weight:700;letter-spacing:-.6px;margin-top:4px}
+.kpi .d{font-size:11px;color:var(--ink3);margin-top:2px}
+.bar{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink2);
+padding:6px 12px;border-radius:7px;font-size:12.5px;transition:all .12s}
+button:hover{border-color:var(--ink3)}
+button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+button.p{background:var(--brand);color:#fff;border-color:var(--brand)}
+button.g{background:var(--green);color:#fff;border-color:var(--green)}
+button.r{background:var(--red);color:#fff;border-color:var(--red)}
+button:disabled{opacity:.4;cursor:not-allowed}
+input,select{font:inherit;padding:6px 9px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;outline:none}
+input:focus{border-color:var(--brand2);box-shadow:0 0 0 3px var(--soft)}
+.card{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;padding:8px 10px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;
+color:var(--ink3);background:var(--bg);border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid var(--line2);vertical-align:middle}
+tr.staged{background:#F8FAFF}
+.r{text-align:right}.c{text-align:center}
+.pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.p-critical{background:var(--redL);color:var(--red)}
+.p-high{background:var(--amberL);color:var(--amber)}
+.p-medium{background:var(--soft);color:var(--brand2)}
+.p-low,.p-none{background:var(--line2);color:var(--ink3)}
+.mini{font-size:11px;color:var(--ink3)}
+.mono{font-family:ui-monospace,"SF Mono",monospace;font-size:11px}
+.conf{width:56px;height:5px;background:var(--line2);border-radius:3px;overflow:hidden;margin:0 auto}
+.conf>i{display:block;height:100%;border-radius:3px}
+.qty{width:88px;text-align:right}
+.qty.warn{border-color:var(--red);background:var(--redL)}
+.why{background:var(--bg);padding:14px 18px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 26px;margin:10px 0}
+.kv{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:3px 0;font-size:11.5px}
+.kv span:first-child{color:var(--ink3)}
+.kv span:last-child{font-weight:600}
+.note{padding:8px 11px;border-radius:7px;font-size:11.5px;margin-top:8px}
+.n-amber{background:var(--amberL);color:var(--amber);border:1px solid #FDE68A}
+.n-red{background:var(--redL);color:var(--red);border:1px solid #FECACA}
+.n-green{background:var(--greenL);color:var(--green);border:1px solid #A7F3D0}
+footer{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,.97);border-top:1px solid var(--line);
+padding:12px 22px;display:flex;align-items:center;gap:14px;box-shadow:0 -4px 16px rgba(15,23,42,.06);backdrop-filter:blur(6px)}
+.spacer{flex:1}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.tab{padding:8px 14px;font-size:12.5px;color:var(--ink3);border-bottom:2px solid transparent;background:none;border-radius:0;border-top:0;border-left:0;border-right:0}
+.tab.on{color:var(--brand);border-bottom-color:var(--brand);font-weight:650;background:none}
+.empty{padding:50px;text-align:center;color:var(--ink3)}
+.delta{font-size:10.5px;font-weight:600}
+.up{color:var(--brand2)}.down{color:var(--amber)}
+</style></head>
+<body>
+<header>
+  <div>
+    <h1>Procurement · Purchase Order Approval</h1>
+    <div class="sub">AI-generated draft orders awaiting human sign-off</div>
+  </div>
+  <div class="badge" id="pv">—</div>
+</header>
+<main>
+  <div class="kpis" id="kpis"></div>
+  <div class="tabs">
+    <button class="tab on" data-tab="queue">Approval queue</button>
+    <button class="tab" data-tab="pos">Purchase orders</button>
+    <button class="tab" data-tab="policy">Learned policy</button>
+    <button class="tab" data-tab="variance">AI vs human</button>
+  </div>
+  <div id="view"></div>
+</main>
+<footer id="foot" style="display:none">
+  <div><b id="nStaged">0</b> lines staged · <b id="vStaged">$0</b> committed</div>
+  <div id="blocked" class="pill p-critical" style="display:none"></div>
+  <div class="spacer"></div>
+  <button onclick="clearAll()">Clear</button>
+  <button class="p" id="commit" onclick="commit()">Commit decisions</button>
+</footer>
+<script>
+const API = location.origin;
+const RANK = {critical:0,high:1,medium:2,low:3,none:4};
+const REASON_DELTA = 0.20;
+let Q = null, rows = {}, expanded = null, filter = "all", search = "", tab = "queue";
+
+const money = n => "$" + Math.round(n||0).toLocaleString();
+const num = n => Math.round(n||0).toLocaleString();
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+async function api(path, opts) {
+  const r = await fetch(API + path, {headers:{"Content-Type":"application/json"}, ...opts});
+  if (!r.ok) { let d=r.statusText; try{const b=await r.json(); d=b.detail||b.error||d;}catch{} throw new Error(r.status+": "+d); }
+  return r.json();
+}
+
+async function boot(){
+  try{
+    const [dash, q] = await Promise.all([api("/api/v1/dashboard"), api("/api/v1/procurement/recommendations?status=pending")]);
+    Q = q;
+    rows = Object.fromEntries(q.items.map(i => [i.id, {decision:null, qty:i.recommended_qty, note:""}]));
+    document.getElementById("pv").textContent = dash.last_run?.policy_version || "no policy";
+    renderKpis(dash); render();
+  }catch(e){ document.getElementById("view").innerHTML =
+    `<div class="card"><div class="empty"><b>Could not reach the API</b><br><span class="mini">${esc(e.message)}</span></div></div>`; }
+}
+
+function renderKpis(d){
+  const k = [
+    ["Stock value", money(d.inventory.stock_value), (d.inventory.skus_out_of_stock||0)+" SKUs out of stock"],
+    ["Pending lines", d.procurement.pending_recommendations, money(d.procurement.pending_value)+" to commit"],
+    ["Critical", d.procurement.critical_recommendations, "stockout inside lead time"],
+    ["Purchase orders", d.procurement.open_purchase_orders, money(d.procurement.open_po_value)+" open"],
+    ["Last run", d.last_run ? d.last_run.duration_ms+" ms" : "—",
+      d.last_run ? d.last_run.lines_recommended+" lines · "+d.last_run.status : "never run"],
+  ];
+  document.getElementById("kpis").innerHTML = k.map(([l,v,s])=>
+    `<div class="kpi"><div class="l">${l}</div><div class="v num">${v}</div><div class="d">${s}</div></div>`).join("");
+}
+
+function visible(){
+  if(!Q) return [];
+  const s = search.trim().toLowerCase();
+  return Q.items
+    .filter(i => filter==="all" || i.urgency===filter)
+    .filter(i => !s || i.sku.toLowerCase().includes(s) || (i.supplier_name||"").toLowerCase().includes(s))
+    .sort((a,b)=> (RANK[a.urgency]-RANK[b.urgency]) || (b.line_value-a.line_value));
+}
+const deltaOf = i => i.recommended_qty ? (rows[i.id].qty - i.recommended_qty)/i.recommended_qty : 0;
+const needsReason = i => rows[i.id].decision==="modify" && Math.abs(deltaOf(i))>REASON_DELTA && !rows[i.id].note.trim();
+
+function render(){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("on", t.dataset.tab===tab));
+  document.getElementById("foot").style.display = tab==="queue" ? "flex" : "none";
+  if(tab==="queue") return renderQueue();
+  if(tab==="pos") return renderList("/api/v1/procurement/purchase-orders",
+      ["po_number","supplier_name","status","line_count","total_value","approved_by"], "No purchase orders yet — approve some lines.");
+  if(tab==="policy") return renderPolicy();
+  if(tab==="variance") return renderVariance();
+}
+
+function renderQueue(){
+  const v = visible();
+  const sum = Q.summary || {};
+  const chips = ["all","critical","high","medium","low"].map(u=>{
+    const c = u==="all" ? Q.items.length : (sum[u]?.count||0);
+    return `<button class="${filter===u?'on':''}" onclick="filter='${u}';render()">${u}${c?` (${c})`:""}</button>`;
+  }).join("");
+  document.getElementById("view").innerHTML = `
+  <div class="bar">${chips}
+    <input placeholder="SKU or supplier…" value="${esc(search)}" oninput="search=this.value;render()" style="width:200px">
+    <span class="spacer"></span>
+    <span class="mini">Bulk on ${v.length} filtered:</span>
+    <button class="g" onclick="bulk('approve')">Approve all</button>
+    <button onclick="bulk('reject')">Reject all</button>
+    <button onclick="rerun()">Re-run replenishment</button>
+  </div>
+  <div class="card"><table>
+  <thead><tr><th>Urgency</th><th>Item</th><th>Supplier / Node</th><th class="r">Position</th>
+  <th class="r">AI qty</th><th class="r">Order qty</th><th class="r">Value</th><th class="c">Conf</th>
+  <th class="c">Decision</th><th></th></tr></thead><tbody>
+  ${v.length ? v.map(i=>rowHtml(i)).join("") : `<tr><td colspan="10"><div class="empty">Nothing matches this filter.</div></td></tr>`}
+  </tbody></table></div>`;
+  updateFoot();
+}
+
+function rowHtml(i){
+  const r = rows[i.id], d = deltaOf(i), open = expanded===i.id, rat = i.rationale||{}, warn = needsReason(i);
+  return `<tr class="${r.decision?'staged':''}">
+    <td><span class="pill p-${i.urgency}">${i.urgency}</span>
+      ${rat.projected_stockout_day!=null && i.urgency==="critical" ? `<div class="mini" style="color:var(--red)">out in ${rat.projected_stockout_day}d</div>`:""}</td>
+    <td><div style="font-weight:600">${esc(i.product_name)}</div><div class="mono">${esc(i.sku)}</div></td>
+    <td><div>${esc(i.supplier_name||"—")}</div><div class="mini">${esc(i.location_code)}</div></td>
+    <td class="r num">${num(rat.inventory_position)}<div class="mini">ROP ${num(rat.reorder_point)}</div></td>
+    <td class="r num" style="font-weight:600">${num(i.recommended_qty)}</td>
+    <td class="r"><input class="qty num ${warn?'warn':''}" type="number" min="0" value="${r.qty}"
+        oninput="setQty('${i.id}',this.value)">
+      ${Math.abs(d)>0.001?`<div class="delta ${d>0?'up':'down'}">${d>0?"+":""}${(d*100).toFixed(0)}% vs AI</div>`:""}</td>
+    <td class="r num">${money(r.qty*i.unit_cost)}</td>
+    <td class="c"><div class="conf"><i style="width:${Math.max(5,i.confidence*100)}%;background:${i.confidence>.6?'var(--green)':i.confidence>.35?'var(--amber)':'var(--red)'}"></i></div>
+      <div class="mini">${(i.confidence*100).toFixed(0)}%</div></td>
+    <td class="c">${["approve","modify","reject"].map(a=>
+      `<button style="padding:3px 7px;font-size:11px;${r.decision===a?`background:${a==='approve'?'var(--green)':a==='reject'?'var(--red)':'var(--brand2)'};color:#fff;border-color:transparent`:''}"
+       onclick="setDec('${i.id}','${a}')">${a==="approve"?"✓":a==="reject"?"✕":"±"}</button>`).join("")}</td>
+    <td><button style="padding:3px 8px;font-size:11px" onclick="expanded=expanded==='${i.id}'?null:'${i.id}';render()">${open?"hide":"why?"}</button></td>
+  </tr>
+  ${open?`<tr><td colspan="10" class="why">
+    <div style="font-size:12.5px">${esc(rat.explanation||"")}</div>
+    <div class="grid4">${[
+      ["Reorder point (s)",num(rat.reorder_point)],["Order-up-to (S)",num(rat.order_up_to)],
+      ["Safety stock",num(rat.safety_stock)],["Cycle stock",num(rat.cycle_stock)],
+      ["Lead time",`${(rat.lead_time_mean_days||0).toFixed(1)} ± ${(rat.lead_time_std_days||0).toFixed(1)} d`],
+      ["Lead-time source",esc(rat.lead_time_source||"—")],
+      ["σ demand over LT",num(rat.sigma_demand_over_leadtime)],
+      ["Implied service",((rat.implied_service_level||0)*100).toFixed(1)+"%"],
+      ["Cover before",(rat.days_of_cover_before||0).toFixed(1)+" d"],
+      ["Cover after",(rat.days_of_cover_after||0).toFixed(1)+" d"],
+      ["Segment",esc(rat.segment||"—")],["Unconstrained qty",num(i.unconstrained_qty)],
+    ].map(([k,val])=>`<div class="kv"><span>${k}</span><span class="num">${val}</span></div>`).join("")}</div>
+    ${rat.binding_constraint?`<div class="note n-amber">Adjusted from ${num(i.unconstrained_qty)} by constraint: <b>${esc(rat.binding_constraint)}</b></div>`:""}
+    ${(i.warnings||[]).map(w=>`<div class="note n-red">${esc(w)}</div>`).join("")}
+    <div style="margin-top:9px">
+      <div class="mini" style="font-weight:600">Override reason ${warn?'<span style="color:var(--red)">— required for a change this large</span>':""}</div>
+      <input style="width:100%;margin-top:4px" placeholder="e.g. supplier confirmed a promotion next month"
+        value="${esc(r.note)}" oninput="rows['${i.id}'].note=this.value;updateFoot()">
+    </div></td></tr>`:""}`;
+}
+
+function setQty(id,v){ const q=Math.max(0,Number(v)||0); const it=Q.items.find(x=>x.id===id);
+  rows[id].qty=q; if(q!==it.recommended_qty) rows[id].decision="modify"; render(); }
+function setDec(id,a){ rows[id].decision = rows[id].decision===a?null:a; render(); }
+function bulk(a){ visible().forEach(i=>rows[i.id].decision=a); render(); }
+function clearAll(){ Object.values(rows).forEach(r=>r.decision=null); render(); }
+
+function staged(){ return visible().filter(i=>rows[i.id].decision); }
+function updateFoot(){
+  const s=staged(), blocked=s.filter(needsReason);
+  const val=s.reduce((a,i)=>a + (rows[i.id].decision==="reject"?0:rows[i.id].qty*i.unit_cost),0);
+  document.getElementById("nStaged").textContent=s.length;
+  document.getElementById("vStaged").textContent=money(val);
+  const b=document.getElementById("blocked");
+  b.style.display = blocked.length?"inline-block":"none";
+  b.textContent = blocked.length+" override"+(blocked.length>1?"s":"")+" need a reason";
+  document.getElementById("commit").disabled = !s.length || blocked.length>0;
+  document.getElementById("commit").textContent = "Commit "+s.length+" decisions";
+}
+
+async function commit(){
+  const s=staged(); if(!s.length) return;
+  const btn=document.getElementById("commit"); btn.disabled=true; btn.textContent="Creating purchase orders…";
+  try{
+    const res = await api("/api/v1/procurement/recommendations/decide",{method:"POST",body:JSON.stringify({
+      actor:"demo.buyer@erp", create_purchase_orders:true,
+      decisions: s.map(i=>({recommendation_id:i.id, action:rows[i.id].decision,
+        final_qty: rows[i.id].decision==="modify"?rows[i.id].qty:undefined, note: rows[i.id].note||undefined}))})});
+    alert(`${res.approved} approved · ${res.modified} modified · ${res.rejected} rejected\n`
+      + (res.purchase_orders_created.length?`POs created: ${res.purchase_orders_created.join(", ")}`:"No POs created")
+      + (res.errors.length?`\nErrors: ${res.errors.map(e=>e.error).join("; ")}`:""));
+    await boot();
+  }catch(e){ alert("Failed: "+e.message); }
+  finally{ updateFoot(); }
+}
+
+async function rerun(){
+  try{ await api("/api/v1/replenishment/run",{method:"POST",body:"{}"}); await boot(); }
+  catch(e){ alert("Run failed: "+e.message); }
+}
+
+async function renderList(path, cols, empty){
+  const d = await api(path);
+  document.getElementById("view").innerHTML = d.length ? `<div class="card"><table>
+    <thead><tr>${cols.map(c=>`<th>${c.replace(/_/g," ")}</th>`).join("")}</tr></thead>
+    <tbody>${d.map(r=>`<tr>${cols.map(c=>`<td class="${typeof r[c]==="number"?"r num":""}">${
+      c.includes("value")?money(r[c]):esc(r[c]??"—")}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`
+    : `<div class="card"><div class="empty">${empty}</div></div>`;
+}
+
+async function renderPolicy(){
+  const p = await api("/v1/policy");
+  const names = p.param_names;
+  document.getElementById("view").innerHTML = `
+  <div class="note n-green" style="margin-bottom:12px">Policy <b>${esc(p.policy_version)}</b> — one 10-parameter block per demand
+  segment, fitted by CMA-ES. Segment count is fixed, so this table has the same number of rows whether the catalogue holds
+  30 SKUs or 30,000.</div>
+  <div class="card" style="overflow-x:auto"><table><thead><tr><th>Segment</th>${names.map(n=>`<th class="r">${n}</th>`).join("")}</tr></thead>
+  <tbody>${p.segments.map(s=>`<tr><td style="font-weight:600">${esc(s)}</td>${
+    names.map(n=>`<td class="r num">${(p.parameters[s][n]??0).toFixed(2)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
+
+async function renderVariance(){
+  const v = await api("/api/v1/procurement/variance");
+  const rowsHtml = Object.entries(v.by_status).map(([k,x])=>
+    `<div class="kv"><span>${k}</span><span>${x.count} lines · ${money(x.value)}</span></div>`).join("");
+  document.getElementById("view").innerHTML = `<div class="card" style="padding:18px">
+    <div style="font-weight:650;margin-bottom:8px">Decisions so far</div>${rowsHtml||'<div class="mini">No decisions recorded yet.</div>'}
+    <div style="font-weight:650;margin:16px 0 8px">Override behaviour</div>
+    <div class="kv"><span>Lines modified</span><span>${v.modification_count}</span></div>
+    <div class="kv"><span>Mean relative override</span><span>${(v.mean_relative_override*100).toFixed(1)}%</span></div>
+    <div class="note n-amber">${esc(v.override_bias)}. A persistent one-directional bias means the cost model is
+    miscalibrated — feed it back into holding_rate_per_day or stockout_multiple rather than letting buyers correct it by hand forever.</div>
+  </div>`;
+}
+
+document.querySelectorAll(".tab").forEach(t=>t.onclick=()=>{tab=t.dataset.tab;render();});
+boot();
+</script>
+</body></html>

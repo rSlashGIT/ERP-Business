@@ -1,0 +1,618 @@
+{
+  "run_seed": 123,
+  "best_profit": 10809.663605147245,
+  "best_theta": [
+    1.0143342294731623,
+    14.0849514691884,
+    16.017309776897296,
+    9.267474660244396,
+    9.38796069192457,
+    2.503202729628119,
+    6.52670027466483,
+    -6.868223443122283
+  ],
+  "generations": 100,
+  "stopped": "max_iter",
+  "log": [
+    {
+      "generation": 1,
+      "best_profit": 8645.892448670122,
+      "mean_profit": -201022.1333525785,
+      "sigma": 4.513151134349741
+    },
+    {
+      "generation": 2,
+      "best_profit": -6558.636387452352,
+      "mean_profit": -67247.14646729607,
+      "sigma": 4.435858999614181
+    },
+    {
+      "generation": 3,
+      "best_profit": 2786.4717419612857,
+      "mean_profit": -179213.0648875109,
+      "sigma": 4.167139451547756
+    },
+    {
+      "generation": 4,
+      "best_profit": 1246.7805317360308,
+      "mean_profit": -95621.91001982932,
+      "sigma": 4.3389953683494396
+    },
+    {
+      "generation": 5,
+      "best_profit": 5744.820145653629,
+      "mean_profit": -125697.66583507604,
+      "sigma": 4.047470730844339
+    },
+    {
+      "generation": 6,
+      "best_profit": 5051.61570006858,
+      "mean_profit": -70133.07679881463,
+      "sigma": 3.610065617209092
+    },
+    {
+      "generation": 7,
+      "best_profit": -14156.997946502353,
+      "mean_profit": -94547.03249422713,
+      "sigma": 3.8750498621104676
+    },
+    {
+      "generation": 8,
+      "best_profit": 5359.69798638063,
+      "mean_profit": -61801.17588827739,
+      "sigma": 4.08729351845625
+    },
+    {
+      "generation": 9,
+      "best_profit": 5123.750048921277,
+      "mean_profit": -53948.83732627488,
+      "sigma": 4.088047500990883
+    },
+    {
+      "generation": 10,
+      "best_profit": 516.0446872710793,
+      "mean_profit": -92030.64041365872,
+      "sigma": 4.199033879093425
+    },
+    {
+      "generation": 11,
+      "best_profit": 6691.166917843937,
+      "mean_profit": -69481.36937035744,
+      "sigma": 4.426419153936204
+    },
+    {
+      "generation": 12,
+      "best_profit": 5227.145431833036,
+      "mean_profit": -63680.16747172527,
+      "sigma": 4.402596994783883
+    },
+    {
+      "generation": 13,
+      "best_profit": 7319.490014305255,
+      "mean_profit": -119668.66282531363,
+      "sigma": 4.041588909397177
+    },
+    {
+      "generation": 14,
+      "best_profit": 574.2523455000855,
+      "mean_profit": -108720.99418813793,
+      "sigma": 3.4690841473498146
+    },
+    {
+      "generation": 15,
+      "best_profit": 7647.617463173479,
+      "mean_profit": -18281.041194595527,
+      "sigma": 3.0403391111822713
+    },
+    {
+      "generation": 16,
+      "best_profit": 8120.235828209017,
+      "mean_profit": -23664.46157640042,
+      "sigma": 2.938398439825585
+    },
+    {
+      "generation": 17,
+      "best_profit": 9257.54770189022,
+      "mean_profit": -45231.16731392816,
+      "sigma": 2.6066523958203582
+    },
+    {
+      "generation": 18,
+      "best_profit": 5466.898486737183,
+      "mean_profit": -25376.120535951,
+      "sigma": 2.4575220512611637
+    },
+    {
+      "generation": 19,
+      "best_profit": 5117.00670738466,
+      "mean_profit": -8364.570562752004,
+      "sigma": 2.3621206064673017
+    },
+    {
+      "generation": 20,
+      "best_profit": 7005.117380729451,
+      "mean_profit": -12600.981106705254,
+      "sigma": 2.332138680201153
+    },
+    {
+      "generation": 21,
+      "best_profit": 8407.469626142376,
+      "mean_profit": -8553.138659164737,
+      "sigma": 2.3672523635664064
+    },
+    {
+      "generation": 22,
+      "best_profit": 8324.105324978456,
+      "mean_profit": -4561.821983193478,
+      "sigma": 2.3775669498260297
+    },
+    {
+      "generation": 23,
+      "best_profit": 7736.963478040951,
+      "mean_profit": -3922.189219106206,
+      "sigma": 2.2264752638150465
+    },
+    {
+      "generation": 24,
+      "best_profit": 9193.448607779144,
+      "mean_profit": -4.983540419087262,
+      "sigma": 2.058810941641914
+    },
+    {
+      "generation": 25,
+      "best_profit": 9768.517398592721,
+      "mean_profit": -1838.4956801062344,
+      "sigma": 2.0252967526459886
+    },
+    {
+      "generation": 26,
+      "best_profit": 9470.93149347743,
+      "mean_profit": 870.9307507398789,
+      "sigma": 1.8741366652030493
+    },
+    {
+      "generation": 27,
+      "best_profit": 9320.944054287098,
+      "mean_profit": -111.87456799293784,
+      "sigma": 2.010079120866043
+    },
+    {
+      "generation": 28,
+      "best_profit": 8299.7470400682,
+      "mean_profit": 756.5325333664273,
+      "sigma": 2.017940349139624
+    },
+    {
+      "generation": 29,
+      "best_profit": 9182.260011523937,
+      "mean_profit": 3423.9351178414963,
+      "sigma": 1.8666326640778668
+    },
+    {
+      "generation": 30,
+      "best_profit": 8846.374472136758,
+      "mean_profit": 4122.445586171834,
+      "sigma": 1.7301396400998934
+    },
+    {
+      "generation": 31,
+      "best_profit": 9680.33700588049,
+      "mean_profit": 6039.762375171136,
+      "sigma": 1.631289232740704
+    },
+    {
+      "generation": 32,
+      "best_profit": 9170.160495645297,
+      "mean_profit": 5722.8959052048685,
+      "sigma": 1.5238098640811502
+    },
+    {
+      "generation": 33,
+      "best_profit": 10056.568286921916,
+      "mean_profit": 8002.676395987806,
+      "sigma": 1.5026112310072843
+    },
+    {
+      "generation": 34,
+      "best_profit": 10020.531264580743,
+      "mean_profit": 7505.345635125353,
+      "sigma": 1.530355077073263
+    },
+    {
+      "generation": 35,
+      "best_profit": 9767.555313591098,
+      "mean_profit": 7269.023438294453,
+      "sigma": 1.3982740881286693
+    },
+    {
+      "generation": 36,
+      "best_profit": 10213.77091363444,
+      "mean_profit": 8467.631679502949,
+      "sigma": 1.3120737275478678
+    },
+    {
+      "generation": 37,
+      "best_profit": 9937.915653469056,
+      "mean_profit": 7674.74496570295,
+      "sigma": 1.3869104535666126
+    },
+    {
+      "generation": 38,
+      "best_profit": 10041.591394070818,
+      "mean_profit": 8173.147193002361,
+      "sigma": 1.4141803990920765
+    },
+    {
+      "generation": 39,
+      "best_profit": 9690.242481936137,
+      "mean_profit": 8628.038913993852,
+      "sigma": 1.4485081698828672
+    },
+    {
+      "generation": 40,
+      "best_profit": 10280.128304519483,
+      "mean_profit": 8462.352570742018,
+      "sigma": 1.6126723326668289
+    },
+    {
+      "generation": 41,
+      "best_profit": 10092.206954807543,
+      "mean_profit": 8841.05366037865,
+      "sigma": 1.5490549821104773
+    },
+    {
+      "generation": 42,
+      "best_profit": 9695.990819621738,
+      "mean_profit": 8630.017847914443,
+      "sigma": 1.4747617360579384
+    },
+    {
+      "generation": 43,
+      "best_profit": 9824.865343461232,
+      "mean_profit": 9094.380178246336,
+      "sigma": 1.3328708255286228
+    },
+    {
+      "generation": 44,
+      "best_profit": 9955.535397111027,
+      "mean_profit": 9314.789998754244,
+      "sigma": 1.293024382533059
+    },
+    {
+      "generation": 45,
+      "best_profit": 10407.141795488318,
+      "mean_profit": 9365.068848370862,
+      "sigma": 1.3415621336189578
+    },
+    {
+      "generation": 46,
+      "best_profit": 9958.893699530341,
+      "mean_profit": 9482.851088097868,
+      "sigma": 1.2848239562560302
+    },
+    {
+      "generation": 47,
+      "best_profit": 10180.594882872567,
+      "mean_profit": 9744.272817606465,
+      "sigma": 1.1424825664689364
+    },
+    {
+      "generation": 48,
+      "best_profit": 10084.173763544986,
+      "mean_profit": 9697.695030199488,
+      "sigma": 1.0160778831441613
+    },
+    {
+      "generation": 49,
+      "best_profit": 9789.332560612522,
+      "mean_profit": 9548.149024699127,
+      "sigma": 0.9417268770980836
+    },
+    {
+      "generation": 50,
+      "best_profit": 9983.720288613325,
+      "mean_profit": 9749.485843303906,
+      "sigma": 0.8761812370363528
+    },
+    {
+      "generation": 51,
+      "best_profit": 9929.969648121461,
+      "mean_profit": 9764.976109703035,
+      "sigma": 0.8527733501145371
+    },
+    {
+      "generation": 52,
+      "best_profit": 10026.607813210798,
+      "mean_profit": 9824.679589440286,
+      "sigma": 0.8643415874863999
+    },
+    {
+      "generation": 53,
+      "best_profit": 9898.215954529882,
+      "mean_profit": 9687.666015916719,
+      "sigma": 0.7924790162252032
+    },
+    {
+      "generation": 54,
+      "best_profit": 10138.402695182165,
+      "mean_profit": 9995.052533080712,
+      "sigma": 0.8624463795192037
+    },
+    {
+      "generation": 55,
+      "best_profit": 10191.458740285832,
+      "mean_profit": 10069.21869398114,
+      "sigma": 0.8724854393167946
+    },
+    {
+      "generation": 56,
+      "best_profit": 9971.44976507277,
+      "mean_profit": 9755.888488495386,
+      "sigma": 0.806032883514511
+    },
+    {
+      "generation": 57,
+      "best_profit": 9900.095248556656,
+      "mean_profit": 9729.85885748619,
+      "sigma": 0.8194256154546717
+    },
+    {
+      "generation": 58,
+      "best_profit": 10219.73618123764,
+      "mean_profit": 10069.951636998134,
+      "sigma": 0.7735118410185647
+    },
+    {
+      "generation": 59,
+      "best_profit": 10305.847451784397,
+      "mean_profit": 10165.188339050483,
+      "sigma": 0.7827886265709467
+    },
+    {
+      "generation": 60,
+      "best_profit": 10062.25571257757,
+      "mean_profit": 9947.646333138204,
+      "sigma": 0.7374110945812735
+    },
+    {
+      "generation": 61,
+      "best_profit": 10469.382482303106,
+      "mean_profit": 10363.499542052508,
+      "sigma": 0.6863851381875534
+    },
+    {
+      "generation": 62,
+      "best_profit": 9898.720216026157,
+      "mean_profit": 9806.992752265704,
+      "sigma": 0.5871220660029514
+    },
+    {
+      "generation": 63,
+      "best_profit": 10062.37918886364,
+      "mean_profit": 9929.325391596472,
+      "sigma": 0.6657534040741631
+    },
+    {
+      "generation": 64,
+      "best_profit": 9847.675427584627,
+      "mean_profit": 9776.127155402533,
+      "sigma": 0.6405791209372317
+    },
+    {
+      "generation": 65,
+      "best_profit": 10708.946957889046,
+      "mean_profit": 10605.968309118856,
+      "sigma": 0.5972428962093163
+    },
+    {
+      "generation": 66,
+      "best_profit": 9748.352655780625,
+      "mean_profit": 9682.401570309548,
+      "sigma": 0.6450951611789005
+    },
+    {
+      "generation": 67,
+      "best_profit": 10402.989035575272,
+      "mean_profit": 10266.672132777025,
+      "sigma": 0.6758656507850186
+    },
+    {
+      "generation": 68,
+      "best_profit": 10242.667145262873,
+      "mean_profit": 10128.530923810798,
+      "sigma": 0.6897880432142437
+    },
+    {
+      "generation": 69,
+      "best_profit": 10278.661472701187,
+      "mean_profit": 10178.10133322476,
+      "sigma": 0.6224731742896636
+    },
+    {
+      "generation": 70,
+      "best_profit": 10134.51747916808,
+      "mean_profit": 10044.29335927504,
+      "sigma": 0.6178268256413653
+    },
+    {
+      "generation": 71,
+      "best_profit": 10359.60032424263,
+      "mean_profit": 10272.71322586391,
+      "sigma": 0.6040295001480718
+    },
+    {
+      "generation": 72,
+      "best_profit": 9961.084499206703,
+      "mean_profit": 9879.21364324762,
+      "sigma": 0.5943075416086323
+    },
+    {
+      "generation": 73,
+      "best_profit": 10408.159468401453,
+      "mean_profit": 10317.758590683667,
+      "sigma": 0.5677400219973566
+    },
+    {
+      "generation": 74,
+      "best_profit": 10482.659704391386,
+      "mean_profit": 10431.520693178154,
+      "sigma": 0.6048423599702929
+    },
+    {
+      "generation": 75,
+      "best_profit": 9827.63664723756,
+      "mean_profit": 9753.491323269689,
+      "sigma": 0.6573669332602343
+    },
+    {
+      "generation": 76,
+      "best_profit": 9920.324032277147,
+      "mean_profit": 9833.95358929742,
+      "sigma": 0.6431944526276505
+    },
+    {
+      "generation": 77,
+      "best_profit": 10475.297120878598,
+      "mean_profit": 10409.210760814427,
+      "sigma": 0.6920944667747929
+    },
+    {
+      "generation": 78,
+      "best_profit": 10100.694589534112,
+      "mean_profit": 9998.518687821837,
+      "sigma": 0.6935091567651233
+    },
+    {
+      "generation": 79,
+      "best_profit": 10211.383911836234,
+      "mean_profit": 10015.729281136459,
+      "sigma": 0.7948982418625601
+    },
+    {
+      "generation": 80,
+      "best_profit": 10316.977054698062,
+      "mean_profit": 10229.962158509501,
+      "sigma": 0.771186864480246
+    },
+    {
+      "generation": 81,
+      "best_profit": 10405.664500632742,
+      "mean_profit": 10356.786806115113,
+      "sigma": 0.7151355349823869
+    },
+    {
+      "generation": 82,
+      "best_profit": 9889.571557222773,
+      "mean_profit": 9797.560814188602,
+      "sigma": 0.6431292974693673
+    },
+    {
+      "generation": 83,
+      "best_profit": 10039.445385928067,
+      "mean_profit": 9991.449140976187,
+      "sigma": 0.6246265385595065
+    },
+    {
+      "generation": 84,
+      "best_profit": 9830.449532767658,
+      "mean_profit": 9792.252808259842,
+      "sigma": 0.6178849911022775
+    },
+    {
+      "generation": 85,
+      "best_profit": 10157.02308297194,
+      "mean_profit": 10097.030715536526,
+      "sigma": 0.6036090132953852
+    },
+    {
+      "generation": 86,
+      "best_profit": 10184.719838310588,
+      "mean_profit": 10128.059561341266,
+      "sigma": 0.6197740009217819
+    },
+    {
+      "generation": 87,
+      "best_profit": 10494.891138400097,
+      "mean_profit": 10461.17495491273,
+      "sigma": 0.6179767386558473
+    },
+    {
+      "generation": 88,
+      "best_profit": 10282.361479038658,
+      "mean_profit": 10197.548700265548,
+      "sigma": 0.6011692121954256
+    },
+    {
+      "generation": 89,
+      "best_profit": 10209.872529132272,
+      "mean_profit": 10162.610730667255,
+      "sigma": 0.5952386847871591
+    },
+    {
+      "generation": 90,
+      "best_profit": 10254.36477951792,
+      "mean_profit": 10175.930458964092,
+      "sigma": 0.5351706024948163
+    },
+    {
+      "generation": 91,
+      "best_profit": 9992.180062272766,
+      "mean_profit": 9923.162364242275,
+      "sigma": 0.55094986329991
+    },
+    {
+      "generation": 92,
+      "best_profit": 10809.663605147245,
+      "mean_profit": 10765.218067603864,
+      "sigma": 0.6212888946298583
+    },
+    {
+      "generation": 93,
+      "best_profit": 10283.506949914332,
+      "mean_profit": 10158.314039611949,
+      "sigma": 0.6552206136560089
+    },
+    {
+      "generation": 94,
+      "best_profit": 10050.722352865629,
+      "mean_profit": 9975.881087214275,
+      "sigma": 0.6072669632222409
+    },
+    {
+      "generation": 95,
+      "best_profit": 10224.775651667127,
+      "mean_profit": 10128.446316109956,
+      "sigma": 0.5987272653525023
+    },
+    {
+      "generation": 96,
+      "best_profit": 10343.216869747237,
+      "mean_profit": 10279.840969583322,
+      "sigma": 0.5370300933182945
+    },
+    {
+      "generation": 97,
+      "best_profit": 10278.329966762636,
+      "mean_profit": 10230.064259689916,
+      "sigma": 0.5799410576336929
+    },
+    {
+      "generation": 98,
+      "best_profit": 9921.697799675574,
+      "mean_profit": 9881.751439057505,
+      "sigma": 0.522542692717442
+    },
+    {
+      "generation": 99,
+      "best_profit": 10481.75674327212,
+      "mean_profit": 10447.076213526418,
+      "sigma": 0.57566324428513
+    },
+    {
+      "generation": 100,
+      "best_profit": 10380.011278735192,
+      "mean_profit": 10291.126453480254,
+      "sigma": 0.49574261680730086
+    }
+  ]
+}

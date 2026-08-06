@@ -1,0 +1,88 @@
+{
+  "source_file": "sales_train_evaluation.csv",
+  "sku": {
+    "id": "FOODS_3_090_CA_1_evaluation",
+    "item_id": "FOODS_3_090",
+    "store_id": "CA_1",
+    "state": "CA"
+  },
+  "preprocessing": {
+    "original_days": 1941,
+    "trim_days": 0,
+    "final_days": 1941,
+    "leading_missing_prices_filled": 0,
+    "mid_gap_prices_filled": 0
+  },
+  "date_range": {
+    "start": "2011-01-29",
+    "end": "2016-05-22"
+  },
+  "demand": {
+    "min": 0,
+    "max": 599,
+    "mean": 66.38588356517259,
+    "std": 57.48534285877375,
+    "median": 62.0,
+    "zero_count": 469,
+    "zero_fraction": 0.24162802679031428
+  },
+  "price": {
+    "min": 1.0,
+    "max": 1.6,
+    "mean": 1.3849510561566203,
+    "unique_price_count": 8
+  },
+  "revenue": {
+    "total": 175257.74,
+    "mean_daily": 90.29249871200412
+  },
+  "snap": {
+    "snap_days": 640,
+    "snap_fraction": 0.3297269448737764
+  },
+  "events": {
+    "event_days": 158,
+    "top_10_events": [
+      [
+        "SuperBowl",
+        6
+      ],
+      [
+        "ValentinesDay",
+        6
+      ],
+      [
+        "PresidentsDay",
+        6
+      ],
+      [
+        "LentStart",
+        6
+      ],
+      [
+        "LentWeek2",
+        6
+      ],
+      [
+        "StPatricksDay",
+        6
+      ],
+      [
+        "Purim End",
+        6
+      ],
+      [
+        "Pesach End",
+        6
+      ],
+      [
+        "Mother's day",
+        6
+      ],
+      [
+        "OrthodoxEaster",
+        5
+      ]
+    ]
+  }
+}

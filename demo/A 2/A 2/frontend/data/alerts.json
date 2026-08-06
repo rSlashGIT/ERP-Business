@@ -1,0 +1,61 @@
+[
+  {
+    "id": "alert_001",
+    "severity": "critical",
+    "type": "stockout_risk",
+    "message": "Tomato Ketchup 500g (FOODS_3_587) has 1.7 days of stock at the current M5-derived demand pace.",
+    "affected_skus": [
+      "FOODS_3_587"
+    ],
+    "created_at": "2026-05-18T14:33:04Z",
+    "action": "review_order",
+    "active": true
+  },
+  {
+    "id": "alert_002",
+    "severity": "warning",
+    "type": "demand_spike",
+    "message": "Tomato Ketchup 500g (FOODS_3_587) demand is +90% vs the prior 28-day M5 average.",
+    "affected_skus": [
+      "FOODS_3_587"
+    ],
+    "created_at": "2026-05-18T11:33:04Z",
+    "action": "review_forecast",
+    "active": true,
+    "spike_pct": 90.0
+  },
+  {
+    "id": "alert_003",
+    "severity": "info",
+    "type": "model_disagreement",
+    "message": "Forecast projections for UHT Full Cream Milk 1L (FOODS_3_808) differ by 200.0%.",
+    "affected_skus": [
+      "FOODS_3_808"
+    ],
+    "created_at": "2026-05-18T10:33:04Z",
+    "action": "review_forecast",
+    "active": true
+  },
+  {
+    "id": "alert_004",
+    "severity": "info",
+    "type": "coverage_watch",
+    "message": "Atta Wheat Flour 5kg (FOODS_3_820) has the highest coverage at 12.6 days of stock.",
+    "affected_skus": [
+      "FOODS_3_820"
+    ],
+    "created_at": "2026-05-18T13:33:04Z",
+    "action": "review_inventory",
+    "active": true
+  },
+  {
+    "id": "alert_005",
+    "severity": "success",
+    "type": "data_integrity",
+    "message": "30 displayed SKUs are present in data/processed/m5_multi_sku.csv.",
+    "affected_skus": [],
+    "created_at": "2026-05-18T15:33:04Z",
+    "action": null,
+    "active": true
+  }
+]

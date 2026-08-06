@@ -1,0 +1,65 @@
+====================================================================================================================
+Phase 4.5 — 3-way Disruption Resilience Pareto Table
+====================================================================================================================
+  episodes/scenario : 50
+  episode length    : 90 days
+  base_seed         : 42
+  data source       : data/processed/m5_clean.csv
+  policies compared : 'default_classical'  vs  'grid_tuned_classical'  vs  'cmaes_pernode_robust'
+    default_classical       s=1000.0  S=3000.0  src=(builtin)
+    grid_tuned_classical    s= 200.0  S= 300.0  src=models/grid_tuned_classical_theta.npy
+    cmaes_pernode_robust    s= 305.1  S= 940.6  src=models/network_best_theta_pernode_robust.npy
+
+  Scenario          Policy                      MeanProfit       P5Worst       SL    Drop%  Recovery
+  --------------------------------------------------------------------------------------------------
+  calm              default_classical            -43,695       -46,792   100.0%    +0.0%       n/a
+  calm              grid_tuned_classical          -3,126        -3,962    99.7%    +0.0%       n/a
+  calm              cmaes_pernode_robust          -6,657        -8,778    90.9%    +0.0%       n/a
+                      cmaes − default        :  profit=    +37,038  tail=    +38,014    winners profit=cmaes, tail=cmaes
+                      cmaes − grid_tuned     :  profit=     -3,530  tail=     -4,816    winners profit=grid_tuned, tail=grid_tuned
+                      grid_tuned − default   :  profit=    +40,569  tail=    +42,830    winners profit=grid_tuned, tail=grid_tuned
+  --------------------------------------------------------------------------------------------------
+  mild_supplier     default_classical            -43,695       -46,792   100.0%    +0.0%      0.0d
+  mild_supplier     grid_tuned_classical          -3,130        -3,962    99.7%    +0.1%      0.0d
+  mild_supplier     cmaes_pernode_robust          -6,912       -10,171    90.9%    +3.8%      0.9d
+                      cmaes − default        :  profit=    +36,783  tail=    +36,621    winners profit=cmaes, tail=cmaes
+                      cmaes − grid_tuned     :  profit=     -3,782  tail=     -6,209    winners profit=grid_tuned, tail=grid_tuned
+                      grid_tuned − default   :  profit=    +40,566  tail=    +42,830    winners profit=grid_tuned, tail=grid_tuned
+  --------------------------------------------------------------------------------------------------
+  major_supplier    default_classical            -43,695       -46,792   100.0%    +0.0%      0.0d
+  major_supplier    grid_tuned_classical          -3,123        -3,962    99.7%    -0.1%      0.0d
+  major_supplier    cmaes_pernode_robust          -7,589       -13,034    90.9%   +14.0%      0.9d
+                      cmaes − default        :  profit=    +36,107  tail=    +33,758    winners profit=cmaes, tail=cmaes
+                      cmaes − grid_tuned     :  profit=     -4,465  tail=     -9,072    winners profit=grid_tuned, tail=grid_tuned
+                      grid_tuned − default   :  profit=    +40,572  tail=    +42,830    winners profit=grid_tuned, tail=grid_tuned
+  --------------------------------------------------------------------------------------------------
+  demand_spike      default_classical            -43,151       -46,749   100.0%    -1.2%      0.0d
+  demand_spike      grid_tuned_classical          -3,535        -4,734    98.4%   +13.1%      0.4d
+  demand_spike      cmaes_pernode_robust          -7,026        -9,077    90.3%    +5.5%      0.0d
+                      cmaes − default        :  profit=    +36,125  tail=    +37,672    winners profit=cmaes, tail=cmaes
+                      cmaes − grid_tuned     :  profit=     -3,491  tail=     -4,343    winners profit=grid_tuned, tail=grid_tuned
+                      grid_tuned − default   :  profit=    +39,616  tail=    +42,015    winners profit=grid_tuned, tail=grid_tuned
+  --------------------------------------------------------------------------------------------------
+  port_strike       default_classical            -43,695       -46,792   100.0%    +0.0%      0.0d
+  port_strike       grid_tuned_classical          -3,142        -4,000    99.7%    +0.5%      0.0d
+  port_strike       cmaes_pernode_robust          -6,674        -8,755    90.9%    +0.3%      1.0d
+                      cmaes − default        :  profit=    +37,021  tail=    +38,037    winners profit=cmaes, tail=cmaes
+                      cmaes − grid_tuned     :  profit=     -3,532  tail=     -4,756    winners profit=grid_tuned, tail=grid_tuned
+                      grid_tuned − default   :  profit=    +40,554  tail=    +42,793    winners profit=grid_tuned, tail=grid_tuned
+  --------------------------------------------------------------------------------------------------
+  compound_crisis   default_classical            -43,151       -46,749   100.0%    -1.2%      0.0d
+  compound_crisis   grid_tuned_classical          -3,517        -4,734    98.4%   +12.5%      0.4d
+  compound_crisis   cmaes_pernode_robust          -7,834       -13,133    90.3%   +17.7%      0.0d
+                      cmaes − default        :  profit=    +35,316  tail=    +33,616    winners profit=cmaes, tail=cmaes
+                      cmaes − grid_tuned     :  profit=     -4,317  tail=     -8,399    winners profit=grid_tuned, tail=grid_tuned
+                      grid_tuned − default   :  profit=    +39,634  tail=    +42,015    winners profit=grid_tuned, tail=grid_tuned
+  --------------------------------------------------------------------------------------------------
+
+  Pairwise scenario wins (mean / tail) out of 6:
+    cmaes      vs default     : profit 6/6  tail 6/6
+    cmaes      vs grid_tuned  : profit 0/6  tail 0/6
+    grid_tuned vs default     : profit 6/6  tail 6/6
+
+  Positive Drop% = scenario worse than that policy's calm baseline.
+  Pairwise margins are signed (left − right); positive means the left-hand policy wins that dimension.
+====================================================================================================================

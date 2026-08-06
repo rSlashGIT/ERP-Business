@@ -1,0 +1,2642 @@
+{
+  "FOODS_3_090": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.14,
+        "direction": "up",
+        "value": 0.275
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.042,
+        "direction": "up",
+        "value": 0.082
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.1,
+        "direction": "up",
+        "value": 0.196
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.45,
+        "direction": "up",
+        "value": 0.886
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.269,
+        "direction": "up",
+        "value": 0.529
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 115,
+        "delta": "-85"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "-200"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "-200"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 38,
+        "delta": "-162"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "-200"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 4,
+      "within_20pct": 8,
+      "total": 14,
+      "score": 0.77
+    },
+    "historical_performance_sparkline": [
+      0.59,
+      0.77,
+      0.78,
+      0.62,
+      0.82,
+      0.1,
+      0.99,
+      0.8,
+      0.89,
+      0.92,
+      0.93,
+      0.97,
+      0.75,
+      0.84
+    ]
+  },
+  "HOBBIES_1_348": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.248,
+        "direction": "up",
+        "value": 0.688
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.049,
+        "direction": "up",
+        "value": 0.135
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.07,
+        "direction": "up",
+        "value": 0.195
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.368,
+        "direction": "up",
+        "value": 1.02
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.266,
+        "direction": "up",
+        "value": 0.737
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 54,
+        "delta": "-16"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 34,
+        "delta": "-36"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 30,
+        "delta": "-40"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 36,
+        "delta": "-34"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 20,
+        "delta": "-50"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 1,
+      "within_20pct": 2,
+      "total": 14,
+      "score": 0.33
+    },
+    "historical_performance_sparkline": [
+      0.62,
+      0.0,
+      0.18,
+      0.0,
+      0.17,
+      0.0,
+      0.75,
+      0.34,
+      0.0,
+      0.94,
+      0.0,
+      0.82,
+      0.42,
+      0.4
+    ]
+  },
+  "FOODS_3_586": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.163,
+        "direction": "up",
+        "value": 0.212
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.135,
+        "direction": "up",
+        "value": 0.176
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.03,
+        "direction": "up",
+        "value": 0.039
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.29,
+        "direction": "up",
+        "value": 0.377
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.381,
+        "direction": "up",
+        "value": 0.496
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 68,
+        "delta": "-82"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "-150"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "-150"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 11,
+        "delta": "-139"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "-150"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 2,
+      "within_20pct": 8,
+      "total": 14,
+      "score": 0.76
+    },
+    "historical_performance_sparkline": [
+      0.7,
+      0.78,
+      0.84,
+      0.83,
+      0.87,
+      0.86,
+      0.78,
+      0.97,
+      0.74,
+      0.89,
+      0.0,
+      0.85,
+      0.92,
+      0.64
+    ]
+  },
+  "HOBBIES_1_371": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.138,
+        "direction": "up",
+        "value": 0.288
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.075,
+        "direction": "up",
+        "value": 0.156
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.087,
+        "direction": "up",
+        "value": 0.18
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.491,
+        "direction": "up",
+        "value": 1.02
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.208,
+        "direction": "up",
+        "value": 0.432
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 23,
+        "delta": "-17"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "-40"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "-40"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 8,
+        "delta": "-32"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "-40"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 1,
+      "within_20pct": 1,
+      "total": 14,
+      "score": 0.33
+    },
+    "historical_performance_sparkline": [
+      0.72,
+      0.0,
+      0.59,
+      0.92,
+      0.48,
+      0.17,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.29,
+      0.0,
+      0.71,
+      0.75
+    ]
+  },
+  "FOODS_3_120": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.218,
+        "direction": "up",
+        "value": 0.6
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.148,
+        "direction": "up",
+        "value": 0.407
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.051,
+        "direction": "up",
+        "value": 0.14
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.304,
+        "direction": "up",
+        "value": 0.837
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.279,
+        "direction": "up",
+        "value": 0.767
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 215,
+        "delta": "-85"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 121,
+        "delta": "-179"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 108,
+        "delta": "-192"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 138,
+        "delta": "-162"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 64,
+        "delta": "-236"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 2,
+      "within_20pct": 3,
+      "total": 14,
+      "score": 0.67
+    },
+    "historical_performance_sparkline": [
+      0.6,
+      0.87,
+      1.0,
+      0.62,
+      0.75,
+      0.71,
+      0.31,
+      0.55,
+      0.65,
+      0.55,
+      0.65,
+      0.55,
+      0.97,
+      0.54
+    ]
+  },
+  "FOODS_3_252": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.155,
+        "direction": "up",
+        "value": 0.263
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.184,
+        "direction": "up",
+        "value": 0.311
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.038,
+        "direction": "up",
+        "value": 0.064
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.294,
+        "direction": "up",
+        "value": 0.497
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.329,
+        "direction": "up",
+        "value": 0.555
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 84,
+        "delta": "-66"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "-150"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "-150"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 25,
+        "delta": "-125"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "-150"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 4,
+      "within_20pct": 10,
+      "total": 14,
+      "score": 0.83
+    },
+    "historical_performance_sparkline": [
+      0.76,
+      0.83,
+      0.85,
+      0.54,
+      0.95,
+      0.93,
+      0.92,
+      0.79,
+      0.88,
+      0.68,
+      0.96,
+      0.84,
+      0.85,
+      0.86
+    ]
+  },
+  "FOODS_3_714": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.153,
+        "direction": "up",
+        "value": 0.263
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.029,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.053,
+        "direction": "up",
+        "value": 0.091
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.313,
+        "direction": "up",
+        "value": 0.535
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.451,
+        "direction": "up",
+        "value": 0.772
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 40,
+        "delta": "-30"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "-70"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "-70"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 12,
+        "delta": "-58"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "-70"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 2,
+      "within_20pct": 3,
+      "total": 14,
+      "score": 0.6
+    },
+    "historical_performance_sparkline": [
+      0.0,
+      0.35,
+      0.0,
+      0.61,
+      0.79,
+      0.85,
+      0.92,
+      0.79,
+      0.66,
+      0.66,
+      0.8,
+      0.99,
+      0.36,
+      0.6
+    ]
+  },
+  "FOODS_3_587": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.27,
+        "direction": "up",
+        "value": 0.838
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.136,
+        "direction": "up",
+        "value": 0.423
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.122,
+        "direction": "up",
+        "value": 0.38
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.261,
+        "direction": "up",
+        "value": 0.811
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.211,
+        "direction": "up",
+        "value": 0.656
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 204,
+        "delta": "-96"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 151,
+        "delta": "-149"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 131,
+        "delta": "-169"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 145,
+        "delta": "-155"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 100,
+        "delta": "-200"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 1,
+      "within_20pct": 4,
+      "total": 14,
+      "score": 0.66
+    },
+    "historical_performance_sparkline": [
+      0.71,
+      0.15,
+      0.86,
+      0.46,
+      0.92,
+      0.48,
+      0.77,
+      0.7,
+      0.85,
+      0.89,
+      0.57,
+      0.54,
+      0.65,
+      0.63
+    ]
+  },
+  "FOODS_3_808": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.088,
+        "direction": "up",
+        "value": 0.3
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.015,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.009,
+        "direction": "up",
+        "value": 0.03
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.298,
+        "direction": "up",
+        "value": 1.02
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.591,
+        "direction": "up",
+        "value": 2.02
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 61,
+        "delta": "-89"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "-150"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "-150"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 14,
+        "delta": "-136"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "-150"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 0,
+      "within_20pct": 1,
+      "total": 14,
+      "score": 0.33
+    },
+    "historical_performance_sparkline": [
+      0.0,
+      0.75,
+      0.62,
+      0.0,
+      0.25,
+      0.0,
+      0.62,
+      0.0,
+      0.88,
+      0.62,
+      0.0,
+      0.25,
+      0.0,
+      0.62
+    ]
+  },
+  "FOODS_2_197": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.144,
+        "direction": "up",
+        "value": 0.25
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.168,
+        "direction": "up",
+        "value": 0.291
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.025,
+        "direction": "up",
+        "value": 0.043
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.355,
+        "direction": "up",
+        "value": 0.616
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.309,
+        "direction": "up",
+        "value": 0.536
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 43,
+        "delta": "-37"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "-80"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "-80"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 12,
+        "delta": "-68"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "-80"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 3,
+      "within_20pct": 6,
+      "total": 14,
+      "score": 0.78
+    },
+    "historical_performance_sparkline": [
+      0.94,
+      0.6,
+      0.77,
+      0.6,
+      0.88,
+      0.83,
+      0.78,
+      0.67,
+      0.76,
+      0.76,
+      0.52,
+      0.94,
+      0.82,
+      1.0
+    ]
+  },
+  "FOODS_1_018": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.029,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.137,
+        "direction": "up",
+        "value": 0.239
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.041,
+        "direction": "up",
+        "value": 0.072
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.399,
+        "direction": "up",
+        "value": 0.694
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.393,
+        "direction": "up",
+        "value": 0.683
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 1,
+      "within_20pct": 4,
+      "total": 14,
+      "score": 0.47
+    },
+    "historical_performance_sparkline": [
+      0.0,
+      0.21,
+      0.41,
+      0.0,
+      0.11,
+      0.0,
+      0.72,
+      0.85,
+      0.47,
+      0.83,
+      0.51,
+      0.86,
+      0.72,
+      0.91
+    ]
+  },
+  "HOBBIES_1_268": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.017,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.042,
+        "direction": "up",
+        "value": 0.122
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.129,
+        "direction": "up",
+        "value": 0.376
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.35,
+        "direction": "up",
+        "value": 1.02
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.463,
+        "direction": "up",
+        "value": 1.349
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 0,
+      "within_20pct": 0,
+      "total": 14,
+      "score": 0.06
+    },
+    "historical_performance_sparkline": [
+      0.16,
+      0.0,
+      0.0,
+      0.11,
+      0.0,
+      0.03,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.5,
+      0.0,
+      0.0
+    ]
+  },
+  "HOUSEHOLD_1_118": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.02,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.238,
+        "direction": "up",
+        "value": 0.608
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.061,
+        "direction": "up",
+        "value": 0.155
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.306,
+        "direction": "up",
+        "value": 0.78
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.375,
+        "direction": "up",
+        "value": 0.956
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 4,
+        "delta": "-36"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "-40"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "-40"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 0,
+        "delta": "-40"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "-40"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 3,
+      "within_20pct": 6,
+      "total": 14,
+      "score": 0.58
+    },
+    "historical_performance_sparkline": [
+      0.98,
+      0.0,
+      0.83,
+      0.33,
+      0.0,
+      0.46,
+      0.79,
+      0.58,
+      0.91,
+      0.0,
+      0.53,
+      0.94,
+      0.85,
+      0.9
+    ]
+  },
+  "FOODS_3_811": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.024,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.182,
+        "direction": "up",
+        "value": 0.378
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.179,
+        "direction": "up",
+        "value": 0.371
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.359,
+        "direction": "up",
+        "value": 0.744
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.256,
+        "direction": "up",
+        "value": 0.53
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 1,
+      "within_20pct": 4,
+      "total": 14,
+      "score": 0.44
+    },
+    "historical_performance_sparkline": [
+      0.82,
+      0.7,
+      0.0,
+      0.76,
+      0.19,
+      0.0,
+      0.92,
+      0.82,
+      0.85,
+      0.27,
+      0.38,
+      0.0,
+      0.49,
+      0.0
+    ]
+  },
+  "HOBBIES_1_178": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.023,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.031,
+        "direction": "up",
+        "value": 0.066
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.15,
+        "direction": "up",
+        "value": 0.322
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.475,
+        "direction": "up",
+        "value": 1.02
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.322,
+        "direction": "up",
+        "value": 0.692
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 1,
+      "within_20pct": 4,
+      "total": 14,
+      "score": 0.39
+    },
+    "historical_performance_sparkline": [
+      0.83,
+      0.8,
+      0.22,
+      0.65,
+      0.38,
+      0.88,
+      0.21,
+      0.55,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.94
+    ]
+  },
+  "HOUSEHOLD_1_535": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.025,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.171,
+        "direction": "up",
+        "value": 0.345
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.104,
+        "direction": "up",
+        "value": 0.211
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.393,
+        "direction": "up",
+        "value": 0.795
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.308,
+        "direction": "up",
+        "value": 0.624
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 2,
+      "within_20pct": 8,
+      "total": 14,
+      "score": 0.67
+    },
+    "historical_performance_sparkline": [
+      0.79,
+      0.92,
+      0.8,
+      0.97,
+      0.57,
+      0.0,
+      0.12,
+      0.88,
+      0.8,
+      0.82,
+      0.69,
+      0.34,
+      0.85,
+      0.83
+    ]
+  },
+  "FOODS_3_376": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.114,
+        "direction": "up",
+        "value": 0.237
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.024,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.085,
+        "direction": "up",
+        "value": 0.176
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.48,
+        "direction": "up",
+        "value": 0.998
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.297,
+        "direction": "up",
+        "value": 0.616
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 11,
+        "delta": "-29"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "-40"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "-40"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 3,
+        "delta": "-37"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "-40"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 1,
+      "within_20pct": 5,
+      "total": 14,
+      "score": 0.55
+    },
+    "historical_performance_sparkline": [
+      0.82,
+      0.72,
+      0.88,
+      0.0,
+      0.88,
+      0.81,
+      0.6,
+      0.92,
+      0.21,
+      0.2,
+      0.34,
+      0.49,
+      0.79,
+      0.0
+    ]
+  },
+  "HOBBIES_1_256": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.023,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.023,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.044,
+        "direction": "up",
+        "value": 0.097
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.462,
+        "direction": "up",
+        "value": 1.02
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.448,
+        "direction": "up",
+        "value": 0.989
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 1,
+      "within_20pct": 1,
+      "total": 14,
+      "score": 0.23
+    },
+    "historical_performance_sparkline": [
+      0.27,
+      0.0,
+      0.0,
+      0.43,
+      0.24,
+      0.22,
+      0.0,
+      0.0,
+      0.92,
+      0.55,
+      0.44,
+      0.0,
+      0.11,
+      0.0
+    ]
+  },
+  "HOUSEHOLD_1_151": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.02,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.223,
+        "direction": "up",
+        "value": 0.56
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.152,
+        "direction": "up",
+        "value": 0.38
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.284,
+        "direction": "up",
+        "value": 0.712
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.321,
+        "direction": "up",
+        "value": 0.803
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 2,
+      "within_20pct": 3,
+      "total": 14,
+      "score": 0.51
+    },
+    "historical_performance_sparkline": [
+      0.42,
+      0.57,
+      0.0,
+      0.52,
+      0.98,
+      0.47,
+      0.5,
+      0.0,
+      0.58,
+      0.47,
+      0.19,
+      0.85,
+      1.0,
+      0.56
+    ]
+  },
+  "FOODS_3_234": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.026,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.026,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.138,
+        "direction": "up",
+        "value": 0.271
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.521,
+        "direction": "up",
+        "value": 1.02
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.29,
+        "direction": "up",
+        "value": 0.568
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 0,
+      "within_20pct": 0,
+      "total": 14,
+      "score": 0.28
+    },
+    "historical_performance_sparkline": [
+      0.62,
+      0.64,
+      0.16,
+      0.0,
+      0.75,
+      0.04,
+      0.59,
+      0.6,
+      0.0,
+      0.0,
+      0.32,
+      0.17,
+      0.0,
+      0.0
+    ]
+  },
+  "FOODS_3_448": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.017,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.176,
+        "direction": "up",
+        "value": 0.507
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.093,
+        "direction": "up",
+        "value": 0.269
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.354,
+        "direction": "up",
+        "value": 1.02
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.359,
+        "direction": "up",
+        "value": 1.036
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 1,
+      "within_20pct": 1,
+      "total": 14,
+      "score": 0.39
+    },
+    "historical_performance_sparkline": [
+      0.21,
+      0.31,
+      0.94,
+      0.18,
+      0.75,
+      0.53,
+      0.14,
+      0.5,
+      0.11,
+      0.53,
+      0.21,
+      0.12,
+      0.53,
+      0.43
+    ]
+  },
+  "HOBBIES_1_242": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.021,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.021,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.163,
+        "direction": "up",
+        "value": 0.38
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.438,
+        "direction": "up",
+        "value": 1.02
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.356,
+        "direction": "up",
+        "value": 0.828
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 7,
+        "delta": "+7"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 1,
+      "within_20pct": 1,
+      "total": 14,
+      "score": 0.3
+    },
+    "historical_performance_sparkline": [
+      0.08,
+      0.25,
+      0.38,
+      0.0,
+      0.38,
+      0.0,
+      0.25,
+      0.31,
+      0.75,
+      0.25,
+      0.0,
+      0.28,
+      0.94,
+      0.38
+    ]
+  },
+  "HOUSEHOLD_1_236": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.024,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.073,
+        "direction": "up",
+        "value": 0.152
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.118,
+        "direction": "up",
+        "value": 0.244
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.493,
+        "direction": "up",
+        "value": 1.02
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.291,
+        "direction": "up",
+        "value": 0.603
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 19,
+        "delta": "+19"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 5,
+        "delta": "+5"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 1,
+      "within_20pct": 1,
+      "total": 14,
+      "score": 0.38
+    },
+    "historical_performance_sparkline": [
+      0.38,
+      1.0,
+      0.62,
+      0.0,
+      0.69,
+      0.0,
+      0.0,
+      0.62,
+      0.12,
+      0.34,
+      0.0,
+      0.69,
+      0.79,
+      0.0
+    ]
+  },
+  "FOODS_3_820": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.028,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.145,
+        "direction": "up",
+        "value": 0.256
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.017,
+        "direction": "up",
+        "value": 0.03
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.508,
+        "direction": "up",
+        "value": 0.895
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.302,
+        "direction": "up",
+        "value": 0.532
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 39,
+        "delta": "+39"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 13,
+        "delta": "+13"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 2,
+      "within_20pct": 4,
+      "total": 14,
+      "score": 0.46
+    },
+    "historical_performance_sparkline": [
+      0.47,
+      0.0,
+      0.12,
+      0.0,
+      0.62,
+      0.81,
+      0.58,
+      0.0,
+      0.34,
+      1.0,
+      0.69,
+      1.0,
+      0.81,
+      0.0
+    ]
+  },
+  "HOBBIES_1_078": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.023,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.058,
+        "direction": "up",
+        "value": 0.126
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.146,
+        "direction": "up",
+        "value": 0.316
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.47,
+        "direction": "up",
+        "value": 1.02
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.303,
+        "direction": "up",
+        "value": 0.656
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 13,
+        "delta": "+13"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 3,
+        "delta": "+3"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 0,
+      "within_20pct": 2,
+      "total": 14,
+      "score": 0.38
+    },
+    "historical_performance_sparkline": [
+      0.0,
+      0.81,
+      0.88,
+      0.44,
+      0.0,
+      0.0,
+      0.0,
+      0.33,
+      0.12,
+      0.5,
+      0.75,
+      0.75,
+      0.75,
+      0.0
+    ]
+  },
+  "HOUSEHOLD_1_251": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.022,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.022,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.142,
+        "direction": "up",
+        "value": 0.316
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.412,
+        "direction": "up",
+        "value": 0.918
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.402,
+        "direction": "up",
+        "value": 0.895
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 15,
+        "delta": "+15"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 4,
+        "delta": "+4"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 1,
+      "within_20pct": 1,
+      "total": 14,
+      "score": 0.25
+    },
+    "historical_performance_sparkline": [
+      0.29,
+      0.0,
+      1.0,
+      0.0,
+      0.12,
+      0.42,
+      0.0,
+      0.0,
+      0.0,
+      0.38,
+      0.31,
+      0.62,
+      0.38,
+      0.0
+    ]
+  },
+  "FOODS_3_026": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.023,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.051,
+        "direction": "up",
+        "value": 0.113
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.171,
+        "direction": "up",
+        "value": 0.38
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.46,
+        "direction": "up",
+        "value": 1.02
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.296,
+        "direction": "up",
+        "value": 0.656
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 34,
+        "delta": "+34"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 13,
+        "delta": "+13"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 0,
+      "within_20pct": 1,
+      "total": 14,
+      "score": 0.2
+    },
+    "historical_performance_sparkline": [
+      0.0,
+      0.5,
+      0.0,
+      0.0,
+      0.31,
+      0.83,
+      0.0,
+      0.0,
+      0.38,
+      0.0,
+      0.75,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "HOBBIES_1_074": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.02,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.02,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.152,
+        "direction": "up",
+        "value": 0.38
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.402,
+        "direction": "up",
+        "value": 1.007
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.407,
+        "direction": "up",
+        "value": 1.02
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 7,
+        "delta": "+7"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 0,
+      "within_20pct": 2,
+      "total": 14,
+      "score": 0.29
+    },
+    "historical_performance_sparkline": [
+      0.12,
+      0.88,
+      0.0,
+      0.88,
+      0.12,
+      0.0,
+      0.0,
+      0.25,
+      0.56,
+      0.56,
+      0.25,
+      0.29,
+      0.12,
+      0.0
+    ]
+  },
+  "HOUSEHOLD_1_319": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.021,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.126,
+        "direction": "up",
+        "value": 0.297
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.06,
+        "direction": "up",
+        "value": 0.141
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.358,
+        "direction": "up",
+        "value": 0.843
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.434,
+        "direction": "up",
+        "value": 1.02
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 8,
+        "delta": "+8"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 0,
+      "within_20pct": 2,
+      "total": 14,
+      "score": 0.37
+    },
+    "historical_performance_sparkline": [
+      0.0,
+      0.88,
+      0.33,
+      0.75,
+      0.31,
+      0.81,
+      0.25,
+      0.0,
+      0.0,
+      0.53,
+      0.46,
+      0.25,
+      0.0,
+      0.56
+    ]
+  },
+  "FOODS_1_036": {
+    "top_factors": [
+      {
+        "label": "Current inventory level",
+        "feature": "inventory_level",
+        "weight": 0.022,
+        "direction": "up",
+        "value": 0.05
+      },
+      {
+        "label": "Demand forecast",
+        "feature": "demand_forecast",
+        "weight": 0.21,
+        "direction": "up",
+        "value": 0.471
+      },
+      {
+        "label": "Recent demand trend",
+        "feature": "recent_trend",
+        "weight": 0.109,
+        "direction": "up",
+        "value": 0.244
+      },
+      {
+        "label": "Demand variability",
+        "feature": "demand_std",
+        "weight": 0.455,
+        "direction": "up",
+        "value": 1.02
+      },
+      {
+        "label": "Model disagreement",
+        "feature": "model_spread",
+        "weight": 0.204,
+        "direction": "up",
+        "value": 0.458
+      }
+    ],
+    "counterfactuals": [
+      {
+        "change": "demand +20%",
+        "new_qty": 17,
+        "delta": "+17"
+      },
+      {
+        "change": "inventory +20%",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "lead time -1 day",
+        "new_qty": 0,
+        "delta": "+0"
+      },
+      {
+        "change": "model consensus high",
+        "new_qty": 2,
+        "delta": "+2"
+      },
+      {
+        "change": "safety stock lower",
+        "new_qty": 0,
+        "delta": "+0"
+      }
+    ],
+    "accuracy_last_14d": {
+      "within_10pct": 1,
+      "within_20pct": 2,
+      "total": 14,
+      "score": 0.48
+    },
+    "historical_performance_sparkline": [
+      0.25,
+      0.38,
+      0.34,
+      0.0,
+      0.62,
+      0.78,
+      0.57,
+      0.94,
+      0.88,
+      0.62,
+      0.0,
+      0.62,
+      0.75,
+      0.0
+    ]
+  }
+}

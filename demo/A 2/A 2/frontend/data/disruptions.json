@@ -1,0 +1,153 @@
+{
+  "scenarios": [
+    {
+      "scenario": "calm",
+      "label": "Calm",
+      "policies": {
+        "Default (s,S)": {
+          "mean_profit": -43695,
+          "service_level": 100.0,
+          "p5_worst_profit": -43695,
+          "daily_sl": []
+        },
+        "Grid-Tuned Classical": {
+          "mean_profit": -3126,
+          "service_level": 99.7,
+          "p5_worst_profit": -3126,
+          "daily_sl": []
+        },
+        "CMA-ES Per-Node (Robust)": {
+          "mean_profit": -6657,
+          "service_level": 90.9,
+          "p5_worst_profit": -6657,
+          "daily_sl": []
+        }
+      }
+    },
+    {
+      "scenario": "mild_supplier",
+      "label": "Mild Supplier",
+      "policies": {
+        "Default (s,S)": {
+          "mean_profit": -43695,
+          "service_level": 100.0,
+          "p5_worst_profit": -43695,
+          "daily_sl": []
+        },
+        "Grid-Tuned Classical": {
+          "mean_profit": -3130,
+          "service_level": 99.7,
+          "p5_worst_profit": -3130,
+          "daily_sl": []
+        },
+        "CMA-ES Per-Node (Robust)": {
+          "mean_profit": -6912,
+          "service_level": 90.9,
+          "p5_worst_profit": -6912,
+          "daily_sl": []
+        }
+      }
+    },
+    {
+      "scenario": "major_supplier",
+      "label": "Major Supplier",
+      "policies": {
+        "Default (s,S)": {
+          "mean_profit": -43695,
+          "service_level": 100.0,
+          "p5_worst_profit": -43695,
+          "daily_sl": []
+        },
+        "Grid-Tuned Classical": {
+          "mean_profit": -3123,
+          "service_level": 99.7,
+          "p5_worst_profit": -3123,
+          "daily_sl": []
+        },
+        "CMA-ES Per-Node (Robust)": {
+          "mean_profit": -7589,
+          "service_level": 90.9,
+          "p5_worst_profit": -7589,
+          "daily_sl": []
+        }
+      }
+    },
+    {
+      "scenario": "demand_spike",
+      "label": "Demand Spike",
+      "policies": {
+        "Default (s,S)": {
+          "mean_profit": -43151,
+          "service_level": 100.0,
+          "p5_worst_profit": -43151,
+          "daily_sl": []
+        },
+        "Grid-Tuned Classical": {
+          "mean_profit": -3535,
+          "service_level": 98.4,
+          "p5_worst_profit": -3535,
+          "daily_sl": []
+        },
+        "CMA-ES Per-Node (Robust)": {
+          "mean_profit": -7026,
+          "service_level": 90.3,
+          "p5_worst_profit": -7026,
+          "daily_sl": []
+        }
+      }
+    },
+    {
+      "scenario": "port_strike",
+      "label": "Port Strike",
+      "policies": {
+        "Default (s,S)": {
+          "mean_profit": -43695,
+          "service_level": 100.0,
+          "p5_worst_profit": -43695,
+          "daily_sl": []
+        },
+        "Grid-Tuned Classical": {
+          "mean_profit": -3142,
+          "service_level": 99.7,
+          "p5_worst_profit": -3142,
+          "daily_sl": []
+        },
+        "CMA-ES Per-Node (Robust)": {
+          "mean_profit": -6674,
+          "service_level": 90.9,
+          "p5_worst_profit": -6674,
+          "daily_sl": []
+        }
+      }
+    },
+    {
+      "scenario": "compound_crisis",
+      "label": "Compound Crisis",
+      "policies": {
+        "Default (s,S)": {
+          "mean_profit": -43151,
+          "service_level": 100.0,
+          "p5_worst_profit": -43151,
+          "daily_sl": []
+        },
+        "Grid-Tuned Classical": {
+          "mean_profit": -3517,
+          "service_level": 98.4,
+          "p5_worst_profit": -3517,
+          "daily_sl": []
+        },
+        "CMA-ES Per-Node (Robust)": {
+          "mean_profit": -7834,
+          "service_level": 90.3,
+          "p5_worst_profit": -7834,
+          "daily_sl": []
+        }
+      }
+    }
+  ],
+  "policies": [
+    "Default (s,S)",
+    "Grid-Tuned Classical",
+    "CMA-ES Per-Node (Robust)"
+  ]
+}

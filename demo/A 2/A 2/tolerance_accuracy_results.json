@@ -1,0 +1,191 @@
+{
+  "metadata": {
+    "series": "FOODS_3_090 @ CA_1",
+    "test_days": 389,
+    "test_start_index": 1552,
+    "random_seed": 42,
+    "computed_at": "2026-05-19 00:54:17"
+  },
+  "models": {
+    "naive": {
+      "model": "Naive Baseline",
+      "rmse": 27.5504,
+      "mae": 18.7301,
+      "n_predictions": 389,
+      "absolute_tolerance": {
+        "within_pm10_units": {
+          "count": 164,
+          "total": 389,
+          "pct": 42.16
+        },
+        "within_pm15_units": {
+          "count": 208,
+          "total": 389,
+          "pct": 53.47
+        },
+        "within_pm20_units": {
+          "count": 242,
+          "total": 389,
+          "pct": 62.21
+        },
+        "within_pm25_units": {
+          "count": 282,
+          "total": 389,
+          "pct": 72.49
+        },
+        "within_pm30_units": {
+          "count": 310,
+          "total": 389,
+          "pct": 79.69
+        },
+        "within_pm40_units": {
+          "count": 338,
+          "total": 389,
+          "pct": 86.89
+        }
+      },
+      "relative_tolerance": {
+        "within_pm10_percent": {
+          "count": 134,
+          "total": 389,
+          "pct": 34.45
+        },
+        "within_pm20_percent": {
+          "count": 165,
+          "total": 389,
+          "pct": 42.42
+        },
+        "within_pm30_percent": {
+          "count": 215,
+          "total": 389,
+          "pct": 55.27
+        },
+        "within_pm50_percent": {
+          "count": 306,
+          "total": 389,
+          "pct": 78.66
+        }
+      }
+    },
+    "lightgbm": {
+      "model": "LightGBM",
+      "rmse": 27.4099,
+      "mae": 21.0376,
+      "n_predictions": 389,
+      "absolute_tolerance": {
+        "within_pm10_units": {
+          "count": 106,
+          "total": 389,
+          "pct": 27.25
+        },
+        "within_pm15_units": {
+          "count": 149,
+          "total": 389,
+          "pct": 38.3
+        },
+        "within_pm20_units": {
+          "count": 222,
+          "total": 389,
+          "pct": 57.07
+        },
+        "within_pm25_units": {
+          "count": 268,
+          "total": 389,
+          "pct": 68.89
+        },
+        "within_pm30_units": {
+          "count": 306,
+          "total": 389,
+          "pct": 78.66
+        },
+        "within_pm40_units": {
+          "count": 352,
+          "total": 389,
+          "pct": 90.49
+        }
+      },
+      "relative_tolerance": {
+        "within_pm10_percent": {
+          "count": 66,
+          "total": 389,
+          "pct": 16.97
+        },
+        "within_pm20_percent": {
+          "count": 105,
+          "total": 389,
+          "pct": 26.99
+        },
+        "within_pm30_percent": {
+          "count": 148,
+          "total": 389,
+          "pct": 38.05
+        },
+        "within_pm50_percent": {
+          "count": 212,
+          "total": 389,
+          "pct": 54.5
+        }
+      }
+    },
+    "chronos": {
+      "model": "Chronos-Bolt",
+      "rmse": 23.2072,
+      "mae": 14.6577,
+      "n_predictions": 389,
+      "absolute_tolerance": {
+        "within_pm10_units": {
+          "count": 194,
+          "total": 389,
+          "pct": 49.87
+        },
+        "within_pm15_units": {
+          "count": 245,
+          "total": 389,
+          "pct": 62.98
+        },
+        "within_pm20_units": {
+          "count": 293,
+          "total": 389,
+          "pct": 75.32
+        },
+        "within_pm25_units": {
+          "count": 327,
+          "total": 389,
+          "pct": 84.06
+        },
+        "within_pm30_units": {
+          "count": 343,
+          "total": 389,
+          "pct": 88.17
+        },
+        "within_pm40_units": {
+          "count": 364,
+          "total": 389,
+          "pct": 93.57
+        }
+      },
+      "relative_tolerance": {
+        "within_pm10_percent": {
+          "count": 141,
+          "total": 389,
+          "pct": 36.25
+        },
+        "within_pm20_percent": {
+          "count": 199,
+          "total": 389,
+          "pct": 51.16
+        },
+        "within_pm30_percent": {
+          "count": 262,
+          "total": 389,
+          "pct": 67.35
+        },
+        "within_pm50_percent": {
+          "count": 330,
+          "total": 389,
+          "pct": 84.83
+        }
+      }
+    }
+  }
+}

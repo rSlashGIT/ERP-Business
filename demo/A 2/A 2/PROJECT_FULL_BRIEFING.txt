@@ -1,0 +1,2697 @@
+SMARTSTOCK - FULL PROJECT BRIEFING
+Generated for: standalone explanation, class diagrams, low-level design, and demo handoff
+Project root: C:\Users\Administrator\Downloads\A (1)\A
+Date: 2026-05-17
+
+===============================================================================
+1. EXECUTIVE SUMMARY
+===============================================================================
+
+SmartStock is an AI-powered inventory decision-support system for retail
+replenishment. It helps a store manager answer one practical question:
+
+    "How much stock should I order today so that I avoid both stockouts and
+    overstocking?"
+
+The project combines:
+
+- Real retail demand data inspired by the M5 Walmart dataset.
+- Demand forecasting models: Chronos-Bolt, N-HITS, LightGBM, and naive baselines.
+- Inventory policy optimization using CMA-ES.
+- A context-aware parameterized (s,S) replenishment policy.
+- Multi-echelon supply-chain simulation: supplier -> warehouse -> stores.
+- Multi-SKU simulation for 30 SKUs.
+- Explainability for individual order recommendations.
+- Disruption and stress testing.
+- Reward-hacking/audit checks to detect policies that look profitable but behave
+  unfairly or unsafely.
+- A premium interactive frontend demo that can be opened locally with one click.
+
+In simple language:
+
+SmartStock is a prototype of an intelligent retail stock manager. It reads SKU
+data, current stock, demand history, forecast signals, supplier delays, and risk
+conditions. It then recommends a concrete order quantity such as 300 units,
+explains why it chose that quantity, compares models, and lets the user test
+what happens under demand spikes or supplier disruptions.
+
+The project is not only a dashboard. The dashboard is the presentation layer.
+The technical core is the Python research pipeline that preprocesses data,
+evaluates forecasters, simulates supply-chain behavior, optimizes inventory
+policies, explains decisions, and produces JSON artifacts for the UI.
+
+===============================================================================
+2. BUSINESS PROBLEM
+===============================================================================
+
+Retail inventory decisions have two opposing risks:
+
+- Under-ordering:
+  The store runs out of stock, customers cannot buy the product, sales are lost,
+  and service quality drops.
+
+- Over-ordering:
+  Too much inventory sits in storage, tying up capital and creating holding cost.
+
+The system is designed for daily replenishment decisions. Every day, for every
+SKU, the system must decide whether to order and how much to order.
+
+Core business objective:
+
+    Maximize profit while keeping service level high.
+
+Profit is treated as:
+
+    revenue - holding cost - stockout cost - procurement cost - other penalties
+
+Important business metrics:
+
+- Inventory level.
+- Demand forecast.
+- Demand uncertainty.
+- Supplier lead time.
+- Days of cover.
+- Recommended order quantity.
+- Service level / fill rate.
+- Stockout risk.
+- Overstock risk.
+- Expected coverage after order.
+- Policy profit.
+- Model forecast error.
+
+===============================================================================
+3. ONE-LINE PROJECT EXPLANATION
+===============================================================================
+
+SmartStock is an interactive AI inventory optimization prototype that forecasts
+retail demand, recommends replenishment orders, explains each recommendation,
+and stress-tests the policy under supply-chain disruptions.
+
+===============================================================================
+4. HIGH-LEVEL ARCHITECTURE
+===============================================================================
+
+The project has four main layers:
+
+1. Data layer
+   - Raw M5 Walmart files live under data/m5.
+   - Processed single-SKU and multi-SKU datasets live under data/processed.
+   - Frontend-ready JSON lives under frontend/data.
+
+2. Model and simulation layer
+   - Python modules under src implement forecasting, policy optimization,
+     inventory simulation, explainability, disruption testing, and audits.
+
+3. Artifact/build layer
+   - scripts build frontend JSON artifacts from model outputs.
+   - models contains trained parameters, evaluation reports, logs, and saved
+     forecasting models.
+
+4. UI/demo layer
+   - frontend is a static single-page application using HTML, CSS, vanilla JS,
+     Chart.js, and Lucide icons.
+   - START_SMARTSTOCK_DEMO.bat and Start_SmartStock_Demo.ps1 provide one-click
+     startup.
+
+Architecture flow:
+
+    Raw M5 CSV files
+        -> preprocessing scripts
+        -> processed CSV/JSON data
+        -> forecasting/evaluation scripts
+        -> policy optimization and simulation
+        -> explainability/audit/disruption outputs
+        -> frontend/data JSON files
+        -> interactive browser demo
+
+===============================================================================
+5. TECHNOLOGY STACK
+===============================================================================
+
+Backend / modeling:
+
+- Python
+- NumPy
+- Pandas
+- scikit-learn
+- joblib
+- cma
+- PyTorch
+- LightGBM
+- neuralforecast
+- chronos-forecasting
+- pytest
+
+Frontend:
+
+- HTML
+- CSS
+- Vanilla JavaScript ES modules
+- Chart.js
+- Lucide icons
+- Google Fonts: Inter and JetBrains Mono
+- Local browser static server using python -m http.server
+
+Data/artifacts:
+
+- CSV for raw/processed tabular data.
+- JSON for reports and frontend data.
+- NPY for learned theta/policy vectors.
+- PKL/JOBLIB for scalers and LightGBM model artifacts.
+
+===============================================================================
+6. HOW TO START THE DEMO
+===============================================================================
+
+One-click start:
+
+    START_SMARTSTOCK_DEMO.bat
+
+This calls:
+
+    Start_SmartStock_Demo.ps1
+
+The PowerShell launcher:
+
+- Locates the project directory.
+- Starts a local static server from frontend/.
+- Uses Python's http.server.
+- Binds to 127.0.0.1.
+- Uses port 4177.
+- Opens the browser to:
+
+    http://127.0.0.1:4177/?v=navfix5#/demo
+
+Manual equivalent:
+
+    cd frontend
+    python -m http.server 4177 --bind 127.0.0.1
+
+Then open:
+
+    http://127.0.0.1:4177/?v=navfix5#/demo
+
+===============================================================================
+7. IMPORTANT PROJECT DIRECTORIES
+===============================================================================
+
+Root:
+
+- README.md
+  Short project readme with one-click start instructions.
+
+- PROJECT_PRD.md
+  Product requirements and earlier research explanation for CMA-ES optimized
+  parameterized (s,S) policies.
+
+- DATA_PACKAGE_README.md
+  Explains the original data package, evaluation artifacts, theta values, and
+  sample episodes.
+
+- POLICY_PLAYGROUND_GUIDE.md
+  Explains how to present policy values, context, decisions, and math in a demo.
+
+- START_SMARTSTOCK_DEMO.bat
+  Windows one-click launcher.
+
+- Start_SmartStock_Demo.ps1
+  PowerShell implementation behind the one-click launcher.
+
+- demo.py
+  Earlier Python demo/utility script.
+
+- index.html
+  Older root-level static artifact, separate from the current frontend app.
+
+src/:
+
+- Main Python source code for environment simulation, policy optimization,
+  forecasting, explainability, disruption analysis, audits, and utilities.
+
+frontend/:
+
+- Current static browser app used for the polished demo.
+
+frontend/data/:
+
+- Prepared JSON files consumed by the frontend.
+
+models/:
+
+- Saved evaluation outputs, trained theta vectors, training logs, forecaster
+  artifacts, policy evaluation files, and audit reports.
+
+data/:
+
+- M5 raw data, processed CSV files, summary files, and disruption outputs.
+
+scripts/:
+
+- Build scripts that convert model outputs into frontend-ready data and prepare
+  processed datasets.
+
+tests/:
+
+- Pytest coverage for core environment behavior, policy logic, forecasters,
+  preprocessing, explainability, multi-echelon simulation, and hack detection.
+
+docs/:
+
+- Human-facing project explanations and methodology notes.
+
+supply-chain-idss/:
+
+- Older/alternate React/Vite presentation prototype. It contains components such
+  as Hero, ProblemSection, ArchitectureSection, ResultsSection, DemoSection,
+  ExplainabilitySection, TechStackSection, DragGlobe, and shared UI pieces. The
+  current demo used by the one-click launcher is frontend/, not this prototype.
+
+===============================================================================
+8. DATASETS AND DATA ARTIFACTS
+===============================================================================
+
+Raw M5 data:
+
+- data/m5/sales_train_evaluation.csv
+- data/m5/sales_train_validation.csv
+- data/m5/calendar.csv
+- data/m5/sell_prices.csv
+- data/m5/sample_submission.csv
+
+Single-SKU processed data:
+
+- data/processed/m5_clean.csv
+- data/processed/m5_clean_summary.json
+- data/processed/scaler_m5.pkl
+
+Main single-SKU series:
+
+- SKU: FOODS_3_090
+- Store: CA_1
+- State: CA
+- Final days: 1,941
+- Date range: 2011-01-29 to 2016-05-22
+- Demand min: 0
+- Demand max: 599
+- Demand mean: about 66.39 units/day
+- Demand std: about 57.49
+- Demand median: 62
+- Zero-demand days: 469
+- Zero fraction: about 24.16%
+- Price min: 1.00
+- Price max: 1.60
+- Price mean: about 1.385
+- SNAP days: 640
+- Event days: 158
+
+Multi-SKU processed data:
+
+- data/processed/m5_multi_sku.csv
+- data/processed/m5_multi_sku_summary.json
+
+Multi-SKU selection:
+
+- Store: CA_1
+- Number of SKUs: 30
+- Minimum valid days per SKU: 1,500
+- Maximum zero-demand fraction: 70%
+- Volume buckets:
+  - high demand: mean demand > 10
+  - medium demand: 2 <= mean demand <= 10
+  - low demand: mean demand < 2
+
+Selected SKUs:
+
+- FOODS_3_090
+- HOBBIES_1_348
+- FOODS_3_586
+- HOBBIES_1_371
+- FOODS_3_120
+- FOODS_3_252
+- FOODS_3_714
+- FOODS_3_587
+- FOODS_3_808
+- FOODS_2_197
+- FOODS_1_018
+- HOBBIES_1_268
+- HOUSEHOLD_1_118
+- FOODS_3_811
+- HOBBIES_1_178
+- HOUSEHOLD_1_535
+- FOODS_3_376
+- HOBBIES_1_256
+- HOUSEHOLD_1_151
+- FOODS_3_234
+- FOODS_3_448
+- HOBBIES_1_242
+- HOUSEHOLD_1_236
+- FOODS_3_820
+- HOBBIES_1_078
+- HOUSEHOLD_1_251
+- FOODS_3_026
+- HOBBIES_1_074
+- HOUSEHOLD_1_319
+- FOODS_1_036
+
+===============================================================================
+9. FRONTEND DATA FILES AND SCHEMAS
+===============================================================================
+
+All frontend data files are in:
+
+    frontend/data/
+
+These files make the demo static and portable. The browser does not call a live
+Python API. Instead, frontend/js/api.js fetches and caches JSON files.
+
+frontend/data/alerts.json
+
+- Type: array
+- Count: 5
+- Keys:
+  id, severity, type, message, affected_skus, created_at, action, active
+- Purpose:
+  Powers dashboard and notification alert views.
+
+frontend/data/comparison.json
+
+- Type: object
+- Keys:
+  forecasters, policies, meta
+- Purpose:
+  Stores model comparison metrics and inventory policy comparison metrics.
+
+frontend/data/disruptions.json
+
+- Type: object
+- Keys:
+  scenarios, policies
+- Purpose:
+  Stores stress-test/disruption scenario results.
+
+frontend/data/explainability.json
+
+- Type: object
+- Keys:
+  showcase, sample_decisions, policy_comparison
+- Purpose:
+  Stores sample explanation outputs for model/policy explainability.
+
+frontend/data/explanations.json
+
+- Type: object keyed by SKU id
+- Example keys:
+  FOODS_3_090, FOODS_3_586, FOODS_3_120, FOODS_3_252, FOODS_3_714
+- Purpose:
+  Stores SKU-level explanation factors and counterfactuals.
+
+frontend/data/forecasts.json
+
+- Type: object keyed by SKU id
+- Purpose:
+  Stores historical/forecast sequences for charting.
+
+frontend/data/hack_detection.json
+
+- Type: object
+- Keys:
+  summary, findings, audit_results
+- Purpose:
+  Stores reward-hacking audit findings.
+
+frontend/data/history_seed.json
+
+- Type: array
+- Count: 147
+- Keys:
+  order_id, date, sku_id, sku_name, ai_recommendation, your_decision,
+  final_qty, reason, outcome
+- Purpose:
+  Provides realistic historical decision logs for the History/Logs screen.
+
+frontend/data/inventory_today.json
+
+- Type: object keyed by SKU id
+- Purpose:
+  Stores current stock, demand, coverage, and status for each SKU.
+
+frontend/data/overview.json
+
+- Type: object
+- Keys:
+  headline_stats, project
+- Purpose:
+  Stores top-level project/demo stats.
+
+frontend/data/recommendations.json
+
+- Type: array
+- Count: 12
+- Keys:
+  sku_id, current_stock, recommended_order_qty, confidence, urgency,
+  expected_coverage
+- Purpose:
+  Powers replenishment recommendations in the Orders screen and dashboard.
+
+frontend/data/retailers.json
+
+- Type: array
+- Count: 4
+- Keys:
+  id, name, stores, n_skus, description, demand_pattern, policy,
+  today_recommendation
+- Purpose:
+  Demonstrates example retailer scenarios.
+
+frontend/data/skus.json
+
+- Type: array
+- Count: 30
+- Keys:
+  id, name, category, supplier, unit_cost, unit_price, stores
+- Purpose:
+  Master SKU metadata used across all UI screens.
+
+===============================================================================
+10. KEY CURRENT DEMO METRICS
+===============================================================================
+
+From frontend/data/overview.json:
+
+- Forecast RMSE: 23.2 units
+- Improvement vs naive baseline: 15.8% lower RMSE
+- Policies audited: 11
+- SKUs optimized: 30
+- Dataset: M5 Walmart, FOODS_3_090 at CA_1 for the core single-SKU case
+- Days: 1,941
+- Models compared: 3 major forecasting models plus baseline
+- Phases represented: 7
+
+Forecast comparison from frontend/data/comparison.json:
+
+Naive Baseline:
+
+- MAE: 18.73
+- RMSE: 27.55
+- SMAPE: 32.56
+
+LightGBM:
+
+- MAE: 21.038
+- RMSE: 27.41
+- SMAPE: 64.28
+- Training time: about 2.15 seconds
+- Inference: about 3.18 ms/prediction
+- RMSE improvement vs naive: 0.5%
+
+N-HITS:
+
+- MAE: 16.258
+- RMSE: 24.028
+- SMAPE: 48.06
+- Training time: about 21.76 seconds
+- Inference: about 11.62 ms/prediction
+- RMSE improvement vs naive: 12.8%
+
+Chronos-Bolt:
+
+- MAE: 14.658
+- RMSE: 23.209
+- SMAPE: 40.97
+- Training time: 0 seconds because it is used zero-shot
+- Inference: about 29.26 ms/prediction
+- RMSE improvement vs naive: 15.8%
+
+Policy comparison from frontend/data/comparison.json:
+
+Default classical (s,S):
+
+- Mean profit: -36,434
+- Service level: 100.0%
+- Meaning:
+  Very high service level, but too costly due to conservative inventory behavior.
+
+Uniform CMA-ES:
+
+- Mean profit: -2,335
+- Service level: 91.3%
+- Store service levels:
+  A: 98.8%, B: 95.1%, C: 61.8%
+- Meaning:
+  Better profit, but it abandons Store C below the service-level floor.
+
+Per-Node CMA-ES Robust:
+
+- Mean profit: -6,083
+- Service level: 93.2%
+- Store service levels:
+  A: 86.7%, B: 100.0%, C: 100.0%
+- Meaning:
+  Robust policy that protects individual stores from abandonment.
+
+Important note about negative profit values:
+
+Some newer multi-echelon simulations report negative profit because they include
+warehouse holding/procurement/backlog costs and evaluate hard supply-chain
+constraints. Older single-SKU PRD numbers show positive profits under a simpler
+simulation setting. These are different experiment scopes, not necessarily a
+contradiction.
+
+===============================================================================
+11. CORE INVENTORY POLICY
+===============================================================================
+
+The project uses a parameterized (s,S) inventory policy.
+
+Classical (s,S) idea:
+
+- s = reorder point.
+- S = order-up-to level.
+- If inventory falls below s, place an order.
+- Order enough to move inventory toward S.
+- If inventory is above s, do not order.
+
+SmartStock improvement:
+
+Instead of using fixed s and S, SmartStock makes them context-dependent:
+
+    s(context) = s_base + w1*demand_forecast + w2*demand_std + w3*lead_time
+    S(context) = S_base + w4*demand_forecast + w5*demand_std + w6*lead_time
+
+Theta vector:
+
+    theta = [s_base, S_base, w1, w2, w3, w4, w5, w6]
+
+Input state expected by the policy:
+
+- inventory_level
+  Normalized current inventory.
+
+- demand_forecast
+  Normalized expected demand.
+
+- demand_std
+  Normalized demand uncertainty/volatility.
+
+- lead_time
+  Days until replenishment arrives.
+
+Decision logic:
+
+    read inventory, forecast, uncertainty, lead time
+    compute dynamic s
+    compute dynamic S
+    if inventory < s:
+        qty = max(0, S - inventory)
+    else:
+        qty = 0
+    return nearest valid action index
+
+Action index mapping in the single-SKU environment:
+
+- 0 -> 0 units
+- 1 -> 50 units
+- 2 -> 150 units
+- 3 -> 300 units
+- 4 -> 500 units
+- 5 -> 750 units
+- 6 -> 1000 units
+- 7 -> 1500 units
+
+Why this policy is useful:
+
+- It remains understandable to business users.
+- It can be tuned with optimization.
+- It reacts to demand changes, uncertainty, and lead time.
+- It avoids a pure black-box AI decision.
+
+===============================================================================
+12. CMA-ES OPTIMIZATION
+===============================================================================
+
+CMA-ES means Covariance Matrix Adaptation Evolution Strategy.
+
+In this project, CMA-ES searches for good theta values for the parameterized
+(s,S) policy. It does not learn by gradients. It samples populations of
+candidate theta vectors, simulates them, ranks them by profit, and updates its
+search distribution.
+
+Basic optimization loop:
+
+    initialize theta around default policy
+    repeat for generations:
+        sample candidate theta vectors
+        for each theta:
+            build policy
+            run inventory simulation episodes
+            compute mean profit / fitness
+        rank candidates
+        update CMA-ES mean, variance, and covariance
+        keep best theta
+    save best theta and logs
+
+Common hyperparameters documented in the project:
+
+- Population size: 16
+- Episodes per generation: 64
+- Max iterations: 100
+- Early stopping: 35 stagnant generations
+- Initial sigma: 5.0
+- Main seeds: 42, 123, 456, 789, 999
+
+Why CMA-ES was chosen:
+
+- More stable than the older deep RL attempt.
+- Good for small continuous parameter vectors.
+- Works with non-differentiable simulations.
+- Keeps the final decision rule interpretable.
+
+===============================================================================
+13. FORECASTING MODELS
+===============================================================================
+
+Forecasting modules are in src:
+
+- src/forecaster_eval.py
+- src/forecaster_lgbm.py
+- src/forecaster_nhits.py
+- src/forecaster_chronos.py
+- src/forecaster_unified.py
+
+Forecasting baselines:
+
+- Naive forecast:
+  Uses the latest demand value as the next forecast.
+
+- Seasonal naive:
+  Uses demand from a previous seasonal period.
+
+- Moving average:
+  Uses recent mean demand.
+
+LightGBM:
+
+- Feature-based gradient boosting model.
+- Uses lag/rolling/date-style features built from historical demand.
+- Fast training and inference.
+- Saved model artifact:
+  models/lgbm_forecaster.joblib
+
+N-HITS:
+
+- Neural forecasting model from the neuralforecast ecosystem.
+- Trained on the time series with early stopping style parameters.
+- Saved under:
+  models/nhits_forecaster/
+
+Chronos-Bolt:
+
+- Foundation model style forecasting.
+- Used zero-shot in this project.
+- Best RMSE among the compared forecasters in the frontend metrics.
+
+Unified forecaster:
+
+- src/forecaster_unified.py provides:
+  load_forecaster(model)
+  predict_demand(forecaster, history)
+
+Purpose:
+
+- Allows the rest of the project to ask for predictions without caring about
+  the exact forecasting implementation.
+
+===============================================================================
+14. PYTHON SOURCE MODULES - TECHNICAL BREAKDOWN
+===============================================================================
+
+src/environment.py
+
+Main classes:
+
+- _IdentityScaler
+- SupplyChainEnv
+- SsPolicy
+
+SupplyChainEnv responsibility:
+
+- Gym-style single-SKU inventory simulation.
+- Loads processed M5 data.
+- Supports clean real-unit mode and legacy z-scored mode.
+- Maintains inventory, demand windows, stockout history, and service level.
+- Applies order actions, demand realization, holding cost, stockout cost,
+  procurement cost, and reward calculation.
+
+Important SupplyChainEnv attributes:
+
+- df: processed demand/cost dataframe.
+- scaler: StandardScaler or identity scaler.
+- action_map: action index to order units.
+- allocation_map: order split for multi-product legacy mode.
+- max_steps: episode length, usually 90.
+- current_step/current_idx: simulation progress.
+- internal_inventory: current inventory by product.
+- demand_volatility_window: rolling demand history.
+- stockout_history: rolling stockout flags.
+- HOLDING_COST_FACTOR.
+- STOCKOUT_PENALTY_FACTOR.
+- DEFECT_PENALTY_FACTOR.
+- cumulative_sales/cumulative_demand.
+- SL_TARGET.
+
+Important SupplyChainEnv methods:
+
+- __init__:
+  Loads data, creates action maps, initializes economic constants and history.
+
+- reset:
+  Starts a new episode at a random valid index and builds initial state.
+
+- _build_full_state:
+  Builds the state vector from base features, holiday signal, safety buffer,
+  demand volatility, and stockout rate.
+
+- step(action_idx):
+  Applies an order action, realizes demand, computes costs, updates inventory,
+  returns next_state, reward, done, info.
+
+- get_tactical_state:
+  Returns a compact real-feature tactical state for policy/control use.
+
+- set_demand_scale:
+  Allows demand scaling for scenario tests.
+
+- set_strategic_mode/get_strategic_mode:
+  Legacy hooks for hierarchical experiments.
+
+SsPolicy responsibility:
+
+- Classical fixed (s,S) baseline.
+- Uses inventory from tactical state.
+- If inventory <= s, orders up to S using nearest action index.
+
+src/hybrid_policy.py
+
+Main class:
+
+- ParameterizedSSPolicy
+
+Responsibility:
+
+- Implements context-dependent (s,S) decision rule.
+
+Important attributes:
+
+- DEFAULT_THETA = [1.5, 5.0, 0, 0, 0, 0, 0, 0]
+- theta: 8-parameter vector
+
+Important methods:
+
+- get_params
+- set_params
+- act(state)
+- reset
+
+src/train_cmaes.py
+
+Main functions:
+
+- make_train_env
+- run_episode
+- evaluate_policy
+- train
+
+Responsibility:
+
+- Train a parameterized policy on the single-SKU environment using CMA-ES.
+
+src/evaluate.py
+
+Main functions:
+
+- make_holdout_env
+- set_all_seeds
+- run_single_episode
+- evaluate_on_holdout
+- evaluate_ss_baseline
+- scan_ss_baseline
+- load_or_train_cmaes
+- main
+
+Responsibility:
+
+- Evaluate trained policies and classical baselines on holdout data.
+
+src/multi_echelon.py
+
+Main classes:
+
+- NodeMetrics
+- Node
+- SupplyChainNetwork
+
+Network topology:
+
+    supplier -> warehouse -> store A
+                         -> store B
+                         -> store C
+
+Default lead times:
+
+- Supplier to warehouse: 5 days
+- Warehouse to store: 2 days
+
+Default initial inventory:
+
+- Warehouse: 2,000 units
+- Store: 200 units
+
+Store demand split:
+
+- Store A: 50% demand, weekday-heavy
+- Store B: 30% demand, sine-wave style pattern
+- Store C: 20% demand, weekend-heavy
+
+NodeMetrics responsibility:
+
+- Tracks cumulative node-level economics:
+  revenue, holding cost, stockout cost, procurement cost, sales units,
+  demand units, stockout events, orders placed, profit per day.
+
+Node responsibility:
+
+- Represents a supplier, warehouse, or store.
+- Holds inventory.
+- Receives scheduled deliveries.
+- Realizes demand.
+- Ships to downstream nodes.
+- Records holding/procurement costs.
+- Builds store state for ParameterizedSSPolicy.
+
+SupplyChainNetwork responsibility:
+
+- Runs full multi-echelon simulation.
+- Creates supplier, warehouse, and stores.
+- Applies per-store policies.
+- Handles warehouse ordering.
+- Supports disruption overrides.
+- Produces daily records and summary metrics.
+
+Important SupplyChainNetwork methods:
+
+- step:
+  One simulation day.
+
+- simulate:
+  Runs many steps.
+
+- summary:
+  Aggregates network profit, service level, store profits, stockout events,
+  warehouse backlog, and per-node costs.
+
+Theta helpers in multi_echelon.py:
+
+- split_theta24:
+  Splits 24 parameters into three 8-parameter store vectors.
+
+- default_theta24:
+  Replicates default policy for stores A/B/C.
+
+- transform_warehouse_params:
+  Converts raw CMA-ES warehouse controls into actual warehouse s and S.
+
+- split_theta26:
+  Splits 26 parameters into store A/B/C theta plus warehouse s/S.
+
+- default_theta26:
+  Creates default 26-parameter policy.
+
+src/multi_sku_network.py
+
+Main classes:
+
+- SKUConfig
+- _SKUStoreNode
+- _SKUWarehouseNode
+- MultiSKUNetwork
+
+Responsibility:
+
+- Extends the supply-chain simulation to 30 SKUs.
+- Each SKU has its own logical supplier/warehouse/store flow.
+- All SKUs share a warehouse capacity envelope through overflow penalty.
+
+Parameter layout:
+
+- Per SKU: 10 parameters
+  - 8 store-policy theta values
+  - 2 raw warehouse controls
+
+- For 30 SKUs:
+  - 30 * 10 = 300 parameters
+
+SKUConfig responsibility:
+
+- Stores SKU-level scaling:
+  sku_id, mean demand, unit price, unit cost, action units, initial inventory,
+  inventory normalization, demand normalization.
+
+_SKUStoreNode responsibility:
+
+- Store bookkeeping for one SKU and one store.
+- Tracks inventory, deliveries, demand, metrics, and policy.
+
+_SKUWarehouseNode responsibility:
+
+- Warehouse bookkeeping for one SKU.
+- Tracks inventory, deliveries, warehouse s/S thresholds, and costs.
+
+MultiSKUNetwork responsibility:
+
+- Runs all SKU sub-networks.
+- Applies per-SKU demand, actions, shipments, warehouse orders, holding costs,
+  and overflow penalty.
+- Returns per-SKU and network-level summaries.
+
+Important MultiSKUNetwork methods:
+
+- step
+- simulate
+- summary
+
+Helper functions:
+
+- load_multi_sku_data
+- split_multi_theta
+- default_multi_theta
+- build_network
+
+src/policy_explainer.py
+
+Main functions:
+
+- explain_decision
+- make_policy_fn
+- generate_sample_explanations
+
+Responsibility:
+
+- Explains order decisions using perturbation-based sensitivity analysis.
+- It is policy-agnostic: any callable policy that maps state dict to order
+  quantity can be explained.
+
+Explanation approach:
+
+- Take original state and original decision.
+- Perturb one feature at a time by -20%, -10%, +10%, +20%.
+- Recompute decision.
+- Measure sensitivity as decision change divided by perturbation magnitude.
+- Rank features by mean absolute sensitivity.
+- Generate counterfactual statements.
+
+Feature bounds:
+
+- inventory_level: 0 to 3
+- demand_forecast: 0 to 2
+- demand_std: 0 to 2
+- lead_time: 1 to 10
+
+Output fields:
+
+- original_decision
+- original_state
+- top_factors
+- counterfactuals
+- all_sensitivities
+
+src/disruption_engine.py
+
+Main class/functions:
+
+- Policy
+- load_policies
+- build_scenarios
+- main
+
+Responsibility:
+
+- Tests policies under disruption scenarios.
+- Supports lead-time disruptions, demand spikes, port strike style scenarios,
+  and compound crisis situations.
+
+src/disruption_engine_multi_sku.py
+
+Responsibility:
+
+- Multi-SKU version of disruption scenario evaluation.
+- Runs paired scenario plans across multi-SKU policy settings.
+
+src/hack_detector.py
+
+Main checks:
+
+- check_store_abandonment
+- check_constraint_migration
+- check_generalization_gap
+- check_degenerate_policy
+- detect_hacking
+- audit_all_thetas
+
+Responsibility:
+
+- Detects reward hacking or unsafe policy behavior.
+
+Audit examples:
+
+- Store abandonment:
+  A policy optimizes profit by letting a low-priority store stock out.
+
+- Constraint migration:
+  A policy satisfies constraints on validation but violates them on test.
+
+- Generalization gap:
+  A policy works on validation but fails on held-out data.
+
+- Degenerate policy:
+  A policy stops placing useful orders or collapses into trivial behavior.
+
+src/service_level_guard.py
+
+Main class:
+
+- ServiceLevelGuard
+
+Responsibility:
+
+- Wraps an agent/policy with guard logic related to service-level targets.
+- Tracks service-level risk and can be used to enforce or shape safety behavior.
+
+src/rl_debug_utils.py
+
+Main classes/functions:
+
+- WelfordNormalizer
+- LagrangianDualAscent
+- EpsilonSchedule
+- compute_epsilon_decay
+- q_entropy_regularizer
+
+Responsibility:
+
+- Utilities from RL/debug experiments:
+  online normalization, Lagrangian constraint updates, epsilon scheduling,
+  and entropy-style regularization for Q values.
+
+src/holiday_calendar.py
+
+Main functions:
+
+- get_holiday_multiplier
+- is_holiday_near
+- get_holiday_state_vector
+
+Responsibility:
+
+- Adds holiday-aware demand features/signals.
+
+src/preprocess_m5_raw.py
+
+Main functions:
+
+- load_target_sales
+- load_calendar
+- load_prices
+- build_day_frame
+- verify
+- build_summary
+- run
+
+Responsibility:
+
+- Converts raw M5 files into clean single-SKU daily data.
+- Verifies no corruption.
+- Builds summary metadata.
+
+src/preprocess_m5_data.py
+
+Responsibility:
+
+- Legacy/alternate processed-data preparation using pandas, NumPy,
+  StandardScaler, and joblib.
+
+src/grid_tuned_baseline.py
+
+Responsibility:
+
+- Searches classical inventory policy grids.
+- Builds tuned baseline theta files.
+- Compares simple policy settings against learned policies.
+
+src/train_network_cmaes.py
+
+Responsibility:
+
+- Trains multi-echelon policy vectors with CMA-ES.
+- Supports uniform and per-node variants.
+
+src/train_multi_sku.py
+
+Responsibility:
+
+- Trains multi-SKU policy vectors with CMA-ES.
+- Evaluates 30-SKU network behavior.
+
+src/analyze_segmentation.py and src/analyze_segmentation_multi_sku.py
+
+Responsibility:
+
+- Analyze uniform vs segmented/per-node policies.
+- Compare behavior by store or SKU group.
+
+src/baselines/
+
+Baseline policy classes:
+
+- SafetyStockPolicy
+- MovingAveragePolicy
+- HolidayBoostPolicy
+
+Purpose:
+
+- Provide interpretable non-CMA baselines for comparison and testing.
+
+src/utils/seeding.py
+
+Main functions:
+
+- set_global_seeds
+- seeded_generator
+- temporary_seed
+
+Responsibility:
+
+- Reproducibility for Python, NumPy, and PyTorch experiments.
+
+===============================================================================
+15. FRONTEND ARCHITECTURE
+===============================================================================
+
+Current demo app:
+
+    frontend/index.html
+
+The app shell contains:
+
+- #app
+- #sidebar
+- #main-area
+- #top-header
+- #screen-content
+- #toast-container
+- #modal-overlay
+- #drawer-overlay
+- #drawer
+- #cmd-overlay
+
+External browser dependencies:
+
+- Chart.js from CDN.
+- Lucide icons from CDN.
+- Alpine.js loaded but the current app mostly uses vanilla JavaScript.
+- Google Fonts.
+
+Main JS entry:
+
+    frontend/js/app.js
+
+app.js responsibilities:
+
+- Applies Chart.js defaults.
+- Renders persistent sidebar and top header.
+- Registers route-change header updates.
+- Initializes command palette.
+- Handles Ctrl/Cmd + K shortcut.
+- Starts router.
+
+Router:
+
+    frontend/js/router.js
+
+Routes:
+
+- /demo -> frontend/js/screens/demo.js
+- /dashboard -> frontend/js/screens/dashboard.js
+- /inventory -> frontend/js/screens/inventory.js
+- /orders -> frontend/js/screens/orders.js
+- /history -> frontend/js/screens/history.js
+- /forecasts -> frontend/js/screens/forecasts.js
+- /stress -> frontend/js/screens/stress.js
+- /settings -> frontend/js/screens/settings.js
+
+Default route:
+
+- /demo
+
+Routing behavior:
+
+- Reads window.location.hash.
+- Shows skeleton while loading.
+- Dynamically imports screen module.
+- Calls render(container).
+- Updates active nav classes.
+
+API wrapper:
+
+    frontend/js/api.js
+
+Responsibility:
+
+- Fetches JSON files from frontend/data.
+- Caches fetched JSON by filename.
+- Exposes methods:
+  skus, inventory, forecasts, recommendations, explanations, historySeed,
+  alerts, disruptions, comparison, all, sku(id), inv(id), forecast(id),
+  explanation(id), recommendation(id).
+
+State manager:
+
+    frontend/js/state.js
+
+Storage key:
+
+    smartstock_v2
+
+Responsibilities:
+
+- Stores decisions in localStorage.
+- Stores settings in localStorage.
+- Tracks pending recommendations.
+- Records approved/modified/skipped order decisions.
+- Emits simple local events.
+- Can reset local state.
+
+Default settings:
+
+- holdCost: 0.02
+- stockoutPenalty: 2.00
+- preferredModel: auto
+- dosFactor: 3
+
+Header/nav:
+
+- frontend/js/components/header.js
+- frontend/js/components/sidebar.js
+
+Top navigation labels:
+
+- Showcase
+- Command
+- Stock Ops
+- Orders
+- Demand AI
+- Risk Lab
+- Logs
+- Setup
+
+The older left sidebar was visually reduced/hidden for the premium layout. The
+main navigation now appears at the top to make the app feel more unique and
+demo-friendly.
+
+Notification behavior:
+
+- Header renders a notification button.
+- Clicking it opens a notification panel.
+- Notifications include stockout risk, demand spike, model disagreement, and
+  service-level watch items.
+
+Chart helpers:
+
+    frontend/js/components/chart-helpers.js
+
+Exports:
+
+- C color constants.
+- applyDefaults.
+- lineChart.
+- barChart.
+- doughnutChart.
+- sparkline.
+
+Modal/drawer:
+
+    frontend/js/components/modal.js
+
+Exports:
+
+- openModal
+- closeModal
+- openDrawer
+- closeDrawer
+
+Toast:
+
+    frontend/js/components/toast.js
+
+Exports:
+
+- showToast
+
+===============================================================================
+16. FRONTEND SCREENS
+===============================================================================
+
+Showcase screen:
+
+    frontend/js/screens/demo.js
+
+Purpose:
+
+- Main premium interactive demonstration page.
+- Designed to let a teacher/customer understand the whole project by interacting
+  with it.
+
+Important UI pieces:
+
+- Premium Steam-like demo style.
+- High-texture interactive background canvas.
+- Cursor-reactive particle/texture field.
+- SKU selector.
+- Feature tabs / in-page dock.
+- Hero section explaining the live stock engine.
+- Sliders for inventory, demand, lead time, and shock/risk conditions.
+- Decision strip showing recommended order and service/risk signals.
+- Action map showing valid order quantities.
+- Forecast and policy charts.
+- Explanation factors.
+- Counterfactuals.
+- Model comparison.
+- Stress scenario controls.
+- Demo guide / talking points.
+
+Important demo.js logic:
+
+- Loads SKU, inventory, forecast, recommendation, explanation, comparison, and
+  disruption data.
+- Maintains local UI state such as selected SKU, inventory, demand multiplier,
+  lead time, and scenario.
+- Recomputes a simplified live decision when sliders change.
+- Renders charts through chart helpers.
+- Initializes #demo-particles canvas for interactive background visuals.
+
+Command dashboard:
+
+    frontend/js/screens/dashboard.js
+
+Purpose:
+
+- Overview command center.
+- Shows KPIs, inventory value, active alerts, forecast chart, and
+  recommendations.
+
+Stock operations:
+
+    frontend/js/screens/inventory.js
+
+Purpose:
+
+- Inventory table and SKU-level inspection.
+- Supports search, filters, sorting, selected row highlighting, sparklines, and
+  detail drawer.
+
+Orders:
+
+    frontend/js/screens/orders.js
+
+Purpose:
+
+- Main replenishment workflow.
+- Shows recommended orders.
+- Lets user approve, modify, or skip.
+- Records decisions into AppState.
+- Updates pending badge/count.
+- Shows right-side explanation/details for selected SKU.
+
+Demand AI:
+
+    frontend/js/screens/forecasts.js
+
+Purpose:
+
+- Forecasting model comparison and forecast charts.
+- Displays Chronos-Bolt, N-HITS, LightGBM, and baseline metrics.
+
+Risk Lab:
+
+    frontend/js/screens/stress.js
+
+Purpose:
+
+- Disruption and stress-test screen.
+- Compares policies across scenarios like calm, supplier disruption, demand
+  spike, port strike, and compound crisis.
+
+Logs:
+
+    frontend/js/screens/history.js
+
+Purpose:
+
+- Decision history and audit trail.
+- Merges seeded history data with user local decisions.
+- Supports CSV export.
+
+Setup:
+
+    frontend/js/screens/settings.js
+
+Purpose:
+
+- Demo settings/configuration.
+- Uses AppState to persist settings.
+
+===============================================================================
+17. UI DESIGN OVERVIEW
+===============================================================================
+
+The UI is designed as a premium interactive demo rather than a plain admin
+dashboard.
+
+Design goals:
+
+- Look polished enough for teacher/customer demonstration.
+- Make the project understandable from the UI itself.
+- Avoid overwhelming the user with too many separated panels.
+- Keep technical depth available through interaction.
+- Show the product identity: SmartStock, not a copied external website.
+
+Design style:
+
+- Dark premium base inspired by modern product/storefront interfaces.
+- Teal, gold, blue, and warm accent colors.
+- Top navigation instead of old left-heavy layout.
+- Interactive particles/texture background.
+- Dense but readable operational controls.
+- Cards and panels grouped by workflow:
+  forecast -> decision -> explanation -> risk.
+
+Interactivity:
+
+- Slider changes update recommendation values instantly.
+- SKU selection changes charts and context.
+- Notification button opens an alert panel.
+- Command palette opens with Ctrl/Cmd + K.
+- Orders can be approved, modified, or skipped.
+- History records actions.
+- Stress scenarios can be clicked and compared.
+
+Why this helps the demo:
+
+The evaluator does not need to read code first. They can use the screen and see:
+
+- What product/SKU is being analyzed.
+- What the forecast says.
+- What the AI recommends.
+- Why it recommends it.
+- What happens under disruption.
+- How decisions are logged.
+
+===============================================================================
+18. LOW-LEVEL FLOW: FRONTEND USER DECISION
+===============================================================================
+
+Flow when user opens the app:
+
+    START_SMARTSTOCK_DEMO.bat
+        -> Start_SmartStock_Demo.ps1
+        -> python -m http.server from frontend/
+        -> browser opens /#/demo
+        -> frontend/index.html loads JS/CSS
+        -> app.js boots
+        -> Chart defaults applied
+        -> sidebar/header rendered
+        -> router loads demo.js
+        -> API fetches JSON from frontend/data
+        -> screen renders interactive SmartStock demo
+
+Flow when user changes a slider on Showcase:
+
+    user moves slider
+        -> demo.js updates local state
+        -> _decision() recomputes adjusted demand, safety days, target stock,
+           nearest valid order action, service/risk signals
+        -> _renderDecision updates order cards
+        -> _renderExplanation updates factors/counterfactuals
+        -> _renderCharts updates Chart.js charts
+        -> background continues reacting to cursor
+
+Flow when user approves an order:
+
+    user selects recommendation in Orders
+        -> orders.js loads recommendation, forecast, explanation, SKU data
+        -> user clicks approve/modify/skip
+        -> AppState.recordDecision stores local decision in localStorage
+        -> toast confirms action
+        -> pending badge/count is updated
+        -> History screen can show the decision
+
+Flow when user opens notifications:
+
+    user clicks notification button
+        -> header.js toggles notification panel
+        -> notification list appears
+        -> clicking outside/close hides panel
+
+===============================================================================
+19. LOW-LEVEL FLOW: MODEL TRAINING AND ARTIFACT GENERATION
+===============================================================================
+
+Single-SKU modeling flow:
+
+    raw M5 CSVs
+        -> preprocess_m5_raw.py
+        -> data/processed/m5_clean.csv
+        -> forecaster_eval / forecaster_lgbm / forecaster_nhits /
+           forecaster_chronos
+        -> model evaluation JSON files in models/
+        -> train_cmaes.py optimizes ParameterizedSSPolicy theta
+        -> evaluate.py evaluates holdout performance
+        -> policy_explainer.py creates sample explanations
+        -> disruption_engine.py runs stress scenarios
+        -> hack_detector.py audits policies
+        -> scripts/build_frontend_data.py converts outputs to frontend/data JSON
+
+Multi-echelon flow:
+
+    m5_clean demand series
+        -> SupplyChainNetwork
+        -> supplier/warehouse/store simulation
+        -> per-store ParameterizedSSPolicy
+        -> train_network_cmaes.py or grid_tuned_baseline.py
+        -> evaluation JSON and theta artifacts
+
+Multi-SKU flow:
+
+    raw M5 CSVs
+        -> scripts/prepare_multi_sku_m5.py
+        -> data/processed/m5_multi_sku.csv
+        -> data/processed/m5_multi_sku_summary.json
+        -> MultiSKUNetwork
+        -> train_multi_sku.py
+        -> multi_sku_evaluation.json and related artifacts
+
+Frontend build flow:
+
+    model outputs under models/ and data/
+        -> scripts/build_frontend_data.py
+        -> frontend/data/comparison.json
+        -> frontend/data/disruptions.json
+        -> frontend/data/explainability.json
+        -> frontend/data/hack_detection.json
+        -> frontend/data/overview.json
+        -> frontend/data/retailers.json
+
+===============================================================================
+20. CLASS DIAGRAM READY BLUEPRINT
+===============================================================================
+
+Use this section to generate class diagrams.
+
+Class: ParameterizedSSPolicy
+
+- Attributes:
+  - DEFAULT_THETA: np.ndarray
+  - theta: np.ndarray
+- Methods:
+  - __init__(theta=None)
+  - get_params() -> np.ndarray
+  - set_params(theta) -> None
+  - act(state: dict) -> int
+  - reset() -> None
+- Relationships:
+  - Used by Node for store policies.
+  - Used by _SKUStoreNode for SKU-store policies.
+  - Used by train_cmaes, train_network_cmaes, train_multi_sku.
+  - Explained by policy_explainer through callable wrappers.
+
+Class: SupplyChainEnv
+
+- Attributes:
+  - df
+  - scaler
+  - action_map
+  - allocation_map
+  - max_steps
+  - current_step
+  - current_idx
+  - state
+  - base_state
+  - internal_inventory
+  - demand_volatility_window
+  - stockout_history
+  - HOLDING_COST_FACTOR
+  - STOCKOUT_PENALTY_FACTOR
+  - DEFECT_PENALTY_FACTOR
+  - cumulative_sales
+  - cumulative_demand
+- Methods:
+  - __init__(...)
+  - reset()
+  - step(action_idx)
+  - get_tactical_state()
+  - get_operational_history()
+  - set_demand_scale(scale)
+  - set_strategic_mode(mode)
+  - get_strategic_mode()
+- Relationships:
+  - Used by train_cmaes and evaluate.
+  - Supplies state/reward simulation for policy optimization.
+
+Class: SsPolicy
+
+- Attributes:
+  - s
+  - S
+  - action_map
+- Methods:
+  - __init__(s, S, action_map=None)
+  - select_action(tactical_state, **kwargs)
+  - reset_episode()
+- Relationships:
+  - Classical baseline for SupplyChainEnv.
+
+Class: NodeMetrics
+
+- Attributes:
+  - revenue
+  - holding_cost
+  - stockout_cost
+  - procurement_cost
+  - sales_units
+  - demand_units
+  - stockout_events
+  - orders_placed
+  - profit_per_day
+- Property:
+  - profit
+- Relationships:
+  - Composed inside Node, _SKUStoreNode, and _SKUWarehouseNode.
+
+Class: Node
+
+- Attributes:
+  - node_id
+  - role
+  - inventory
+  - lead_time
+  - policy
+  - demand_fn
+  - capacity
+  - unit_price
+  - unit_cost
+  - upstream
+  - pending_deliveries
+  - demand_window
+  - metrics
+- Methods:
+  - receive_deliveries(day)
+  - realize_demand(demand)
+  - ship_to(other, requested, arrival_day)
+  - record_holding()
+  - record_procurement(units)
+  - store_state()
+- Relationships:
+  - Used by SupplyChainNetwork.
+  - Has one NodeMetrics.
+  - Store nodes have ParameterizedSSPolicy.
+  - Warehouse node ships to store nodes.
+  - Supplier node is upstream of warehouse.
+
+Class: SupplyChainNetwork
+
+- Attributes:
+  - supplier: Node
+  - warehouse: Node
+  - stores: Dict[str, Node]
+  - demand_series
+  - thetas
+  - warehouse_s_lower
+  - warehouse_s_upper
+  - disruption_fn
+  - current_day
+  - warehouse_backlog
+  - daily_records
+- Methods:
+  - __init__(...)
+  - step() -> dict
+  - simulate(n_steps=90) -> dict
+  - summary() -> Dict[str, float]
+  - daily_records property
+- Relationships:
+  - Composes supplier, warehouse, and store nodes.
+  - Uses ParameterizedSSPolicy for each store.
+  - Consumes M5 demand series.
+  - Used by disruption_engine, train_network_cmaes, grid_tuned_baseline,
+    analyze_segmentation, and tests.
+
+Class: SKUConfig
+
+- Attributes:
+  - sku_id
+  - mean_demand
+  - unit_price
+  - unit_cost
+  - action_units
+  - init_inv_store
+  - init_inv_warehouse
+  - inv_norm
+  - demand_norm
+- Static methods:
+  - from_stats(sku_id, mean_demand, mean_price)
+- Relationships:
+  - Used by MultiSKUNetwork to configure each SKU.
+
+Class: _SKUStoreNode
+
+- Attributes:
+  - sku_id
+  - store_id
+  - inventory
+  - lead_time
+  - unit_price
+  - unit_cost
+  - inv_norm
+  - demand_norm
+  - pending_deliveries
+  - demand_window
+  - metrics
+  - policy
+- Methods:
+  - receive_deliveries(day)
+  - realize_demand(demand)
+  - state_dict()
+  - record_holding()
+  - record_procurement(units)
+- Relationships:
+  - Owned by MultiSKUNetwork.
+  - Has NodeMetrics.
+  - Uses ParameterizedSSPolicy.
+
+Class: _SKUWarehouseNode
+
+- Attributes:
+  - sku_id
+  - inventory
+  - lead_time
+  - unit_cost
+  - pending_deliveries
+  - metrics
+  - s_lower
+  - s_upper
+- Methods:
+  - receive_deliveries(day)
+  - ship_to(store, requested, arrival_day)
+  - record_holding()
+  - record_procurement(units)
+- Relationships:
+  - Owned by MultiSKUNetwork.
+  - Ships to _SKUStoreNode.
+  - Has NodeMetrics.
+
+Class: MultiSKUNetwork
+
+- Attributes:
+  - sku_configs
+  - sku_ids
+  - thetas
+  - warehouse_thresholds
+  - demand_by_sku
+  - warehouses
+  - stores
+  - current_day
+  - warehouse_backlog_total
+  - overflow_cost_total
+  - daily_records
+- Methods:
+  - __init__(...)
+  - step() -> dict
+  - simulate(n_steps=90) -> Dict
+  - summary() -> Dict
+  - daily_records property
+- Relationships:
+  - Composes many _SKUWarehouseNode and _SKUStoreNode instances.
+  - Uses SKUConfig for scaling.
+  - Uses ParameterizedSSPolicy for each SKU-store pair.
+  - Shares warehouse capacity across SKUs through overflow penalty.
+
+Class: ServiceLevelGuard
+
+- Attributes:
+  - wrapped agent/policy
+  - service-level tracking state
+  - constraint/guard parameters
+- Methods:
+  - __init__(...)
+  - reset()
+  - reset_z()
+  - other guard methods
+- Relationships:
+  - Can wrap an agent/policy and environment to enforce service-level logic.
+
+Class: WelfordNormalizer
+
+- Attributes:
+  - count
+  - mean
+  - M2/variance-style state
+- Methods:
+  - update(x)
+  - update_batch(xs)
+  - normalize(x)
+  - normalize_tensor(x)
+  - state_dict()
+  - load_state_dict(state)
+
+Class: LagrangianDualAscent
+
+- Responsibility:
+  Constraint penalty multiplier updates for RL-style experiments.
+
+Class: EpsilonSchedule
+
+- Responsibility:
+  Epsilon decay scheduling for exploration experiments.
+
+Frontend conceptual classes/modules:
+
+Module: API
+
+- Methods:
+  skus, inventory, forecasts, recommendations, explanations, historySeed,
+  alerts, disruptions, comparison, all, sku, inv, forecast, explanation,
+  recommendation
+- Relationship:
+  Used by every screen module.
+
+Module: AppState
+
+- Methods:
+  getSettings, updateSettings, getDecisions, recordDecision, pendingCount,
+  isDecided, getDecision, on, reset
+- Relationship:
+  Used by Orders, Dashboard, History, Settings, Sidebar/Header.
+
+Module: Router
+
+- Methods:
+  navigate, onRouteChange, initRouter
+- Relationship:
+  Dynamically imports screen modules and calls render(container).
+
+Screen module interface:
+
+- Each screen exports:
+  render(container) -> Promise/void
+
+===============================================================================
+21. SUGGESTED UML RELATIONSHIPS
+===============================================================================
+
+Backend:
+
+- SupplyChainEnv uses SsPolicy or ParameterizedSSPolicy during evaluation.
+- train_cmaes creates SupplyChainEnv and ParameterizedSSPolicy.
+- evaluate creates SupplyChainEnv and compares policies.
+- SupplyChainNetwork composes Node objects.
+- Node has NodeMetrics.
+- Store-role Node has ParameterizedSSPolicy.
+- SupplyChainNetwork uses split_theta24/split_theta26 helpers.
+- MultiSKUNetwork composes _SKUWarehouseNode and _SKUStoreNode.
+- _SKUStoreNode has NodeMetrics and ParameterizedSSPolicy.
+- _SKUWarehouseNode has NodeMetrics.
+- MultiSKUNetwork uses SKUConfig.
+- policy_explainer uses a policy callable produced from ParameterizedSSPolicy
+  or saved theta files.
+- disruption_engine uses SupplyChainNetwork and Policy wrappers.
+- hack_detector uses evaluation outputs and simulation helpers to audit policy
+  behavior.
+
+Frontend:
+
+- app.js initializes Router, Header, Sidebar, AppState, API.
+- Router loads screen modules.
+- Screen modules call API for JSON data.
+- Orders/Settings/History use AppState.
+- Chart helpers wrap Chart.js.
+- Header and Sidebar share NAV definitions.
+- Header manages notification panel and command button.
+- Modal/Drawer/Toast are shared UI utilities.
+
+===============================================================================
+22. MERMAID CLASS DIAGRAM DRAFT
+===============================================================================
+
+The following can be copied into a Mermaid renderer and improved:
+
+classDiagram
+    class ParameterizedSSPolicy {
+        +np.ndarray theta
+        +get_params()
+        +set_params(theta)
+        +act(state) int
+        +reset()
+    }
+
+    class SupplyChainEnv {
+        +DataFrame df
+        +dict action_map
+        +np.ndarray internal_inventory
+        +reset()
+        +step(action_idx)
+        +get_tactical_state()
+    }
+
+    class SsPolicy {
+        +float s
+        +float S
+        +select_action(tactical_state)
+    }
+
+    class NodeMetrics {
+        +float revenue
+        +float holding_cost
+        +float stockout_cost
+        +float procurement_cost
+        +float sales_units
+        +float demand_units
+        +profit
+    }
+
+    class Node {
+        +str node_id
+        +str role
+        +float inventory
+        +ParameterizedSSPolicy policy
+        +NodeMetrics metrics
+        +receive_deliveries(day)
+        +realize_demand(demand)
+        +ship_to(other, requested, arrival_day)
+        +store_state()
+    }
+
+    class SupplyChainNetwork {
+        +Node supplier
+        +Node warehouse
+        +Dict stores
+        +step()
+        +simulate(n_steps)
+        +summary()
+    }
+
+    class SKUConfig {
+        +str sku_id
+        +float mean_demand
+        +float unit_price
+        +float unit_cost
+        +from_stats()
+    }
+
+    class _SKUStoreNode {
+        +str sku_id
+        +str store_id
+        +float inventory
+        +ParameterizedSSPolicy policy
+        +NodeMetrics metrics
+        +receive_deliveries(day)
+        +realize_demand(demand)
+        +state_dict()
+    }
+
+    class _SKUWarehouseNode {
+        +str sku_id
+        +float inventory
+        +float s_lower
+        +float s_upper
+        +NodeMetrics metrics
+        +ship_to(store, requested, arrival_day)
+    }
+
+    class MultiSKUNetwork {
+        +List sku_configs
+        +Dict warehouses
+        +Dict stores
+        +step()
+        +simulate(n_steps)
+        +summary()
+    }
+
+    SupplyChainEnv ..> ParameterizedSSPolicy
+    SupplyChainEnv ..> SsPolicy
+    SupplyChainNetwork *-- Node
+    Node *-- NodeMetrics
+    Node --> ParameterizedSSPolicy
+    MultiSKUNetwork *-- SKUConfig
+    MultiSKUNetwork *-- _SKUStoreNode
+    MultiSKUNetwork *-- _SKUWarehouseNode
+    _SKUStoreNode *-- NodeMetrics
+    _SKUWarehouseNode *-- NodeMetrics
+    _SKUStoreNode --> ParameterizedSSPolicy
+    _SKUWarehouseNode --> _SKUStoreNode
+
+===============================================================================
+23. SEQUENCE DIAGRAM READY FLOWS
+===============================================================================
+
+Frontend demo load sequence:
+
+    User -> START_SMARTSTOCK_DEMO.bat
+    START_SMARTSTOCK_DEMO.bat -> Start_SmartStock_Demo.ps1
+    Start_SmartStock_Demo.ps1 -> Python http.server
+    Browser -> frontend/index.html
+    index.html -> app.js
+    app.js -> API
+    API -> frontend/data/*.json
+    app.js -> router.js
+    router.js -> demo.js
+    demo.js -> Chart.js
+    demo.js -> User sees interactive Showcase
+
+Policy training sequence:
+
+    Researcher -> train_cmaes.py
+    train_cmaes.py -> SupplyChainEnv
+    train_cmaes.py -> CMA-ES optimizer
+    CMA-ES optimizer -> candidate theta
+    candidate theta -> ParameterizedSSPolicy
+    ParameterizedSSPolicy -> SupplyChainEnv.step()
+    SupplyChainEnv -> reward/profit
+    train_cmaes.py -> save best theta and log
+
+Multi-echelon simulation sequence:
+
+    Evaluator -> SupplyChainNetwork.step()
+    SupplyChainNetwork -> refresh disruption overrides
+    SupplyChainNetwork -> warehouse.receive_deliveries()
+    SupplyChainNetwork -> stores.receive_deliveries()
+    SupplyChainNetwork -> stores.realize_demand()
+    Store Node -> ParameterizedSSPolicy.act()
+    SupplyChainNetwork -> warehouse.ship_to(store)
+    SupplyChainNetwork -> warehouse (s,S) reorder
+    SupplyChainNetwork -> record holding/procurement/stockout costs
+    SupplyChainNetwork -> day_record
+
+Explainability sequence:
+
+    UI/build script -> policy_explainer.explain_decision()
+    explain_decision -> original policy decision
+    explain_decision -> perturb inventory/demand/std/lead_time
+    explain_decision -> recompute policy decision
+    explain_decision -> rank sensitivities
+    explain_decision -> generate counterfactuals
+    explain_decision -> explanation JSON
+
+===============================================================================
+24. LOW-LEVEL DESIGN MODULE MAP
+===============================================================================
+
+Module group: Data preprocessing
+
+- preprocess_m5_raw.py
+  Input: raw M5 sales/calendar/prices.
+  Output: clean single-SKU daily CSV and summary JSON.
+
+- preprocess_m5_data.py
+  Input: alternate/legacy data.
+  Output: processed CSV and scaler.
+
+- scripts/prepare_multi_sku_m5.py
+  Input: raw M5 sales/calendar/prices.
+  Output: long-format 30-SKU CSV and summary JSON.
+
+Module group: Forecasting
+
+- forecaster_eval.py
+  Baseline metrics and rolling evaluation.
+
+- forecaster_lgbm.py
+  Feature building, LightGBM training, evaluation, and saved model.
+
+- forecaster_nhits.py
+  NeuralForecast N-HITS training/evaluation.
+
+- forecaster_chronos.py
+  Chronos-Bolt zero-shot evaluation.
+
+- forecaster_unified.py
+  Common loader/predictor facade.
+
+Module group: Single-SKU policy
+
+- environment.py
+  Simulation environment.
+
+- hybrid_policy.py
+  Parameterized context-aware (s,S) policy.
+
+- train_cmaes.py
+  CMA-ES policy tuning.
+
+- evaluate.py
+  Holdout evaluation and baseline scans.
+
+Module group: Multi-echelon policy
+
+- multi_echelon.py
+  Supplier/warehouse/store simulation.
+
+- train_network_cmaes.py
+  Multi-echelon CMA-ES training.
+
+- grid_tuned_baseline.py
+  Classical grid baseline search.
+
+- analyze_segmentation.py
+  Uniform vs per-node policy analysis.
+
+Module group: Multi-SKU policy
+
+- multi_sku_network.py
+  30-SKU network simulation.
+
+- train_multi_sku.py
+  Multi-SKU CMA-ES training.
+
+- analyze_segmentation_multi_sku.py
+  SKU bucket/segmentation analysis.
+
+Module group: Safety and robustness
+
+- disruption_engine.py
+  Single-SKU/multi-echelon disruption scenarios.
+
+- disruption_engine_multi_sku.py
+  Multi-SKU disruption scenarios.
+
+- hack_detector.py
+  Reward-hacking checks.
+
+- service_level_guard.py
+  Service-level guard wrapper.
+
+Module group: Explainability
+
+- policy_explainer.py
+  Perturbation-based explanation and counterfactual generation.
+
+Module group: Frontend generation
+
+- scripts/build_frontend_data.py
+  Converts model output into frontend JSON.
+
+- scripts/build_erp_data.py
+  ERP/demo data builder.
+
+- scripts/disruption_summary.py
+  Disruption summary generation.
+
+===============================================================================
+25. TEST COVERAGE
+===============================================================================
+
+Tests live under tests/.
+
+test_pipeline.py:
+
+- Tests SupplyChainEnv behavior.
+- Tests ParameterizedSSPolicy behavior.
+- Tests SsPolicy.
+- Tests WelfordNormalizer.
+- Tests EpsilonSchedule.
+- Tests holiday features.
+- Tests ServiceLevelGuard.
+
+test_forecasters.py:
+
+- Tests LightGBM trains and predicts.
+- Tests LightGBM beats naive baseline condition.
+- Tests N-HITS trains and predicts.
+- Tests N-HITS beats naive baseline condition.
+- Tests Chronos zero-shot prediction.
+- Tests Chronos beats naive baseline condition.
+
+test_multi_echelon.py:
+
+- Tests node inventory update.
+- Tests order propagation with lead time.
+- Tests cascading stockouts.
+- Tests network profit aggregation.
+- Tests fixed warehouse baseline.
+- Tests theta26 warehouse parameter behavior.
+- Tests CMA-ES improvement over 10 generations.
+
+test_policy_explainer.py:
+
+- Tests explanation output structure.
+- Tests perturbations change output.
+- Tests inventory-sensitive policy sensitivity.
+- Tests multiple policy types.
+- Tests sample explanation generation.
+
+test_hack_detector.py:
+
+- Tests store abandonment flagging.
+- Tests robust theta checks.
+- Tests synthetic generalization gap.
+- Tests detect_hacking output keys.
+- Tests hack detection report existence.
+
+test_preprocess_m5_raw.py:
+
+- Tests output file existence and columns.
+- Tests no data corruption.
+- Tests day-of-week/date consistency.
+
+===============================================================================
+26. MODEL ARTIFACTS
+===============================================================================
+
+Important model/evaluation files:
+
+- models/cmaes_theta_seed42.npy
+- models/cmaes_theta_seed123.npy
+- models/cmaes_theta_seed456.npy
+- models/cmaes_theta_seed789.npy
+- models/cmaes_theta_seed999.npy
+- models/cmaes_training_log_seed42.json
+- models/cmaes_training_log_seed123.json
+- models/cmaes_training_log_seed456.json
+- models/cmaes_training_log_seed789.json
+- models/cmaes_training_log_seed999.json
+- models/evaluation_results.json
+- models/grid_tuned_classical_theta.npy
+- models/grid_tuned_classical.json
+- models/network_best_theta.npy
+- models/network_best_theta_pernode.npy
+- models/network_best_theta_pernode_robust.npy
+- models/network_evaluation.json
+- models/network_evaluation_pernode.json
+- models/network_evaluation_pernode_robust.json
+- models/uniform_best_theta.npy
+- models/uniform_best_theta_robust.npy
+- models/uniform_evaluation.json
+- models/uniform_evaluation_robust.json
+- models/multi_sku_theta.npy
+- models/multi_sku_evaluation.json
+- models/multi_sku_baselines.json
+- models/segmentation_analysis.json
+- models/multi_sku_segmentation_analysis.json
+- models/hack_detection_report.json
+- models/lgbm_evaluation.json
+- models/lgbm_forecaster.joblib
+- models/nhits_evaluation.json
+- models/nhits_forecaster/
+- models/chronos_evaluation.json
+- models/sample_explanations_pernode_storeA.json
+- models/sample_explanations_cmaes_storeA.json
+
+Theta file meaning:
+
+- Single-store theta files usually contain 8 values.
+- Multi-store theta24 contains 3 stores * 8 = 24 values.
+- Theta26 contains theta24 plus 2 warehouse raw controls.
+- Multi-SKU theta contains n_skus * 10 values.
+
+===============================================================================
+27. REWARD-HACKING AUDIT
+===============================================================================
+
+The project discovered an important issue:
+
+A policy can look profitable while treating one store badly.
+
+Example:
+
+- Uniform CMA-ES had good profit but Store C service level collapsed to about
+  61.8% in the frontend comparison.
+- The hack detector flags this as store abandonment.
+
+Fix:
+
+- Per-node service-level constraints.
+- Robust per-node CMA-ES policy.
+
+Final robust policy:
+
+- Passes reward-hacking checks in hack_detection_report.json.
+- Keeps Store C from being abandoned.
+- Maintains more balanced service behavior.
+
+Audit checks:
+
+- Store abandonment.
+- Constraint migration.
+- Generalization gap.
+- Degenerate policy.
+
+Why this is important:
+
+It shows the project is not just optimizing a metric blindly. It checks whether
+the learned policy is operationally acceptable and fair across stores.
+
+===============================================================================
+28. DISRUPTION AND STRESS TESTING
+===============================================================================
+
+Disruption testing asks:
+
+    "If demand spikes or suppliers are delayed, does the policy still work?"
+
+Scenarios represented in frontend/data/disruptions.json:
+
+- Calm.
+- Mild supplier disruption.
+- Major supplier disruption.
+- Demand spike.
+- Port strike.
+- Compound crisis.
+
+Policies compared:
+
+- Default classical (s,S).
+- Grid-tuned classical.
+- CMA-ES Per-Node Robust.
+
+Stress output metrics:
+
+- Mean profit.
+- Service level.
+- Worst-case profit percentile.
+- Daily service-level traces.
+
+Purpose:
+
+- Demonstrates robustness.
+- Helps explain tradeoffs.
+- Makes the demo interactive and more convincing.
+
+===============================================================================
+29. EXPLAINABILITY
+===============================================================================
+
+The system explains decisions with sensitivity and counterfactuals.
+
+Example explanation style:
+
+- Lead time was important.
+- Demand forecast pushed the order higher.
+- Inventory level reduced the need to order.
+- If demand were 20% higher, the recommendation would increase.
+- If lead time were lower, the recommendation might decrease.
+
+Why this matters:
+
+Teachers, managers, and customers need to trust the recommendation. A number
+alone is not enough. The system shows the factors behind the number.
+
+Explainability is not SHAP in this project. It is a simpler perturbation-based
+method that is easy to explain:
+
+    change one input
+    observe how the decision changes
+    rank important inputs
+
+===============================================================================
+30. IMPORTANT FORMULAS
+===============================================================================
+
+Parameterized reorder point:
+
+    s = s_base + w1*demand_forecast + w2*demand_std + w3*lead_time
+
+Parameterized order-up-to level:
+
+    S = S_base + w4*demand_forecast + w5*demand_std + w6*lead_time
+
+Order decision:
+
+    if inventory < s:
+        qty = max(0, S - inventory)
+    else:
+        qty = 0
+
+Single-SKU environment reward:
+
+    reward = total_revenue - total_cost
+
+Total cost:
+
+    holding_cost + procurement_cost + defect_cost + stockout_penalty
+
+Service level:
+
+    service_level = total_sales / total_demand
+
+Store demand split:
+
+    store_demand = base_demand * store_share * store_multiplier * noise_factor
+
+Multi-SKU warehouse overflow:
+
+    overflow = max(0, total_warehouse_inventory - max_warehouse_capacity)
+    overflow_cost = overflow * overflow_penalty
+
+===============================================================================
+31. IMPORTANT CONSTANTS
+===============================================================================
+
+Single-SKU action map:
+
+- 0: 0 units
+- 1: 50 units
+- 2: 150 units
+- 3: 300 units
+- 4: 500 units
+- 5: 750 units
+- 6: 1000 units
+- 7: 1500 units
+
+Multi-echelon defaults:
+
+- Supplier to warehouse lead time: 5 days
+- Warehouse to store lead time: 2 days
+- Warehouse initial inventory: 2,000 units
+- Store initial inventory: 200 units
+- Holding cost factor: 0.02 per unit per day
+- Store stockout penalty: 2.00 per unmet unit
+- Warehouse backlog penalty: 0.30 per unmet store-order unit
+
+Store demand shares:
+
+- A: 50%
+- B: 30%
+- C: 20%
+
+Multi-SKU defaults:
+
+- Number of SKUs: 30
+- Params per SKU: 10
+- Total policy dimension: 300
+- Shared max warehouse capacity: 10,000
+- Overflow penalty: 0.10 per unit per day above capacity
+- Service-level floor: 80%
+
+===============================================================================
+32. DEMO TALKING SCRIPT
+===============================================================================
+
+Short introduction:
+
+"SmartStock is an AI inventory decision-support prototype. It uses real retail
+demand data, forecasts future demand, recommends how much stock to order, and
+explains the decision so the user can trust it."
+
+Problem:
+
+"Retailers lose money in two ways: if they order too little, they stock out; if
+they order too much, they pay holding costs. Our system balances both risks."
+
+Technical core:
+
+"The internal model is based on a parameterized (s,S) inventory policy. The
+reorder point and target stock level change depending on demand forecast,
+demand uncertainty, and supplier lead time. CMA-ES optimizes these parameters."
+
+Forecasting:
+
+"We compare Chronos-Bolt, N-HITS, LightGBM, and naive baselines. Chronos-Bolt
+performs best in the current evaluation, with about 15.8% lower RMSE than the
+naive baseline."
+
+Recommendation:
+
+"The UI does not only show predictions. It converts predictions into a concrete
+action, like order 300 units."
+
+Explainability:
+
+"Every recommendation has reasons. The system shows whether demand, inventory,
+uncertainty, or lead time influenced the order most."
+
+Stress testing:
+
+"We can also test the policy under supplier delays, demand spikes, and compound
+crisis scenarios."
+
+Audit:
+
+"We also check for reward hacking. For example, one policy improved profit but
+abandoned Store C. The robust per-node policy fixes that by protecting service
+level per store."
+
+Conclusion:
+
+"The project demonstrates an end-to-end AI supply-chain workflow: forecast,
+optimize, recommend, explain, stress-test, and audit."
+
+===============================================================================
+33. LIMITATIONS AND HONEST NOTES
+===============================================================================
+
+- The current frontend is a static demo. It uses precomputed JSON files rather
+  than calling a live Python backend.
+
+- The Showcase screen recomputes a simplified live decision for interaction.
+  The heavy model training and evaluation are precomputed in Python.
+
+- Some PRD numbers refer to earlier single-SKU experiments, while current
+  frontend policy numbers reflect later multi-echelon/per-node experiments.
+
+- The app is a prototype, not a production ERP system.
+
+- The project does not currently include authentication, a real database, or
+  live supplier/order integrations.
+
+- The UI is designed for demonstration and explanation. Production deployment
+  would require backend APIs, access control, monitoring, data refresh jobs,
+  and integration with inventory systems.
+
+===============================================================================
+34. POSSIBLE CLASS DIAGRAM PACKAGES
+===============================================================================
+
+If generating class diagrams, divide them into these diagrams:
+
+Diagram 1: Policy and single-SKU environment
+
+- SupplyChainEnv
+- ParameterizedSSPolicy
+- SsPolicy
+- SafetyStockPolicy
+- MovingAveragePolicy
+- HolidayBoostPolicy
+
+Diagram 2: Multi-echelon network
+
+- SupplyChainNetwork
+- Node
+- NodeMetrics
+- ParameterizedSSPolicy
+
+Diagram 3: Multi-SKU network
+
+- MultiSKUNetwork
+- SKUConfig
+- _SKUStoreNode
+- _SKUWarehouseNode
+- NodeMetrics
+- ParameterizedSSPolicy
+
+Diagram 4: Frontend modules
+
+- app.js
+- router.js
+- API
+- AppState
+- Header
+- Sidebar/NAV
+- ChartHelpers
+- Modal/Drawer
+- Toast
+- Screens: Demo, Dashboard, Inventory, Orders, Forecasts, Stress, History,
+  Settings
+
+Diagram 5: Data/artifact pipeline
+
+- RawData
+- Preprocessor
+- Forecaster
+- PolicyTrainer
+- Evaluator
+- Explainer
+- DisruptionEngine
+- HackDetector
+- FrontendDataBuilder
+- FrontendApp
+
+===============================================================================
+35. POSSIBLE LOW-LEVEL DESIGN DOCUMENT STRUCTURE
+===============================================================================
+
+Use this structure if converting the project into an LLD:
+
+1. Introduction
+2. Scope
+3. Functional requirements
+4. Non-functional requirements
+5. Architecture overview
+6. Data model
+7. Module breakdown
+8. Class diagrams
+9. Sequence diagrams
+10. Algorithm details
+11. API/data contract
+12. Error handling
+13. Testing strategy
+14. Deployment/startup
+15. Limitations and future work
+
+Functional requirements:
+
+- Load SKU and inventory data.
+- Forecast demand.
+- Recommend order quantity.
+- Explain recommendation.
+- Compare models.
+- Show inventory status.
+- Let user approve/modify/skip orders.
+- Persist local decisions.
+- Show decision history.
+- Export CSV.
+- Run stress/disruption comparisons.
+- Audit policy behavior.
+
+Non-functional requirements:
+
+- Demo should start with one click.
+- UI should be interactive and understandable.
+- Frontend should be static and portable.
+- Model outputs should be reproducible from saved artifacts.
+- Policy should remain interpretable.
+- Audit checks should catch unsafe optimization behavior.
+
+===============================================================================
+36. CONCLUSION
+===============================================================================
+
+SmartStock is an end-to-end AI inventory optimization prototype. It starts with
+retail demand data, evaluates forecasting models, simulates replenishment,
+optimizes interpretable ordering policies, explains recommendations, stress
+tests disruptions, audits for unsafe behavior, and presents everything through a
+premium interactive UI.
+
+The project's biggest strength is that it connects AI modeling to an actual
+business action. It does not stop at "demand will be high tomorrow." It says:
+
+    "Order this many units, here is why, here is the risk, and here is how the
+    decision behaves under disruption."
+
+That is the complete value of the project.

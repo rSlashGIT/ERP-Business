@@ -1,0 +1,62 @@
+============================= test session starts ==============================
+collecting ... collected 51 items
+
+tests/test_forecasters.py::test_lgbm_trains_and_predicts PASSED          [  1%]
+tests/test_forecasters.py::test_lgbm_beats_naive_baseline PASSED         [  3%]
+tests/test_forecasters.py::test_nhits_trains_and_predicts PASSED         [  5%]
+tests/test_forecasters.py::test_nhits_beats_naive_baseline PASSED        [  7%]
+tests/test_forecasters.py::test_chronos_zeroshot_predicts PASSED         [  9%]
+tests/test_forecasters.py::test_chronos_beats_naive_baseline PASSED      [ 11%]
+tests/test_hack_detector.py::test_legacy_mean_sl_theta_flags_check1 PASSED [ 13%]
+tests/test_hack_detector.py::test_robust_pernode_theta_all_false PASSED  [ 15%]
+tests/test_hack_detector.py::test_synthetic_generalization_gap_triggers_check3 PASSED [ 17%]
+tests/test_hack_detector.py::test_detect_hacking_returns_required_keys PASSED [ 19%]
+tests/test_hack_detector.py::test_hack_detection_report_json_exists PASSED [ 21%]
+tests/test_multi_echelon.py::test_node_inventory_update PASSED           [ 23%]
+tests/test_multi_echelon.py::test_order_propagation_with_lead_time PASSED [ 25%]
+tests/test_multi_echelon.py::test_cascading_stockouts PASSED             [ 27%]
+tests/test_multi_echelon.py::test_network_profit_aggregation PASSED      [ 29%]
+tests/test_multi_echelon.py::test_fixed_warehouse_baseline_runs PASSED   [ 31%]
+tests/test_multi_echelon.py::test_theta26_warehouse_params PASSED        [ 33%]
+tests/test_multi_echelon.py::test_cmaes_improves_over_10_gens PASSED     [ 35%]
+tests/test_pipeline.py::TestSupplyChainEnv::test_reset_returns_state PASSED [ 37%]
+tests/test_pipeline.py::TestSupplyChainEnv::test_state_size_is_stable PASSED [ 39%]
+tests/test_pipeline.py::TestSupplyChainEnv::test_action_space PASSED     [ 41%]
+tests/test_pipeline.py::TestSupplyChainEnv::test_invalid_action_raises PASSED [ 43%]
+tests/test_pipeline.py::TestSupplyChainEnv::test_service_level_tracked PASSED [ 45%]
+tests/test_pipeline.py::TestSupplyChainEnv::test_tactical_state_shape PASSED [ 47%]
+tests/test_pipeline.py::TestSupplyChainEnv::test_data_split_no_overlap PASSED [ 49%]
+tests/test_pipeline.py::TestParameterizedSSPolicy::test_default_theta_shape PASSED [ 50%]
+tests/test_pipeline.py::TestParameterizedSSPolicy::test_act_returns_valid_action PASSED [ 52%]
+tests/test_pipeline.py::TestParameterizedSSPolicy::test_set_get_params_roundtrip PASSED [ 54%]
+tests/test_pipeline.py::TestParameterizedSSPolicy::test_high_inventory_orders_nothing PASSED [ 56%]
+tests/test_pipeline.py::TestParameterizedSSPolicy::test_zero_inventory_orders PASSED [ 58%]
+tests/test_pipeline.py::TestSsPolicy::test_orders_when_below_s PASSED    [ 60%]
+tests/test_pipeline.py::TestSsPolicy::test_no_order_when_above_s PASSED  [ 62%]
+tests/test_pipeline.py::TestWelfordNormalizer::test_zero_before_two_samples PASSED [ 64%]
+tests/test_pipeline.py::TestWelfordNormalizer::test_normalizes_mean_to_zero PASSED [ 66%]
+tests/test_pipeline.py::TestWelfordNormalizer::test_state_dict_roundtrip PASSED [ 68%]
+tests/test_pipeline.py::TestEpsilonSchedule::test_starts_at_eps_start PASSED [ 70%]
+tests/test_pipeline.py::TestEpsilonSchedule::test_reaches_floor PASSED   [ 72%]
+tests/test_pipeline.py::TestEpsilonSchedule::test_monotone_decreasing PASSED [ 74%]
+tests/test_pipeline.py::TestHolidayCalendar::test_christmas_day_is_holiday PASSED [ 76%]
+tests/test_pipeline.py::TestHolidayCalendar::test_regular_day_is_1x PASSED [ 78%]
+tests/test_pipeline.py::TestHolidayCalendar::test_is_holiday_near_range PASSED [ 80%]
+tests/test_pipeline.py::TestHolidayCalendar::test_holiday_signal_is_1_on_holiday PASSED [ 82%]
+tests/test_pipeline.py::TestServiceLevelGuard::test_guard_never_lowers_action PASSED [ 84%]
+tests/test_policy_explainer.py::test_explain_decision_structure PASSED   [ 86%]
+tests/test_policy_explainer.py::test_extreme_perturbations_change_output PASSED [ 88%]
+tests/test_policy_explainer.py::test_inventory_sensitive_policy_shows_nonzero_sensitivity PASSED [ 90%]
+tests/test_policy_explainer.py::test_policy_agnostic_multiple_types PASSED [ 92%]
+tests/test_policy_explainer.py::test_generate_sample_explanations_produces_n_decisions PASSED [ 94%]
+tests/test_preprocess_m5_raw.py::test_output_file_exists_and_has_correct_columns PASSED [ 96%]
+tests/test_preprocess_m5_raw.py::test_no_data_corruption PASSED          [ 98%]
+tests/test_preprocess_m5_raw.py::test_dow_matches_date PASSED            [100%]
+
+=============================== warnings summary ===============================
+tests/test_pipeline.py: 78 warnings
+  /Users/ashritk/.pyenv/versions/3.11.9/lib/python3.11/site-packages/sklearn/utils/validation.py:2691: UserWarning: X does not have valid feature names, but StandardScaler was fitted with feature names
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 51 passed, 78 warnings in 15.21s =======================

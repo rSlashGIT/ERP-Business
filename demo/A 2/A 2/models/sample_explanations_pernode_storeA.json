@@ -1,0 +1,671 @@
+[
+  {
+    "original_decision": 0.0,
+    "original_state": {
+      "inventory_level": 0.165,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 2.0
+    },
+    "top_factors": [
+      {
+        "feature": "lead_time",
+        "sensitivity": 93.75,
+        "share": 1.0,
+        "direction": "positive",
+        "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+      },
+      {
+        "feature": "inventory_level",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Current inventory is 0.16 (normalized). Higher inventory -> higher order."
+      },
+      {
+        "feature": "demand_forecast",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Forecasted demand is 0.00 (normalized). Higher forecast -> higher order."
+      },
+      {
+        "feature": "demand_std",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Demand uncertainty (std) is 0.00. Higher uncertainty -> higher order."
+      }
+    ],
+    "counterfactuals": [
+      "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 0.",
+      "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 0.",
+      "If inventory level were 19% higher (0.165 -> 0.198), recommend 0 units instead of 0.",
+      "If inventory level were 19% lower (0.165 -> 0.132), recommend 0 units instead of 0."
+    ],
+    "all_sensitivities": {
+      "inventory_level": 0.0,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 93.75
+    },
+    "sample_id": 0,
+    "policy_type": "pernode_robust",
+    "store": "A",
+    "day_offset": 33
+  },
+  {
+    "original_decision": 0.0,
+    "original_state": {
+      "inventory_level": 0.2909,
+      "demand_forecast": 0.0898,
+      "demand_std": 0.0325,
+      "lead_time": 2.0
+    },
+    "top_factors": [
+      {
+        "feature": "lead_time",
+        "sensitivity": 93.75,
+        "share": 1.0,
+        "direction": "positive",
+        "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+      },
+      {
+        "feature": "inventory_level",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Current inventory is 0.29 (normalized). Higher inventory -> higher order."
+      },
+      {
+        "feature": "demand_forecast",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Forecasted demand is 0.09 (normalized). Higher forecast -> higher order."
+      },
+      {
+        "feature": "demand_std",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Demand uncertainty (std) is 0.03. Higher uncertainty -> higher order."
+      }
+    ],
+    "counterfactuals": [
+      "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 0.",
+      "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 0.",
+      "If inventory level were 19% higher (0.291 -> 0.349), recommend 0 units instead of 0.",
+      "If inventory level were 19% lower (0.291 -> 0.233), recommend 0 units instead of 0.",
+      "If demand forecast were 19% higher (0.090 -> 0.108), recommend 0 units instead of 0."
+    ],
+    "all_sensitivities": {
+      "inventory_level": 0.0,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 93.75
+    },
+    "sample_id": 1,
+    "policy_type": "pernode_robust",
+    "store": "A",
+    "day_offset": 289
+  },
+  {
+    "original_decision": 0.0,
+    "original_state": {
+      "inventory_level": 0.0616,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 2.0
+    },
+    "top_factors": [
+      {
+        "feature": "lead_time",
+        "sensitivity": 93.75,
+        "share": 1.0,
+        "direction": "positive",
+        "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+      },
+      {
+        "feature": "inventory_level",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Current inventory is 0.06 (normalized). Higher inventory -> higher order."
+      },
+      {
+        "feature": "demand_forecast",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Forecasted demand is 0.00 (normalized). Higher forecast -> higher order."
+      },
+      {
+        "feature": "demand_std",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Demand uncertainty (std) is 0.00. Higher uncertainty -> higher order."
+      }
+    ],
+    "counterfactuals": [
+      "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 0.",
+      "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 0.",
+      "If inventory level were 19% higher (0.062 -> 0.074), recommend 0 units instead of 0.",
+      "If inventory level were 19% lower (0.062 -> 0.049), recommend 0 units instead of 0."
+    ],
+    "all_sensitivities": {
+      "inventory_level": 0.0,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 93.75
+    },
+    "sample_id": 2,
+    "policy_type": "pernode_robust",
+    "store": "A",
+    "day_offset": 32
+  },
+  {
+    "original_decision": 0.0,
+    "original_state": {
+      "inventory_level": 0.326,
+      "demand_forecast": 0.093,
+      "demand_std": 0.0291,
+      "lead_time": 2.0
+    },
+    "top_factors": [
+      {
+        "feature": "lead_time",
+        "sensitivity": 93.75,
+        "share": 1.0,
+        "direction": "positive",
+        "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+      },
+      {
+        "feature": "inventory_level",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Current inventory is 0.33 (normalized). Higher inventory -> higher order."
+      },
+      {
+        "feature": "demand_forecast",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Forecasted demand is 0.09 (normalized). Higher forecast -> higher order."
+      },
+      {
+        "feature": "demand_std",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Demand uncertainty (std) is 0.03. Higher uncertainty -> higher order."
+      }
+    ],
+    "counterfactuals": [
+      "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 0.",
+      "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 0.",
+      "If inventory level were 19% higher (0.326 -> 0.391), recommend 0 units instead of 0.",
+      "If inventory level were 19% lower (0.326 -> 0.261), recommend 0 units instead of 0.",
+      "If demand forecast were 19% higher (0.093 -> 0.112), recommend 0 units instead of 0."
+    ],
+    "all_sensitivities": {
+      "inventory_level": 0.0,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 93.75
+    },
+    "sample_id": 3,
+    "policy_type": "pernode_robust",
+    "store": "A",
+    "day_offset": 260
+  },
+  {
+    "original_decision": 0.0,
+    "original_state": {
+      "inventory_level": 0.2692,
+      "demand_forecast": 0.0843,
+      "demand_std": 0.0294,
+      "lead_time": 2.0
+    },
+    "top_factors": [
+      {
+        "feature": "lead_time",
+        "sensitivity": 93.75,
+        "share": 1.0,
+        "direction": "positive",
+        "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+      },
+      {
+        "feature": "inventory_level",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Current inventory is 0.27 (normalized). Higher inventory -> higher order."
+      },
+      {
+        "feature": "demand_forecast",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Forecasted demand is 0.08 (normalized). Higher forecast -> higher order."
+      },
+      {
+        "feature": "demand_std",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Demand uncertainty (std) is 0.03. Higher uncertainty -> higher order."
+      }
+    ],
+    "counterfactuals": [
+      "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 0.",
+      "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 0.",
+      "If inventory level were 19% higher (0.269 -> 0.323), recommend 0 units instead of 0.",
+      "If inventory level were 19% lower (0.269 -> 0.215), recommend 0 units instead of 0.",
+      "If demand forecast were 19% higher (0.084 -> 0.101), recommend 0 units instead of 0."
+    ],
+    "all_sensitivities": {
+      "inventory_level": 0.0,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 93.75
+    },
+    "sample_id": 4,
+    "policy_type": "pernode_robust",
+    "store": "A",
+    "day_offset": 275
+  },
+  {
+    "original_decision": 0.0,
+    "original_state": {
+      "inventory_level": 0.0718,
+      "demand_forecast": 0.0677,
+      "demand_std": 0.018,
+      "lead_time": 2.0
+    },
+    "top_factors": [
+      {
+        "feature": "lead_time",
+        "sensitivity": 93.75,
+        "share": 1.0,
+        "direction": "positive",
+        "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+      },
+      {
+        "feature": "inventory_level",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Current inventory is 0.07 (normalized). Higher inventory -> higher order."
+      },
+      {
+        "feature": "demand_forecast",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Forecasted demand is 0.07 (normalized). Higher forecast -> higher order."
+      },
+      {
+        "feature": "demand_std",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Demand uncertainty (std) is 0.02. Higher uncertainty -> higher order."
+      }
+    ],
+    "counterfactuals": [
+      "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 0.",
+      "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 0.",
+      "If inventory level were 19% higher (0.072 -> 0.086), recommend 0 units instead of 0.",
+      "If inventory level were 19% lower (0.072 -> 0.057), recommend 0 units instead of 0.",
+      "If demand forecast were 19% higher (0.068 -> 0.081), recommend 0 units instead of 0."
+    ],
+    "all_sensitivities": {
+      "inventory_level": 0.0,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 93.75
+    },
+    "sample_id": 5,
+    "policy_type": "pernode_robust",
+    "store": "A",
+    "day_offset": 284
+  },
+  {
+    "original_decision": 0.0,
+    "original_state": {
+      "inventory_level": 0.1446,
+      "demand_forecast": 0.0742,
+      "demand_std": 0.0179,
+      "lead_time": 2.0
+    },
+    "top_factors": [
+      {
+        "feature": "lead_time",
+        "sensitivity": 93.75,
+        "share": 1.0,
+        "direction": "positive",
+        "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+      },
+      {
+        "feature": "inventory_level",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Current inventory is 0.14 (normalized). Higher inventory -> higher order."
+      },
+      {
+        "feature": "demand_forecast",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Forecasted demand is 0.07 (normalized). Higher forecast -> higher order."
+      },
+      {
+        "feature": "demand_std",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Demand uncertainty (std) is 0.02. Higher uncertainty -> higher order."
+      }
+    ],
+    "counterfactuals": [
+      "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 0.",
+      "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 0.",
+      "If inventory level were 19% higher (0.145 -> 0.173), recommend 0 units instead of 0.",
+      "If inventory level were 19% lower (0.145 -> 0.116), recommend 0 units instead of 0.",
+      "If demand forecast were 19% higher (0.074 -> 0.089), recommend 0 units instead of 0."
+    ],
+    "all_sensitivities": {
+      "inventory_level": 0.0,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 93.75
+    },
+    "sample_id": 6,
+    "policy_type": "pernode_robust",
+    "store": "A",
+    "day_offset": 314
+  },
+  {
+    "original_decision": 0.0,
+    "original_state": {
+      "inventory_level": 0.3114,
+      "demand_forecast": 0.0972,
+      "demand_std": 0.0559,
+      "lead_time": 2.0
+    },
+    "top_factors": [
+      {
+        "feature": "lead_time",
+        "sensitivity": 93.75,
+        "share": 1.0,
+        "direction": "positive",
+        "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+      },
+      {
+        "feature": "inventory_level",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Current inventory is 0.31 (normalized). Higher inventory -> higher order."
+      },
+      {
+        "feature": "demand_forecast",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Forecasted demand is 0.10 (normalized). Higher forecast -> higher order."
+      },
+      {
+        "feature": "demand_std",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Demand uncertainty (std) is 0.06. Higher uncertainty -> higher order."
+      }
+    ],
+    "counterfactuals": [
+      "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 0.",
+      "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 0.",
+      "If inventory level were 19% higher (0.311 -> 0.374), recommend 0 units instead of 0.",
+      "If inventory level were 19% lower (0.311 -> 0.249), recommend 0 units instead of 0.",
+      "If demand forecast were 19% higher (0.097 -> 0.117), recommend 0 units instead of 0."
+    ],
+    "all_sensitivities": {
+      "inventory_level": 0.0,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 93.75
+    },
+    "sample_id": 7,
+    "policy_type": "pernode_robust",
+    "store": "A",
+    "day_offset": 168
+  },
+  {
+    "original_decision": 0.0,
+    "original_state": {
+      "inventory_level": 0.2802,
+      "demand_forecast": 0.08,
+      "demand_std": 0.0362,
+      "lead_time": 2.0
+    },
+    "top_factors": [
+      {
+        "feature": "lead_time",
+        "sensitivity": 93.75,
+        "share": 1.0,
+        "direction": "positive",
+        "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+      },
+      {
+        "feature": "inventory_level",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Current inventory is 0.28 (normalized). Higher inventory -> higher order."
+      },
+      {
+        "feature": "demand_forecast",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Forecasted demand is 0.08 (normalized). Higher forecast -> higher order."
+      },
+      {
+        "feature": "demand_std",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Demand uncertainty (std) is 0.04. Higher uncertainty -> higher order."
+      }
+    ],
+    "counterfactuals": [
+      "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 0.",
+      "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 0.",
+      "If inventory level were 19% higher (0.280 -> 0.336), recommend 0 units instead of 0.",
+      "If inventory level were 19% lower (0.280 -> 0.224), recommend 0 units instead of 0.",
+      "If demand forecast were 19% higher (0.080 -> 0.096), recommend 0 units instead of 0."
+    ],
+    "all_sensitivities": {
+      "inventory_level": 0.0,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 93.75
+    },
+    "sample_id": 8,
+    "policy_type": "pernode_robust",
+    "store": "A",
+    "day_offset": 292
+  },
+  {
+    "original_decision": 0.0,
+    "original_state": {
+      "inventory_level": 0.1664,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 2.0
+    },
+    "top_factors": [
+      {
+        "feature": "lead_time",
+        "sensitivity": 93.75,
+        "share": 1.0,
+        "direction": "positive",
+        "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+      },
+      {
+        "feature": "inventory_level",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Current inventory is 0.17 (normalized). Higher inventory -> higher order."
+      },
+      {
+        "feature": "demand_forecast",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Forecasted demand is 0.00 (normalized). Higher forecast -> higher order."
+      },
+      {
+        "feature": "demand_std",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Demand uncertainty (std) is 0.00. Higher uncertainty -> higher order."
+      }
+    ],
+    "counterfactuals": [
+      "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 0.",
+      "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 0.",
+      "If inventory level were 19% higher (0.166 -> 0.200), recommend 0 units instead of 0.",
+      "If inventory level were 19% lower (0.166 -> 0.133), recommend 0 units instead of 0."
+    ],
+    "all_sensitivities": {
+      "inventory_level": 0.0,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 93.75
+    },
+    "sample_id": 9,
+    "policy_type": "pernode_robust",
+    "store": "A",
+    "day_offset": 240
+  },
+  {
+    "original_decision": 0.0,
+    "original_state": {
+      "inventory_level": 0.1997,
+      "demand_forecast": 0.0972,
+      "demand_std": 0.0559,
+      "lead_time": 2.0
+    },
+    "top_factors": [
+      {
+        "feature": "lead_time",
+        "sensitivity": 93.75,
+        "share": 1.0,
+        "direction": "positive",
+        "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+      },
+      {
+        "feature": "inventory_level",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Current inventory is 0.20 (normalized). Higher inventory -> higher order."
+      },
+      {
+        "feature": "demand_forecast",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Forecasted demand is 0.10 (normalized). Higher forecast -> higher order."
+      },
+      {
+        "feature": "demand_std",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Demand uncertainty (std) is 0.06. Higher uncertainty -> higher order."
+      }
+    ],
+    "counterfactuals": [
+      "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 0.",
+      "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 0.",
+      "If inventory level were 19% higher (0.200 -> 0.240), recommend 0 units instead of 0.",
+      "If inventory level were 19% lower (0.200 -> 0.160), recommend 0 units instead of 0.",
+      "If demand forecast were 19% higher (0.097 -> 0.117), recommend 0 units instead of 0."
+    ],
+    "all_sensitivities": {
+      "inventory_level": 0.0,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 93.75
+    },
+    "sample_id": 10,
+    "policy_type": "pernode_robust",
+    "store": "A",
+    "day_offset": 168
+  },
+  {
+    "original_decision": 0.0,
+    "original_state": {
+      "inventory_level": 0.0525,
+      "demand_forecast": 0.1113,
+      "demand_std": 0.0287,
+      "lead_time": 2.0
+    },
+    "top_factors": [
+      {
+        "feature": "lead_time",
+        "sensitivity": 93.75,
+        "share": 1.0,
+        "direction": "positive",
+        "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+      },
+      {
+        "feature": "inventory_level",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Current inventory is 0.05 (normalized). Higher inventory -> higher order."
+      },
+      {
+        "feature": "demand_forecast",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Forecasted demand is 0.11 (normalized). Higher forecast -> higher order."
+      },
+      {
+        "feature": "demand_std",
+        "sensitivity": 0.0,
+        "share": 0.0,
+        "direction": "positive",
+        "description": "Demand uncertainty (std) is 0.03. Higher uncertainty -> higher order."
+      }
+    ],
+    "counterfactuals": [
+      "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 0.",
+      "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 0.",
+      "If inventory level were 19% higher (0.052 -> 0.063), recommend 0 units instead of 0.",
+      "If inventory level were 19% lower (0.052 -> 0.042), recommend 0 units instead of 0.",
+      "If demand forecast were 19% higher (0.111 -> 0.134), recommend 0 units instead of 0."
+    ],
+    "all_sensitivities": {
+      "inventory_level": 0.0,
+      "demand_forecast": 0.0,
+      "demand_std": 0.0,
+      "lead_time": 93.75
+    },
+    "sample_id": 11,
+    "policy_type": "pernode_robust",
+    "store": "A",
+    "day_offset": 84
+  }
+]

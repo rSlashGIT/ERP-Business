@@ -1,0 +1,1242 @@
+{
+  "phase": "phase7_multi_sku_segmentation",
+  "n_skus": 30,
+  "n_episodes": 16,
+  "episode_length": 90,
+  "sl_floor": 0.8,
+  "by_policy": {
+    "naive_uniform": {
+      "mean_network_profit": -399796.62507165817,
+      "std_network_profit": 8086.646258723192,
+      "mean_service_level": 1.0,
+      "mean_overflow": 247109.02901852148,
+      "per_sku_stats": {
+        "FOODS_3_090": {
+          "profit": -7986.139899626942,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 66.38588356517259
+        },
+        "HOBBIES_1_348": {
+          "profit": -2413.3891567544656,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 11.852653271509531
+        },
+        "FOODS_3_586": {
+          "profit": -5937.892950216583,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 45.77331272539928
+        },
+        "HOBBIES_1_371": {
+          "profit": -2443.9097998958778,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 11.793405461102525
+        },
+        "FOODS_3_120": {
+          "profit": -6354.672859701496,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 40.093392630241425
+        },
+        "FOODS_3_252": {
+          "profit": -5278.527169240211,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 39.18341061308604
+        },
+        "FOODS_3_714": {
+          "profit": -4385.639542046768,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 28.13858835651726
+        },
+        "FOODS_3_587": {
+          "profit": -4693.916277103524,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 26.973724884080372
+        },
+        "FOODS_3_808": {
+          "profit": -4013.955470991841,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 23.747552807831013
+        },
+        "FOODS_2_197": {
+          "profit": -3554.3965721422173,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 21.283874291602267
+        },
+        "FOODS_1_018": {
+          "profit": -2283.0881163562844,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.6913961875322
+        },
+        "HOBBIES_1_268": {
+          "profit": -2160.3424961682003,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.855229263266358
+        },
+        "HOUSEHOLD_1_118": {
+          "profit": -2228.136358650615,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 7.646573930963421
+        },
+        "FOODS_3_811": {
+          "profit": -2581.1298769633486,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.555273189326556
+        },
+        "HOBBIES_1_178": {
+          "profit": -1968.2588921351182,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 8.229263266357547
+        },
+        "HOUSEHOLD_1_535": {
+          "profit": -3742.513617675595,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 6.696465696465697
+        },
+        "FOODS_3_376": {
+          "profit": -2412.644719320877,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.55318039624609
+        },
+        "HOBBIES_1_256": {
+          "profit": -1987.4236854330584,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 8.062339000515198
+        },
+        "HOUSEHOLD_1_151": {
+          "profit": -2064.943022075812,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 6.033094318808605
+        },
+        "FOODS_3_234": {
+          "profit": -1951.296371609063,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.212577962577962
+        },
+        "FOODS_3_448": {
+          "profit": -7838.634005427137,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9876352395672334
+        },
+        "HOBBIES_1_242": {
+          "profit": -7415.812295384102,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9917568263781555
+        },
+        "HOUSEHOLD_1_236": {
+          "profit": -6939.594065881568,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.99585277345775
+        },
+        "FOODS_3_820": {
+          "profit": -6304.3347576225315,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.987120041215868
+        },
+        "HOBBIES_1_078": {
+          "profit": -19825.832361943172,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9361154044307058
+        },
+        "HOUSEHOLD_1_251": {
+          "profit": -6436.235703942308,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9453889747552808
+        },
+        "FOODS_3_026": {
+          "profit": -6375.273301334919,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.968057702215353
+        },
+        "HOBBIES_1_074": {
+          "profit": -8596.603120228225,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.894124847001224
+        },
+        "HOUSEHOLD_1_319": {
+          "profit": -6364.023716202977,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9060589216231238
+        },
+        "FOODS_1_036": {
+          "profit": -6149.0358710618475,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9639361154044308
+        }
+      },
+      "violations": [],
+      "n_violations": 0,
+      "bucket_summary": {
+        "high": {
+          "count": 10,
+          "mean_profit": -4706.243969771992,
+          "total_profit": -47062.43969771992,
+          "mean_sl": 1.0,
+          "min_sl": 1.0,
+          "mean_min_store_sl": 1.0,
+          "sku_below_floor": 0
+        },
+        "medium": {
+          "count": 10,
+          "mean_profit": -2337.9777156387972,
+          "total_profit": -23379.777156387972,
+          "mean_sl": 1.0,
+          "min_sl": 1.0,
+          "mean_min_store_sl": 1.0,
+          "sku_below_floor": 0
+        },
+        "low": {
+          "count": 10,
+          "mean_profit": -8224.53791990288,
+          "total_profit": -82245.37919902879,
+          "mean_sl": 1.0,
+          "min_sl": 1.0,
+          "mean_min_store_sl": 1.0,
+          "sku_below_floor": 0
+        }
+      },
+      "policy_path": "models/multi_sku_baseline_uniform_theta.npy"
+    },
+    "per_sku_grid": {
+      "mean_network_profit": -403310.852084556,
+      "std_network_profit": 7376.159491938304,
+      "mean_service_level": 1.0,
+      "mean_overflow": 250076.35353597836,
+      "per_sku_stats": {
+        "FOODS_3_090": {
+          "profit": -8182.171522057929,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 66.38588356517259
+        },
+        "HOBBIES_1_348": {
+          "profit": -2495.189565463298,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 11.852653271509531
+        },
+        "FOODS_3_586": {
+          "profit": -5912.394859457324,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 45.77331272539928
+        },
+        "HOBBIES_1_371": {
+          "profit": -2432.0575926003653,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 11.793405461102525
+        },
+        "FOODS_3_120": {
+          "profit": -5654.702963983793,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 40.093392630241425
+        },
+        "FOODS_3_252": {
+          "profit": -5198.660573600082,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 39.18341061308604
+        },
+        "FOODS_3_714": {
+          "profit": -4249.879582119884,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 28.13858835651726
+        },
+        "FOODS_3_587": {
+          "profit": -5683.582159167943,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 26.973724884080372
+        },
+        "FOODS_3_808": {
+          "profit": -3906.808252918321,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 23.747552807831013
+        },
+        "FOODS_2_197": {
+          "profit": -3677.130068723939,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 21.283874291602267
+        },
+        "FOODS_1_018": {
+          "profit": -2277.735389223666,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.6913961875322
+        },
+        "HOBBIES_1_268": {
+          "profit": -2176.293506556057,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.855229263266358
+        },
+        "HOUSEHOLD_1_118": {
+          "profit": -2217.364715979452,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 7.646573930963421
+        },
+        "FOODS_3_811": {
+          "profit": -2612.8811084595313,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.555273189326556
+        },
+        "HOBBIES_1_178": {
+          "profit": -1987.9707343166383,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 8.229263266357547
+        },
+        "HOUSEHOLD_1_535": {
+          "profit": -3747.494470682065,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 6.696465696465697
+        },
+        "FOODS_3_376": {
+          "profit": -2434.1944519579497,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.55318039624609
+        },
+        "HOBBIES_1_256": {
+          "profit": -2012.5907078553528,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 8.062339000515198
+        },
+        "HOUSEHOLD_1_151": {
+          "profit": -2144.5622990676984,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 6.033094318808605
+        },
+        "FOODS_3_234": {
+          "profit": -2021.0459577077463,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.212577962577962
+        },
+        "FOODS_3_448": {
+          "profit": -7850.2461455899265,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9876352395672334
+        },
+        "HOBBIES_1_242": {
+          "profit": -7415.6903634277605,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9917568263781555
+        },
+        "HOUSEHOLD_1_236": {
+          "profit": -6948.928962622235,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.99585277345775
+        },
+        "FOODS_3_820": {
+          "profit": -6324.606897825293,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.987120041215868
+        },
+        "HOBBIES_1_078": {
+          "profit": -19792.913579997552,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9361154044307058
+        },
+        "HOUSEHOLD_1_251": {
+          "profit": -6434.904964935033,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9453889747552808
+        },
+        "FOODS_3_026": {
+          "profit": -6365.324688710119,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.968057702215353
+        },
+        "HOBBIES_1_074": {
+          "profit": -8569.622483547226,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.894124847001224
+        },
+        "HOUSEHOLD_1_319": {
+          "profit": -6362.392011777627,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9060589216231238
+        },
+        "FOODS_1_036": {
+          "profit": -6145.157968245851,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9639361154044308
+        }
+      },
+      "violations": [],
+      "n_violations": 0,
+      "bucket_summary": {
+        "high": {
+          "count": 10,
+          "mean_profit": -4739.257714009288,
+          "total_profit": -47392.57714009288,
+          "mean_sl": 1.0,
+          "min_sl": 1.0,
+          "mean_min_store_sl": 1.0,
+          "sku_below_floor": 0
+        },
+        "medium": {
+          "count": 10,
+          "mean_profit": -2363.2133341806157,
+          "total_profit": -23632.13334180616,
+          "mean_sl": 1.0,
+          "min_sl": 1.0,
+          "mean_min_store_sl": 1.0,
+          "sku_below_floor": 0
+        },
+        "low": {
+          "count": 10,
+          "mean_profit": -8220.978806667863,
+          "total_profit": -82209.78806667862,
+          "mean_sl": 1.0,
+          "min_sl": 1.0,
+          "mean_min_store_sl": 1.0,
+          "sku_below_floor": 0
+        }
+      },
+      "policy_path": "models/multi_sku_baseline_persku_theta.npy"
+    },
+    "cmaes_joint": {
+      "mean_network_profit": -1183980.481973804,
+      "std_network_profit": 10901.680879440879,
+      "mean_service_level": 0.9990330989870715,
+      "mean_overflow": 657519.7534909858,
+      "per_sku_stats": {
+        "FOODS_3_090": {
+          "profit": -10866.86336570154,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 66.38588356517259
+        },
+        "HOBBIES_1_348": {
+          "profit": -4263.282342398406,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 11.852653271509531
+        },
+        "FOODS_3_586": {
+          "profit": -39004.318977091716,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 45.77331272539928
+        },
+        "HOBBIES_1_371": {
+          "profit": -34227.75643219879,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 11.793405461102525
+        },
+        "FOODS_3_120": {
+          "profit": -20012.888901652732,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 40.093392630241425
+        },
+        "FOODS_3_252": {
+          "profit": -6693.203243177804,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 39.18341061308604
+        },
+        "FOODS_3_714": {
+          "profit": -15743.683405193815,
+          "sl": 0.9851394643206459,
+          "store_sl": {
+            "A": 1.0,
+            "B": 0.9572816960133329,
+            "C": 0.9878281853572897
+          },
+          "min_store_sl": 0.9572816960133329,
+          "bucket": "high",
+          "mean_demand": 28.13858835651726
+        },
+        "FOODS_3_587": {
+          "profit": -23057.883600566893,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 26.973724884080372
+        },
+        "FOODS_3_808": {
+          "profit": -9943.847915198698,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 23.747552807831013
+        },
+        "FOODS_2_197": {
+          "profit": -25747.421566803616,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "high",
+          "mean_demand": 21.283874291602267
+        },
+        "FOODS_1_018": {
+          "profit": -10278.56412718228,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.6913961875322
+        },
+        "HOBBIES_1_268": {
+          "profit": -6233.76209233018,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.855229263266358
+        },
+        "HOUSEHOLD_1_118": {
+          "profit": -31694.15886592795,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 7.646573930963421
+        },
+        "FOODS_3_811": {
+          "profit": -10042.426792005217,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.555273189326556
+        },
+        "HOBBIES_1_178": {
+          "profit": -16434.610465898255,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 8.229263266357547
+        },
+        "HOUSEHOLD_1_535": {
+          "profit": -17911.334719358325,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 6.696465696465697
+        },
+        "FOODS_3_376": {
+          "profit": -14712.602698146553,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.55318039624609
+        },
+        "HOBBIES_1_256": {
+          "profit": -14194.116535681882,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 8.062339000515198
+        },
+        "HOUSEHOLD_1_151": {
+          "profit": -12472.332446751174,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 6.033094318808605
+        },
+        "FOODS_3_234": {
+          "profit": -13780.025466142872,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "medium",
+          "mean_demand": 9.212577962577962
+        },
+        "FOODS_3_448": {
+          "profit": -16212.095653185792,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9876352395672334
+        },
+        "HOBBIES_1_242": {
+          "profit": -19290.66794269219,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9917568263781555
+        },
+        "HOUSEHOLD_1_236": {
+          "profit": -15558.069130405309,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.99585277345775
+        },
+        "FOODS_3_820": {
+          "profit": -19897.197806219865,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.987120041215868
+        },
+        "HOBBIES_1_078": {
+          "profit": -42279.30668833443,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9361154044307058
+        },
+        "HOUSEHOLD_1_251": {
+          "profit": -14556.312352982277,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9453889747552808
+        },
+        "FOODS_3_026": {
+          "profit": -19826.92963943496,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.968057702215353
+        },
+        "HOBBIES_1_074": {
+          "profit": -19832.11353201876,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.894124847001224
+        },
+        "HOUSEHOLD_1_319": {
+          "profit": -11786.78140006832,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9060589216231238
+        },
+        "FOODS_1_036": {
+          "profit": -9906.170378067718,
+          "sl": 1.0,
+          "store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "min_store_sl": 1.0,
+          "bucket": "low",
+          "mean_demand": 1.9639361154044308
+        }
+      },
+      "violations": [],
+      "n_violations": 0,
+      "bucket_summary": {
+        "high": {
+          "count": 10,
+          "mean_profit": -18956.1149749984,
+          "total_profit": -189561.149749984,
+          "mean_sl": 0.9985139464320646,
+          "min_sl": 0.9851394643206459,
+          "mean_min_store_sl": 0.9957281696013333,
+          "sku_below_floor": 0
+        },
+        "medium": {
+          "count": 10,
+          "mean_profit": -14775.393420942468,
+          "total_profit": -147753.93420942468,
+          "mean_sl": 1.0,
+          "min_sl": 1.0,
+          "mean_min_store_sl": 1.0,
+          "sku_below_floor": 0
+        },
+        "low": {
+          "count": 10,
+          "mean_profit": -18914.56445234096,
+          "total_profit": -189145.6445234096,
+          "mean_sl": 1.0,
+          "min_sl": 1.0,
+          "mean_min_store_sl": 1.0,
+          "sku_below_floor": 0
+        }
+      },
+      "policy_path": "models/multi_sku_theta.npy"
+    }
+  },
+  "cross_policy": {
+    "comparison_by_bucket": {
+      "high": {
+        "joint_total_profit": -189561.149749984,
+        "persku_total_profit": -47392.57714009288,
+        "joint_min_sl": 0.9851394643206459,
+        "persku_min_sl": 1.0,
+        "joint_abandoned": 0,
+        "persku_abandoned": 0,
+        "profit_diff": -142168.57260989113
+      },
+      "medium": {
+        "joint_total_profit": -147753.93420942468,
+        "persku_total_profit": -23632.13334180616,
+        "joint_min_sl": 1.0,
+        "persku_min_sl": 1.0,
+        "joint_abandoned": 0,
+        "persku_abandoned": 0,
+        "profit_diff": -124121.80086761853
+      },
+      "low": {
+        "joint_total_profit": -189145.6445234096,
+        "persku_total_profit": -82209.78806667862,
+        "joint_min_sl": 1.0,
+        "persku_min_sl": 1.0,
+        "joint_abandoned": 0,
+        "persku_abandoned": 0,
+        "profit_diff": -106935.85645673098
+      }
+    },
+    "reward_hacking_signal": -35232.716153160145,
+    "reward_hacking_signal_explanation": "Positive value means joint CMA-ES gains more on high-volume SKUs than it gains on low-volume SKUs (relative to the per-SKU grid baseline) \u2014 the multi-SKU equivalent of abandoning Store C. A near-zero or negative value means the per-(sku, store) SL constraint successfully prevented scale-out reward hacking."
+  }
+}

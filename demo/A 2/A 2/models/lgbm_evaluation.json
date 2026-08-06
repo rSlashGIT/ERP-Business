@@ -1,0 +1,85 @@
+{
+  "model": "lightgbm",
+  "train_end": 1164,
+  "val_end": 1552,
+  "test_end": 1941,
+  "best_iteration": 60,
+  "hyperparameters": {
+    "num_leaves": 31,
+    "learning_rate": 0.05,
+    "n_estimators": 200,
+    "early_stopping_rounds": 20
+  },
+  "train_seconds": 2.1454548835754395,
+  "test_metrics": {
+    "mae": 21.037580557609633,
+    "rmse": 27.409899373119526,
+    "smape": 64.28190259617094,
+    "n_predictions": 389,
+    "start_index": 1552,
+    "end_index": 1941,
+    "eval_seconds": 1.2380146980285645
+  },
+  "baselines": {
+    "naive": {
+      "mae": 18.73007712082262,
+      "rmse": 27.550374520989486,
+      "smape": 32.56003686719512,
+      "n_predictions": 389,
+      "start_index": 1552,
+      "end_index": 1941
+    },
+    "seasonal_naive": {
+      "mae": 21.588688946015424,
+      "rmse": 34.825676784466715,
+      "smape": 42.61507036577562,
+      "n_predictions": 389,
+      "start_index": 1552,
+      "end_index": 1941
+    },
+    "moving_avg_7": {
+      "mae": 18.802791039294895,
+      "rmse": 27.92321984281202,
+      "smape": 37.30121365980635,
+      "n_predictions": 389,
+      "start_index": 1552,
+      "end_index": 1941
+    }
+  },
+  "beats_baselines": true,
+  "random_seed": 42,
+  "lightgbm_version": "4.3.0",
+  "library": "lightgbm",
+  "hardware": "cpu",
+  "train_size": 1164,
+  "val_size": 388,
+  "test_size": 389,
+  "inference_time_per_prediction_seconds": 0.003183,
+  "gates": {
+    "beats_naive_rmse": {
+      "threshold": 27.550374520989486,
+      "actual": 27.409899373119526,
+      "pass": true
+    },
+    "beats_moving_avg7_rmse": {
+      "threshold": 27.92321984281202,
+      "actual": 27.409899373119526,
+      "pass": true
+    },
+    "smape_lt_30pct": {
+      "threshold": 30.0,
+      "actual": 64.28190259617094,
+      "pass": false
+    },
+    "train_time_lt_60s": {
+      "threshold": 60.0,
+      "actual": 2.1454548835754395,
+      "pass": true
+    },
+    "best_iteration_lt_200": {
+      "threshold": 200,
+      "actual": 60,
+      "pass": true
+    }
+  }
+}

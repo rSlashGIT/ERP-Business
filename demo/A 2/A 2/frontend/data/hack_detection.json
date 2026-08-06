@@ -1,0 +1,135 @@
+{
+  "summary": {
+    "total_audited": 11,
+    "total_flagged": 4,
+    "total_skipped": 0,
+    "train_split": 0.8,
+    "heldout_rng_seed": 20260419,
+    "thresholds": {
+      "sl_abandonment": 0.6,
+      "demand_share": 0.15,
+      "sl_floor": 0.8,
+      "gen_gap": 0.05
+    }
+  },
+  "findings": [
+    {
+      "title": "Store C Abandoned by Legacy Policy",
+      "policy": "network_best_theta.npy",
+      "policy_label": "Phase 2.5 Mean-SL Policy (Legacy)",
+      "check": "store_abandonment",
+      "severity": "high",
+      "finding": "The segmented mean-SL policy achieves 100% service level at Stores A and B but lets Store C service level collapse to 22.8% \u2014 effectively abandoning the store that holds 20% of total demand. Mean order quantity for Store C is zero across all 16 held-out episodes.",
+      "data": {
+        "store_sl": {
+          "A": 100.0,
+          "B": 100.0,
+          "C": 22.3
+        },
+        "order_freq": {
+          "A": 1.0,
+          "B": 0.676,
+          "C": 0.0
+        }
+      },
+      "fix": "Per-node service-level constraints (Phase 2.6)",
+      "fix_result": "Store C SL recovered to 100% with per-node CMA-ES"
+    },
+    {
+      "title": "Constraint Migrated in Uniform Policy",
+      "policy": "uniform_best_theta_robust.npy",
+      "policy_label": "Phase 2.8 Uniform Robust Policy",
+      "check": "constraint_migration",
+      "severity": "medium",
+      "finding": "The uniform robust policy passes the 80% SL floor for all stores on validation (Store C val SL = 91.7%) but Store C falls to 61.8% on the test split. The optimizer learnt feasibility on the validation distribution that did not generalize.",
+      "data": {
+        "val_store_sl": {
+          "A": 94.0,
+          "B": 96.4,
+          "C": 91.7
+        },
+        "test_store_sl": {
+          "A": 98.8,
+          "B": 95.1,
+          "C": 61.8
+        }
+      },
+      "fix": "Per-node constraints with larger held-out evaluation",
+      "fix_result": "Per-node robust policy maintains SL across val and test splits"
+    },
+    {
+      "title": "Phase 2.8 Per-Node Policy: Clean Audit",
+      "policy": "network_best_theta_pernode_robust.npy",
+      "policy_label": "Phase 2.8 Per-Node Robust Policy",
+      "check": "all_clear",
+      "severity": "none",
+      "finding": "The final per-node robust CMA-ES policy passes all four reward-hacking checks. Per-store SL: A=86.7%, B=100%, C=100%. No generalization gap. No degenerate ordering. The per-node constraints successfully prevent store abandonment.",
+      "data": {
+        "store_sl": {
+          "A": 87.0,
+          "B": 100.0,
+          "C": 100.0
+        }
+      },
+      "fix": null,
+      "fix_result": null
+    }
+  ],
+  "audit_results": {
+    "network_best_theta_pernode_robust.npy": {
+      "description": "Phase 2.8 segmented per-node (robust)",
+      "any_triggered": false,
+      "max_severity": "none"
+    },
+    "uniform_best_theta_robust.npy": {
+      "description": "Phase 2.8 uniform (robust)",
+      "any_triggered": true,
+      "max_severity": "medium"
+    },
+    "network_best_theta.npy": {
+      "description": "Phase 2.5 segmented mean-SL (legacy)",
+      "any_triggered": true,
+      "max_severity": "high"
+    },
+    "network_best_theta_pernode.npy": {
+      "description": "Phase 2.6 segmented per-node (pre-robust)",
+      "any_triggered": false,
+      "max_severity": "none"
+    },
+    "uniform_best_theta.npy": {
+      "description": "Phase 2.0 uniform (initial)",
+      "any_triggered": false,
+      "max_severity": "none"
+    },
+    "cmaes_theta_seed42.npy": {
+      "description": "Phase 1 CMA-ES single-store seed 42",
+      "any_triggered": false,
+      "max_severity": "none"
+    },
+    "cmaes_theta_seed123.npy": {
+      "description": "Phase 1 CMA-ES single-store seed 123",
+      "any_triggered": false,
+      "max_severity": "none"
+    },
+    "cmaes_theta_seed456.npy": {
+      "description": "Phase 1 CMA-ES single-store seed 456",
+      "any_triggered": true,
+      "max_severity": "high"
+    },
+    "cmaes_theta_seed789.npy": {
+      "description": "Phase 1 CMA-ES single-store seed 789",
+      "any_triggered": true,
+      "max_severity": "high"
+    },
+    "cmaes_theta_seed999.npy": {
+      "description": "Phase 1 CMA-ES single-store seed 999",
+      "any_triggered": false,
+      "max_severity": "none"
+    },
+    "grid_tuned_classical_theta.npy": {
+      "description": "Phase 4.5 grid-tuned classical baseline",
+      "any_triggered": false,
+      "max_severity": "none"
+    }
+  }
+}

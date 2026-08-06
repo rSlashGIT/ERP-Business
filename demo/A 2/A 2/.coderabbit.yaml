@@ -1,0 +1,36 @@
+# CodeRabbit configuration file
+# This file is used to customize CodeRabbit's behavior for this repository.
+
+language: "en-US"
+tone_instructions: "Be helpful, clear, and concise. Focus on Python best practices, reinforcement learning concepts, and clean code."
+
+reviews:
+  # Enable continuous reviews for open pull requests
+  profile: "chill" # Options: chill, robust. 'chill' generates fewer, more high-value comments
+  request_changes_workflow: false # Set to true to allow CodeRabbit to request changes on PRs
+  high_level_summary: true
+  
+  # Configure what gets reviewed
+  path_instructions:
+    - path: "**/*.py"
+      instructions: |
+        - Ensure proper use of PyTorch and NumPy
+        - Check for RL-specific bugs (e.g., incorrect tensor shapes, non-differentiable operations where gradients are expected)
+        - Validate proper error handling and logging
+        - Enforce PEP 8 style guidelines
+    - path: "tests/**/*.py"
+      instructions: "Ensure tests are comprehensive and cover edge cases."
+
+  # Ignore specific files or directories
+  ignore_paths:
+    - "data/**"
+    - "results/**"
+    - "models/**"
+    - "*.csv"
+    - "*.pkl"
+    - "*.pth"
+    - "*.pt"
+
+chat:
+  # Enable CodeRabbit's conversational features on PRs
+  auto_reply: true

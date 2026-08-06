@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0",
+    "types": [],
+    "typeRoots": [],
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["src", "typecheck-shims.d.ts"],
+  "exclude": ["node_modules", "dist"]
+}

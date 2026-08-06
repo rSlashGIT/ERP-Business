@@ -1,0 +1,100 @@
+{
+  "forecasters": [
+    {
+      "name": "Naive Baseline",
+      "type": "baseline",
+      "mae": 18.73,
+      "rmse": 27.55,
+      "smape": 32.56,
+      "accuracy_pct": 0.0,
+      "accuracy_gate_pass": false,
+      "train_time_s": null,
+      "inference_ms": null,
+      "beats_naive": false,
+      "accuracy_label": "0% improvement (baseline)"
+    },
+    {
+      "name": "LightGBM",
+      "type": "gradient_boosting",
+      "mae": 21.038,
+      "rmse": 27.41,
+      "smape": 64.28,
+      "accuracy_pct": 0.51,
+      "accuracy_gate_pass": false,
+      "train_time_s": 2.15,
+      "inference_ms": 3.18,
+      "beats_naive": true,
+      "rmse_vs_naive_pct": 0.5,
+      "accuracy_label": "+0.5% improvement vs naive"
+    },
+    {
+      "name": "N-HITS",
+      "type": "neural",
+      "mae": 16.258,
+      "rmse": 24.028,
+      "smape": 48.06,
+      "accuracy_pct": 12.78,
+      "accuracy_gate_pass": true,
+      "train_time_s": 21.76,
+      "inference_ms": 11.62,
+      "beats_naive": true,
+      "rmse_vs_naive_pct": 12.8,
+      "accuracy_label": "+12.8% improvement vs naive"
+    },
+    {
+      "name": "Chronos-Bolt",
+      "type": "foundation_model",
+      "mae": 14.658,
+      "rmse": 23.209,
+      "smape": 40.97,
+      "accuracy_pct": 15.76,
+      "accuracy_gate_pass": true,
+      "train_time_s": 0,
+      "inference_ms": 29.26,
+      "beats_naive": true,
+      "rmse_vs_naive_pct": 15.8,
+      "zero_shot": true,
+      "accuracy_label": "+15.8% improvement vs naive"
+    }
+  ],
+  "policies": [
+    {
+      "name": "Default (s,S)",
+      "type": "classical",
+      "mean_profit": -36434.0,
+      "service_level": 100.0,
+      "description": "Classical inventory policy, untuned"
+    },
+    {
+      "name": "Uniform CMA-ES",
+      "type": "cmaes",
+      "mean_profit": -2335.0,
+      "service_level": 91.3,
+      "description": "CMA-ES, same policy for all 3 stores",
+      "store_sl": {
+        "A": 98.8,
+        "B": 95.1,
+        "C": 61.8
+      }
+    },
+    {
+      "name": "Per-Node CMA-ES (Robust)",
+      "type": "cmaes_robust",
+      "mean_profit": -6083.0,
+      "service_level": 93.2,
+      "description": "CMA-ES with per-store SL constraints (best policy)",
+      "store_sl": {
+        "A": 86.7,
+        "B": 100.0,
+        "C": 100.0
+      }
+    }
+  ],
+  "meta": {
+    "series": "FOODS_3_090 @ CA_1",
+    "test_days": 389,
+    "train_days": 1164,
+    "accuracy_gate_pct": 5.0,
+    "accuracy_method": "accuracy_pct = (naive_rmse - model_rmse) / naive_rmse * 100, expressing % RMSE improvement over the naive baseline (repeat-last). Naive baseline is 0% by definition; a model must clear the 5% gate to count as a genuine improvement. RMSE/MAE remain the underlying source metrics."
+  }
+}

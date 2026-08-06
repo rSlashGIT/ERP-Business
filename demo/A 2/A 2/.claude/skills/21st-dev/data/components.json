@@ -1,0 +1,154 @@
+{
+  "categories": {
+    "buttons": {
+      "name": "Buttons",
+      "description": "Various button styles and states",
+      "examples": [
+        "Solid buttons with hover effects",
+        "Outlined button variants",
+        "Ghost buttons with transparency",
+        "Icon buttons with loading states",
+        "Gradient buttons with animations",
+        "Button groups and toggle buttons"
+      ]
+    },
+    "cards": {
+      "name": "Cards",
+      "description": "Card components for content display",
+      "examples": [
+        "Feature cards with icons",
+        "Product cards with images",
+        "Testimonial cards with ratings",
+        "Statistics cards with numbers",
+        "Blog post cards with metadata",
+        "User profile cards"
+      ]
+    },
+    "forms": {
+      "name": "Forms",
+      "description": "Form components and inputs",
+      "examples": [
+        "Text input fields with labels",
+        "Select dropdowns and multi-select",
+        "Checkboxes and radio buttons",
+        "Date and time pickers",
+        "File upload fields",
+        "Text areas and editors",
+        "Form validation messages",
+        "Submit buttons with loading states"
+      ]
+    },
+    "navigation": {
+      "name": "Navigation",
+      "description": "Navigation components",
+      "examples": [
+        "Navbar with logo and menu",
+        "Sidebar navigation",
+        "Breadcrumbs",
+        "Tabs and tab panels",
+        "Mobile navigation menus",
+        "Vertical navigation lists"
+      ]
+    },
+    "modals": {
+      "name": "Modals & Dialogs",
+      "description": "Modal and dialog components",
+      "examples": [
+        "Dialog boxes",
+        "Confirmation dialogs",
+        "Alert dialogs",
+        "Popups and popovers",
+        "Drawer components"
+      ]
+    },
+    "hero": {
+      "name": "Hero Sections",
+      "description": "Full-width hero section components",
+      "examples": [
+        "Hero with background image",
+        "Hero with gradient background",
+        "Hero with video background",
+        "Hero with CTA buttons",
+        "Hero with form integration",
+        "Hero with animated elements"
+      ]
+    },
+    "pricing": {
+      "name": "Pricing Tables",
+      "description": "Pricing comparison components",
+      "examples": [
+        "Pricing card with features",
+        "Pricing comparison table",
+        "Plan selector with toggle",
+        "Featured plan highlighting",
+        "Annual/monthly toggle",
+        "Free tier + paid plans"
+      ]
+    },
+    "testimonials": {
+      "name": "Testimonials",
+      "description": "Customer testimonial components",
+      "examples": [
+        "Testimonial cards with avatar",
+        "Testimonial with rating",
+        "Testimonial carousel",
+        "Testimonial grid",
+        "Testimonial with company logo",
+        "Video testimonials"
+      ]
+    },
+    "cta": {
+      "name": "Call-to-Action",
+      "description": "CTA and conversion components",
+      "examples": [
+        "CTA banner sections",
+        "Signup forms",
+        "Newsletter subscription",
+        "Feature comparison CTAs",
+        "Product launch CTAs",
+        "Trial signup buttons"
+      ]
+    },
+    "ai-chat": {
+      "name": "AI Chat Components",
+      "description": "Chat interface components",
+      "examples": [
+        "Chat message bubbles",
+        "Chat input fields",
+        "Chat interface layout",
+        "Message list with avatars",
+        "Typing indicator",
+        "Message actions (copy, delete, react)"
+      ]
+    },
+    "tables": {
+      "name": "Data Tables",
+      "description": "Table and data display components",
+      "examples": [
+        "Sortable data tables",
+        "Tables with pagination",
+        "Tables with filtering",
+        "Tables with row actions",
+        "Responsive tables",
+        "Expandable row tables"
+      ]
+    },
+    "features": {
+      "name": "Feature Sections",
+      "description": "Feature showcase components",
+      "examples": [
+        "Feature cards with icons",
+        "Feature grid layout",
+        "Feature with image",
+        "Feature comparison matrix",
+        "Feature highlights with badges",
+        "Feature timeline"
+      ]
+    }
+  },
+  "source": "21st.dev",
+  "website": "https://21st.dev",
+  "integration_method": "copy-paste",
+  "frameworks": ["React", "Next.js", "TypeScript", "JavaScript"],
+  "notes": "All components are production-ready and can be copy-pasted directly into your project. Customize colors, spacing, and typography to match your design system."
+}

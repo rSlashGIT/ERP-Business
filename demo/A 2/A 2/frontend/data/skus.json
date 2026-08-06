@@ -1,0 +1,482 @@
+[
+  {
+    "id": "FOODS_3_090",
+    "name": "White Bread Loaf 400g",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 78,
+    "unit_price": 115,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "high",
+    "product_name": "White Bread Loaf 400g",
+    "m5_id": "FOODS_3_090"
+  },
+  {
+    "id": "HOBBIES_1_348",
+    "name": "Colour Pencils Set 12",
+    "category": "HOBBIES",
+    "supplier": "M5 HOBBIES source",
+    "unit_cost": 27,
+    "unit_price": 40,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "high",
+    "product_name": "Colour Pencils Set 12",
+    "m5_id": "HOBBIES_1_348"
+  },
+  {
+    "id": "FOODS_3_586",
+    "name": "Whole Wheat Bread 400g",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 90,
+    "unit_price": 132,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "high",
+    "product_name": "Whole Wheat Bread 400g",
+    "m5_id": "FOODS_3_586"
+  },
+  {
+    "id": "HOBBIES_1_371",
+    "name": "Sketch Pad A4",
+    "category": "HOBBIES",
+    "supplier": "M5 HOBBIES source",
+    "unit_cost": 27,
+    "unit_price": 40,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "high",
+    "product_name": "Sketch Pad A4",
+    "m5_id": "HOBBIES_1_371"
+  },
+  {
+    "id": "FOODS_3_120",
+    "name": "Basmati Rice 5kg",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 281,
+    "unit_price": 413,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "high",
+    "product_name": "Basmati Rice 5kg",
+    "m5_id": "FOODS_3_120"
+  },
+  {
+    "id": "FOODS_3_252",
+    "name": "Toor Dal 1kg",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 86,
+    "unit_price": 126,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "high",
+    "product_name": "Toor Dal 1kg",
+    "m5_id": "FOODS_3_252"
+  },
+  {
+    "id": "FOODS_3_714",
+    "name": "Refined Sunflower Oil 1L",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 86,
+    "unit_price": 126,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "high",
+    "product_name": "Refined Sunflower Oil 1L",
+    "m5_id": "FOODS_3_714"
+  },
+  {
+    "id": "FOODS_3_587",
+    "name": "Tomato Ketchup 500g",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 144,
+    "unit_price": 212,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "high",
+    "product_name": "Tomato Ketchup 500g",
+    "m5_id": "FOODS_3_587"
+  },
+  {
+    "id": "FOODS_3_808",
+    "name": "UHT Full Cream Milk 1L",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 56,
+    "unit_price": 83,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "high",
+    "product_name": "UHT Full Cream Milk 1L",
+    "m5_id": "FOODS_3_808"
+  },
+  {
+    "id": "FOODS_2_197",
+    "name": "Greek Yogurt 400g",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 182,
+    "unit_price": 268,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "high",
+    "product_name": "Greek Yogurt 400g",
+    "m5_id": "FOODS_2_197"
+  },
+  {
+    "id": "FOODS_1_018",
+    "name": "Instant Coffee 200g",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 55,
+    "unit_price": 81,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "medium",
+    "product_name": "Instant Coffee 200g",
+    "m5_id": "FOODS_1_018"
+  },
+  {
+    "id": "HOBBIES_1_268",
+    "name": "Glue Stick",
+    "category": "HOBBIES",
+    "supplier": "M5 HOBBIES source",
+    "unit_cost": 27,
+    "unit_price": 39,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "medium",
+    "product_name": "Glue Stick",
+    "m5_id": "HOBBIES_1_268"
+  },
+  {
+    "id": "HOUSEHOLD_1_118",
+    "name": "Toilet Cleaner 500ml",
+    "category": "HOUSEHOLD",
+    "supplier": "M5 HOUSEHOLD source",
+    "unit_cost": 55,
+    "unit_price": 81,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "medium",
+    "product_name": "Toilet Cleaner 500ml",
+    "m5_id": "HOUSEHOLD_1_118"
+  },
+  {
+    "id": "FOODS_3_811",
+    "name": "Butter 100g",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 105,
+    "unit_price": 155,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "medium",
+    "product_name": "Butter 100g",
+    "m5_id": "FOODS_3_811"
+  },
+  {
+    "id": "HOBBIES_1_178",
+    "name": "Notebook Spiral 200pg",
+    "category": "HOBBIES",
+    "supplier": "M5 HOBBIES source",
+    "unit_cost": 27,
+    "unit_price": 40,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "medium",
+    "product_name": "Notebook Spiral 200pg",
+    "m5_id": "HOBBIES_1_178"
+  },
+  {
+    "id": "HOUSEHOLD_1_535",
+    "name": "Dishwash Liquid 500ml",
+    "category": "HOUSEHOLD",
+    "supplier": "M5 HOUSEHOLD source",
+    "unit_cost": 394,
+    "unit_price": 579,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "medium",
+    "product_name": "Dishwash Liquid 500ml",
+    "m5_id": "HOUSEHOLD_1_535"
+  },
+  {
+    "id": "FOODS_3_376",
+    "name": "Honey 250g",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 56,
+    "unit_price": 83,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "medium",
+    "product_name": "Honey 250g",
+    "m5_id": "FOODS_3_376"
+  },
+  {
+    "id": "HOBBIES_1_256",
+    "name": "Marker Pen Set",
+    "category": "HOBBIES",
+    "supplier": "M5 HOBBIES source",
+    "unit_cost": 27,
+    "unit_price": 40,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "medium",
+    "product_name": "Marker Pen Set",
+    "m5_id": "HOBBIES_1_256"
+  },
+  {
+    "id": "HOUSEHOLD_1_151",
+    "name": "Floor Cleaner 1L",
+    "category": "HOUSEHOLD",
+    "supplier": "M5 HOUSEHOLD source",
+    "unit_cost": 52,
+    "unit_price": 77,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "medium",
+    "product_name": "Floor Cleaner 1L",
+    "m5_id": "HOUSEHOLD_1_151"
+  },
+  {
+    "id": "FOODS_3_234",
+    "name": "Salt 1kg",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 12,
+    "unit_price": 17,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "medium",
+    "product_name": "Salt 1kg",
+    "m5_id": "FOODS_3_234"
+  },
+  {
+    "id": "FOODS_3_448",
+    "name": "Sugar 1kg",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 178,
+    "unit_price": 262,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "low",
+    "product_name": "Sugar 1kg",
+    "m5_id": "FOODS_3_448"
+  },
+  {
+    "id": "HOBBIES_1_242",
+    "name": "Eraser Pack",
+    "category": "HOBBIES",
+    "supplier": "M5 HOBBIES source",
+    "unit_cost": 152,
+    "unit_price": 223,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "low",
+    "product_name": "Eraser Pack",
+    "m5_id": "HOBBIES_1_242"
+  },
+  {
+    "id": "HOUSEHOLD_1_236",
+    "name": "Detergent Powder 1kg",
+    "category": "HOUSEHOLD",
+    "supplier": "M5 HOUSEHOLD source",
+    "unit_cost": 143,
+    "unit_price": 210,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "low",
+    "product_name": "Detergent Powder 1kg",
+    "m5_id": "HOUSEHOLD_1_236"
+  },
+  {
+    "id": "FOODS_3_820",
+    "name": "Atta Wheat Flour 5kg",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 111,
+    "unit_price": 163,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "low",
+    "product_name": "Atta Wheat Flour 5kg",
+    "m5_id": "FOODS_3_820"
+  },
+  {
+    "id": "HOBBIES_1_078",
+    "name": "Sticky Notes",
+    "category": "HOBBIES",
+    "supplier": "M5 HOBBIES source",
+    "unit_cost": 703,
+    "unit_price": 1034,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "low",
+    "product_name": "Sticky Notes",
+    "m5_id": "HOBBIES_1_078"
+  },
+  {
+    "id": "HOUSEHOLD_1_251",
+    "name": "Hand Wash 250ml",
+    "category": "HOUSEHOLD",
+    "supplier": "M5 HOUSEHOLD source",
+    "unit_cost": 112,
+    "unit_price": 164,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "low",
+    "product_name": "Hand Wash 250ml",
+    "m5_id": "HOUSEHOLD_1_251"
+  },
+  {
+    "id": "FOODS_3_026",
+    "name": "Tomatoes 1kg",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 112,
+    "unit_price": 164,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "low",
+    "product_name": "Tomatoes 1kg",
+    "m5_id": "FOODS_3_026"
+  },
+  {
+    "id": "HOBBIES_1_074",
+    "name": "Highlighter Set",
+    "category": "HOBBIES",
+    "supplier": "M5 HOBBIES source",
+    "unit_cost": 207,
+    "unit_price": 305,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "low",
+    "product_name": "Highlighter Set",
+    "m5_id": "HOBBIES_1_074"
+  },
+  {
+    "id": "HOUSEHOLD_1_319",
+    "name": "Bathroom Cleaner 500ml",
+    "category": "HOUSEHOLD",
+    "supplier": "M5 HOUSEHOLD source",
+    "unit_cost": 111,
+    "unit_price": 163,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "low",
+    "product_name": "Bathroom Cleaner 500ml",
+    "m5_id": "HOUSEHOLD_1_319"
+  },
+  {
+    "id": "FOODS_1_036",
+    "name": "Instant Noodles (pack of 4)",
+    "category": "FOODS",
+    "supplier": "M5 FOODS source",
+    "unit_cost": 99,
+    "unit_price": 146,
+    "stores": [
+      "A",
+      "B",
+      "C"
+    ],
+    "bucket": "low",
+    "product_name": "Instant Noodles (pack of 4)",
+    "m5_id": "FOODS_1_036"
+  }
+]

@@ -1,0 +1,91 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: erp
+      POSTGRES_PASSWORD: erp
+      POSTGRES_DB: erp
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U erp"]
+      interval: 5s
+      retries: 10
+    ports: ["5432:5432"]
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    volumes: [redisdata:/data]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 10
+
+  smartstock:
+    build: ../services/smartstock
+    environment:
+      SMARTSTOCK_PORT: 8100
+      SMARTSTOCK_POLICY_PATH: /var/lib/smartstock/policy.json
+      SMARTSTOCK_API_KEY: ${SMARTSTOCK_API_KEY:-dev-key}
+      SMARTSTOCK_FIT_WORKERS: 2
+      # Pin BLAS threads. NumPy defaults to one thread per core, and with a
+      # ProcessPoolExecutor of fit workers that oversubscribes the CPU and
+      # makes every fit slower, not faster.
+      OMP_NUM_THREADS: 2
+      OPENBLAS_NUM_THREADS: 2
+    volumes: [policydata:/var/lib/smartstock]
+    ports: ["8100:8100"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://localhost:8100/healthz')"]
+      interval: 10s
+      retries: 5
+    deploy:
+      resources:
+        limits: {cpus: "4", memory: 4G}
+
+  erp-api:
+    build: ../services/erp-api
+    environment:
+      DATABASE_URL: postgresql+asyncpg://erp:erp@postgres:5432/erp
+      SMARTSTOCK_URL: http://smartstock:8100
+      SMARTSTOCK_API_KEY: ${SMARTSTOCK_API_KEY:-dev-key}
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CORS_ORIGINS: http://localhost:5173
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+      smartstock: {condition: service_started}
+    ports: ["8000:8000"]
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  worker:
+    build: ../services/erp-api
+    environment:
+      DATABASE_URL: postgresql+asyncpg://erp:erp@postgres:5432/erp
+      SMARTSTOCK_URL: http://smartstock:8100
+      CELERY_BROKER_URL: redis://redis:6379/0
+    depends_on: [postgres, redis, smartstock]
+    # concurrency=2: these tasks are long and DB-bound, not CPU-parallel.
+    command: celery -A app.tasks.celery_app.celery_app worker -l info --concurrency=2
+
+  beat:
+    build: ../services/erp-api
+    environment:
+      CELERY_BROKER_URL: redis://redis:6379/0
+      TZ: UTC
+    depends_on: [redis]
+    command: celery -A app.tasks.celery_app.celery_app beat -l info
+
+  web:
+    build: ../apps/web
+    environment:
+      VITE_API_URL: http://localhost:8000
+    ports: ["5173:5173"]
+    depends_on: [erp-api]
+
+volumes:
+  pgdata:
+  redisdata:
+  policydata:

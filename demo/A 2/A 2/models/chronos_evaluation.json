@@ -1,0 +1,83 @@
+{
+  "model": "chronos_bolt",
+  "variant": "amazon/chronos-bolt-small",
+  "context_length": 64,
+  "train_end": 1164,
+  "val_end": 1552,
+  "test_end": 1941,
+  "setup_seconds": 82.54352951049805,
+  "test_metrics": {
+    "mae": 14.658471742448587,
+    "rmse": 23.20871800452603,
+    "smape": 40.96698345606758,
+    "n_predictions": 389,
+    "start_index": 1552,
+    "end_index": 1941,
+    "eval_seconds": 11.380468606948853
+  },
+  "baselines": {
+    "naive": {
+      "mae": 18.73007712082262,
+      "rmse": 27.550374520989486,
+      "smape": 32.56003686719512,
+      "n_predictions": 389,
+      "start_index": 1552,
+      "end_index": 1941
+    },
+    "seasonal_naive": {
+      "mae": 21.588688946015424,
+      "rmse": 34.825676784466715,
+      "smape": 42.61507036577562,
+      "n_predictions": 389,
+      "start_index": 1552,
+      "end_index": 1941
+    },
+    "moving_avg_7": {
+      "mae": 18.802791039294895,
+      "rmse": 27.92321984281202,
+      "smape": 37.30121365980635,
+      "n_predictions": 389,
+      "start_index": 1552,
+      "end_index": 1941
+    }
+  },
+  "beats_naive": true,
+  "beats_best_baseline": true,
+  "num_samples": 20,
+  "training_time_seconds": 0,
+  "hardware": "cpu",
+  "torch_dtype": "bfloat16",
+  "train_size": 1164,
+  "val_size": 388,
+  "test_size": 389,
+  "inference_time_per_prediction_seconds": 0.029256,
+  "peak_memory_gb_estimated": 2.0,
+  "peak_memory_note": "estimated for chronos-bolt-small bfloat16 CPU; not live-measured",
+  "gates": {
+    "beats_naive_rmse": {
+      "threshold": 27.550374520989486,
+      "actual": 23.20871800452603,
+      "pass": true
+    },
+    "inference_lt_5s": {
+      "threshold": 5.0,
+      "actual": 0.029256,
+      "pass": true
+    },
+    "memory_lt_6gb": {
+      "threshold": 6.0,
+      "actual": 2.0,
+      "pass": true
+    },
+    "zero_training": {
+      "threshold": 1,
+      "actual": 0,
+      "pass": true,
+      "note": "threshold fixed from 0→1; 0<0=False is a gate-logic bug. Intent: training_time<1s passes (zero-shot model has no fit step)."
+    }
+  },
+  "random_seed": 42,
+  "audit_fixes_applied": [
+    "zero_training gate threshold corrected from 0 to 1 (0<0 evaluated False; intent is zero-shot has no training step, so threshold=1 gives 0<1=True correctly)"
+  ]
+}

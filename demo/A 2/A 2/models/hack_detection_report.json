@@ -1,0 +1,684 @@
+{
+  "summary": {
+    "total_audited": 11,
+    "total_flagged": 4,
+    "total_skipped": 0,
+    "train_split": 0.8,
+    "heldout_rng_seed": 20260419,
+    "thresholds": {
+      "sl_abandonment": 0.6,
+      "demand_share": 0.15,
+      "sl_floor": 0.8,
+      "gen_gap": 0.05
+    }
+  },
+  "results": {
+    "network_best_theta_pernode_robust.npy": {
+      "theta": "network_best_theta_pernode_robust.npy",
+      "any_triggered": false,
+      "max_severity": "none",
+      "eval_source": "eval_json",
+      "checks": {
+        "store_abandonment": {
+          "check": "store_abandonment",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores above SL floor",
+          "mitigation": "Apply per-node service-level constraints (Phase 2.6+)",
+          "per_store_sl": {
+            "A": 0.8670074663029923,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "sl_threshold": 0.6
+        },
+        "constraint_migration": {
+          "check": "constraint_migration",
+          "triggered": false,
+          "severity": "none",
+          "migrated_stores": [],
+          "details": "SL floor constraint held at test time",
+          "mitigation": "Increase held-out set size; refit with robust CMA-ES",
+          "val_store_sl": {
+            "A": 0.9529284893497926,
+            "B": 1.0,
+            "C": 0.995179115391034
+          },
+          "test_store_sl": {
+            "A": 0.8670074663029923,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "sl_floor": 0.8
+        },
+        "generalization_gap": {
+          "check": "generalization_gap",
+          "triggered": false,
+          "severity": "none",
+          "val_profit": -6607.718892760827,
+          "test_profit": -6083.4701928297,
+          "gap_ratio": -0.079339,
+          "threshold": 0.05,
+          "details": "Gap ratio -7.9% within 5% threshold",
+          "mitigation": "Increase held-out evaluation episodes; apply train/val/test split"
+        },
+        "degenerate_policy": {
+          "check": "degenerate_policy",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores place non-zero orders",
+          "mitigation": "Inspect theta raw values; recheck reward shaping for ordering incentive",
+          "mean_order_qty": {
+            "A": 49.80994897959184,
+            "B": 50.0,
+            "C": 49.851190476190474
+          }
+        }
+      },
+      "description": "Phase 2.8 segmented per-node (robust)"
+    },
+    "uniform_best_theta_robust.npy": {
+      "theta": "uniform_best_theta_robust.npy",
+      "any_triggered": true,
+      "max_severity": "medium",
+      "eval_source": "eval_json",
+      "checks": {
+        "store_abandonment": {
+          "check": "store_abandonment",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores above SL floor",
+          "mitigation": "Apply per-node service-level constraints (Phase 2.6+)",
+          "per_store_sl": {
+            "A": 0.988258827805389,
+            "B": 0.9508083688238076,
+            "C": 0.6180080931882478
+          },
+          "sl_threshold": 0.6
+        },
+        "constraint_migration": {
+          "check": "constraint_migration",
+          "triggered": true,
+          "severity": "medium",
+          "migrated_stores": [
+            "C"
+          ],
+          "details": "Stores ['C'] passed 80% floor on val but failed on test",
+          "mitigation": "Increase held-out set size; refit with robust CMA-ES",
+          "val_store_sl": {
+            "A": 0.9404327804930058,
+            "B": 0.9644342101215982,
+            "C": 0.9172080119284675
+          },
+          "test_store_sl": {
+            "A": 0.988258827805389,
+            "B": 0.9508083688238076,
+            "C": 0.6180080931882478
+          },
+          "sl_floor": 0.8
+        },
+        "generalization_gap": {
+          "check": "generalization_gap",
+          "triggered": false,
+          "severity": "none",
+          "val_profit": -2601.351224781315,
+          "test_profit": -2335.4550007189728,
+          "gap_ratio": -0.102215,
+          "threshold": 0.05,
+          "details": "Gap ratio -10.2% within 5% threshold",
+          "mitigation": "Increase held-out evaluation episodes; apply train/val/test split"
+        },
+        "degenerate_policy": {
+          "check": "degenerate_policy",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores place non-zero orders",
+          "mitigation": "Inspect theta raw values; recheck reward shaping for ordering incentive",
+          "mean_order_qty": {
+            "A": 42.17804183962495,
+            "B": 39.745356626442046,
+            "C": 32.46593592810699
+          }
+        }
+      },
+      "description": "Phase 2.8 uniform (robust)"
+    },
+    "network_best_theta.npy": {
+      "theta": "network_best_theta.npy",
+      "any_triggered": true,
+      "max_severity": "high",
+      "eval_source": "segmentation_analysis.json",
+      "checks": {
+        "store_abandonment": {
+          "check": "store_abandonment",
+          "triggered": true,
+          "severity": "high",
+          "flagged_stores": [
+            "C"
+          ],
+          "details": "Store C: SL=22.3% < 60% (demand share 20% \u2265 15%)",
+          "mitigation": "Apply per-node service-level constraints (Phase 2.6+)",
+          "per_store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 0.22280453231462535
+          },
+          "sl_threshold": 0.6
+        },
+        "constraint_migration": {
+          "check": "constraint_migration",
+          "triggered": false,
+          "severity": "none",
+          "migrated_stores": [],
+          "details": "Insufficient val/test data to evaluate constraint migration",
+          "mitigation": "N/A",
+          "val_store_sl": {},
+          "test_store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 0.22280453231462535
+          }
+        },
+        "generalization_gap": {
+          "check": "generalization_gap",
+          "triggered": false,
+          "severity": "none",
+          "details": "No val/test profit split available \u2014 check skipped",
+          "mitigation": "N/A",
+          "gap_ratio": null
+        },
+        "degenerate_policy": {
+          "check": "degenerate_policy",
+          "triggered": true,
+          "severity": "high",
+          "flagged_stores": [
+            "C"
+          ],
+          "details": "Stores ['C'] have mean order qty \u2248 0 across all episodes",
+          "mitigation": "Inspect theta raw values; recheck reward shaping for ordering incentive",
+          "mean_order_qty": {
+            "A": 89.79166666666666,
+            "B": 60.340686823752435,
+            "C": 0.0
+          }
+        }
+      },
+      "description": "Phase 2.5 segmented mean-SL (legacy)"
+    },
+    "network_best_theta_pernode.npy": {
+      "theta": "network_best_theta_pernode.npy",
+      "any_triggered": false,
+      "max_severity": "none",
+      "eval_source": "fresh_simulation",
+      "checks": {
+        "store_abandonment": {
+          "check": "store_abandonment",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores above SL floor",
+          "mitigation": "Apply per-node service-level constraints (Phase 2.6+)",
+          "per_store_sl": {
+            "A": 1.0,
+            "B": 0.7658450734473312,
+            "C": 1.0
+          },
+          "sl_threshold": 0.6
+        },
+        "constraint_migration": {
+          "check": "constraint_migration",
+          "triggered": false,
+          "severity": "none",
+          "migrated_stores": [],
+          "details": "Insufficient val/test data to evaluate constraint migration",
+          "mitigation": "N/A",
+          "val_store_sl": {},
+          "test_store_sl": {
+            "A": 1.0,
+            "B": 0.7658450734473312,
+            "C": 1.0
+          }
+        },
+        "generalization_gap": {
+          "check": "generalization_gap",
+          "triggered": false,
+          "severity": "none",
+          "details": "No val/test profit split available \u2014 check skipped",
+          "mitigation": "N/A",
+          "gap_ratio": null
+        },
+        "degenerate_policy": {
+          "check": "degenerate_policy",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores place non-zero orders",
+          "mitigation": "Inspect theta raw values; recheck reward shaping for ordering incentive",
+          "mean_order_qty": {
+            "A": 53.98143285419626,
+            "B": 49.75,
+            "C": 50.0
+          }
+        }
+      },
+      "description": "Phase 2.6 segmented per-node (pre-robust)"
+    },
+    "uniform_best_theta.npy": {
+      "theta": "uniform_best_theta.npy",
+      "any_triggered": false,
+      "max_severity": "none",
+      "eval_source": "fresh_simulation",
+      "checks": {
+        "store_abandonment": {
+          "check": "store_abandonment",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores above SL floor",
+          "mitigation": "Apply per-node service-level constraints (Phase 2.6+)",
+          "per_store_sl": {
+            "A": 0.9942652988171711,
+            "B": 0.9744365408996644,
+            "C": 0.8092089900821948
+          },
+          "sl_threshold": 0.6
+        },
+        "constraint_migration": {
+          "check": "constraint_migration",
+          "triggered": false,
+          "severity": "none",
+          "migrated_stores": [],
+          "details": "Insufficient val/test data to evaluate constraint migration",
+          "mitigation": "N/A",
+          "val_store_sl": {},
+          "test_store_sl": {
+            "A": 0.9942652988171711,
+            "B": 0.9744365408996644,
+            "C": 0.8092089900821948
+          }
+        },
+        "generalization_gap": {
+          "check": "generalization_gap",
+          "triggered": false,
+          "severity": "none",
+          "details": "No val/test profit split available \u2014 check skipped",
+          "mitigation": "N/A",
+          "gap_ratio": null
+        },
+        "degenerate_policy": {
+          "check": "degenerate_policy",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores place non-zero orders",
+          "mitigation": "Inspect theta raw values; recheck reward shaping for ordering incentive",
+          "mean_order_qty": {
+            "A": 49.86702127659574,
+            "B": 49.53703703703704,
+            "C": 50.0
+          }
+        }
+      },
+      "description": "Phase 2.0 uniform (initial)"
+    },
+    "cmaes_theta_seed42.npy": {
+      "theta": "cmaes_theta_seed42.npy",
+      "any_triggered": false,
+      "max_severity": "none",
+      "eval_source": "fresh_simulation",
+      "checks": {
+        "store_abandonment": {
+          "check": "store_abandonment",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores above SL floor",
+          "mitigation": "Apply per-node service-level constraints (Phase 2.6+)",
+          "per_store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "sl_threshold": 0.6
+        },
+        "constraint_migration": {
+          "check": "constraint_migration",
+          "triggered": false,
+          "severity": "none",
+          "migrated_stores": [],
+          "details": "Insufficient val/test data to evaluate constraint migration",
+          "mitigation": "N/A",
+          "val_store_sl": {},
+          "test_store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          }
+        },
+        "generalization_gap": {
+          "check": "generalization_gap",
+          "triggered": false,
+          "severity": "none",
+          "details": "No val/test profit split available \u2014 check skipped",
+          "mitigation": "N/A",
+          "gap_ratio": null
+        },
+        "degenerate_policy": {
+          "check": "degenerate_policy",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores place non-zero orders",
+          "mitigation": "Inspect theta raw values; recheck reward shaping for ordering incentive",
+          "mean_order_qty": {
+            "A": 68.72729093895305,
+            "B": 51.82291666666667,
+            "C": 49.70238095238095
+          }
+        }
+      },
+      "description": "Phase 1 CMA-ES single-store seed 42"
+    },
+    "cmaes_theta_seed123.npy": {
+      "theta": "cmaes_theta_seed123.npy",
+      "any_triggered": false,
+      "max_severity": "none",
+      "eval_source": "fresh_simulation",
+      "checks": {
+        "store_abandonment": {
+          "check": "store_abandonment",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores above SL floor",
+          "mitigation": "Apply per-node service-level constraints (Phase 2.6+)",
+          "per_store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "sl_threshold": 0.6
+        },
+        "constraint_migration": {
+          "check": "constraint_migration",
+          "triggered": false,
+          "severity": "none",
+          "migrated_stores": [],
+          "details": "Insufficient val/test data to evaluate constraint migration",
+          "mitigation": "N/A",
+          "val_store_sl": {},
+          "test_store_sl": {
+            "A": 1.0,
+            "B": 1.0,
+            "C": 1.0
+          }
+        },
+        "generalization_gap": {
+          "check": "generalization_gap",
+          "triggered": false,
+          "severity": "none",
+          "details": "No val/test profit split available \u2014 check skipped",
+          "mitigation": "N/A",
+          "gap_ratio": null
+        },
+        "degenerate_policy": {
+          "check": "degenerate_policy",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores place non-zero orders",
+          "mitigation": "Inspect theta raw values; recheck reward shaping for ordering incentive",
+          "mean_order_qty": {
+            "A": 50.045182388188,
+            "B": 48.84205697464039,
+            "C": 48.8682079414838
+          }
+        }
+      },
+      "description": "Phase 1 CMA-ES single-store seed 123"
+    },
+    "cmaes_theta_seed456.npy": {
+      "theta": "cmaes_theta_seed456.npy",
+      "any_triggered": true,
+      "max_severity": "high",
+      "eval_source": "fresh_simulation",
+      "checks": {
+        "store_abandonment": {
+          "check": "store_abandonment",
+          "triggered": true,
+          "severity": "high",
+          "flagged_stores": [
+            "B",
+            "C"
+          ],
+          "details": "Store B: SL=36.3% < 60% (demand share 30% \u2265 15%); Store C: SL=22.0% < 60% (demand share 20% \u2265 15%)",
+          "mitigation": "Apply per-node service-level constraints (Phase 2.6+)",
+          "per_store_sl": {
+            "A": 0.9902984862647447,
+            "B": 0.36309837529243216,
+            "C": 0.22025465725143487
+          },
+          "sl_threshold": 0.6
+        },
+        "constraint_migration": {
+          "check": "constraint_migration",
+          "triggered": false,
+          "severity": "none",
+          "migrated_stores": [],
+          "details": "Insufficient val/test data to evaluate constraint migration",
+          "mitigation": "N/A",
+          "val_store_sl": {},
+          "test_store_sl": {
+            "A": 0.9902984862647447,
+            "B": 0.36309837529243216,
+            "C": 0.22025465725143487
+          }
+        },
+        "generalization_gap": {
+          "check": "generalization_gap",
+          "triggered": false,
+          "severity": "none",
+          "details": "No val/test profit split available \u2014 check skipped",
+          "mitigation": "N/A",
+          "gap_ratio": null
+        },
+        "degenerate_policy": {
+          "check": "degenerate_policy",
+          "triggered": true,
+          "severity": "high",
+          "flagged_stores": [
+            "C"
+          ],
+          "details": "Stores ['C'] have mean order qty \u2248 0 across all episodes",
+          "mitigation": "Inspect theta raw values; recheck reward shaping for ordering incentive",
+          "mean_order_qty": {
+            "A": 50.52083333333333,
+            "B": 31.25,
+            "C": 0.0
+          }
+        }
+      },
+      "description": "Phase 1 CMA-ES single-store seed 456"
+    },
+    "cmaes_theta_seed789.npy": {
+      "theta": "cmaes_theta_seed789.npy",
+      "any_triggered": true,
+      "max_severity": "high",
+      "eval_source": "fresh_simulation",
+      "checks": {
+        "store_abandonment": {
+          "check": "store_abandonment",
+          "triggered": true,
+          "severity": "high",
+          "flagged_stores": [
+            "C"
+          ],
+          "details": "Store C: SL=52.3% < 60% (demand share 20% \u2265 15%)",
+          "mitigation": "Apply per-node service-level constraints (Phase 2.6+)",
+          "per_store_sl": {
+            "A": 0.9981729072263676,
+            "B": 0.9938087695665909,
+            "C": 0.5230901287513468
+          },
+          "sl_threshold": 0.6
+        },
+        "constraint_migration": {
+          "check": "constraint_migration",
+          "triggered": false,
+          "severity": "none",
+          "migrated_stores": [],
+          "details": "Insufficient val/test data to evaluate constraint migration",
+          "mitigation": "N/A",
+          "val_store_sl": {},
+          "test_store_sl": {
+            "A": 0.9981729072263676,
+            "B": 0.9938087695665909,
+            "C": 0.5230901287513468
+          }
+        },
+        "generalization_gap": {
+          "check": "generalization_gap",
+          "triggered": false,
+          "severity": "none",
+          "details": "No val/test profit split available \u2014 check skipped",
+          "mitigation": "N/A",
+          "gap_ratio": null
+        },
+        "degenerate_policy": {
+          "check": "degenerate_policy",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores place non-zero orders",
+          "mitigation": "Inspect theta raw values; recheck reward shaping for ordering incentive",
+          "mean_order_qty": {
+            "A": 50.37227155012948,
+            "B": 50.0,
+            "C": 31.25
+          }
+        }
+      },
+      "description": "Phase 1 CMA-ES single-store seed 789"
+    },
+    "cmaes_theta_seed999.npy": {
+      "theta": "cmaes_theta_seed999.npy",
+      "any_triggered": false,
+      "max_severity": "none",
+      "eval_source": "fresh_simulation",
+      "checks": {
+        "store_abandonment": {
+          "check": "store_abandonment",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores above SL floor",
+          "mitigation": "Apply per-node service-level constraints (Phase 2.6+)",
+          "per_store_sl": {
+            "A": 0.9981729072263676,
+            "B": 1.0,
+            "C": 1.0
+          },
+          "sl_threshold": 0.6
+        },
+        "constraint_migration": {
+          "check": "constraint_migration",
+          "triggered": false,
+          "severity": "none",
+          "migrated_stores": [],
+          "details": "Insufficient val/test data to evaluate constraint migration",
+          "mitigation": "N/A",
+          "val_store_sl": {},
+          "test_store_sl": {
+            "A": 0.9981729072263676,
+            "B": 1.0,
+            "C": 1.0
+          }
+        },
+        "generalization_gap": {
+          "check": "generalization_gap",
+          "triggered": false,
+          "severity": "none",
+          "details": "No val/test profit split available \u2014 check skipped",
+          "mitigation": "N/A",
+          "gap_ratio": null
+        },
+        "degenerate_policy": {
+          "check": "degenerate_policy",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores place non-zero orders",
+          "mitigation": "Inspect theta raw values; recheck reward shaping for ordering incentive",
+          "mean_order_qty": {
+            "A": 49.95120641789495,
+            "B": 48.86735906112751,
+            "C": 48.82478632478633
+          }
+        }
+      },
+      "description": "Phase 1 CMA-ES single-store seed 999"
+    },
+    "grid_tuned_classical_theta.npy": {
+      "theta": "grid_tuned_classical_theta.npy",
+      "any_triggered": false,
+      "max_severity": "none",
+      "eval_source": "fresh_simulation",
+      "checks": {
+        "store_abandonment": {
+          "check": "store_abandonment",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores above SL floor",
+          "mitigation": "Apply per-node service-level constraints (Phase 2.6+)",
+          "per_store_sl": {
+            "A": 0.9981729072263676,
+            "B": 0.9995575189417351,
+            "C": 1.0
+          },
+          "sl_threshold": 0.6
+        },
+        "constraint_migration": {
+          "check": "constraint_migration",
+          "triggered": false,
+          "severity": "none",
+          "migrated_stores": [],
+          "details": "Insufficient val/test data to evaluate constraint migration",
+          "mitigation": "N/A",
+          "val_store_sl": {},
+          "test_store_sl": {
+            "A": 0.9981729072263676,
+            "B": 0.9995575189417351,
+            "C": 1.0
+          }
+        },
+        "generalization_gap": {
+          "check": "generalization_gap",
+          "triggered": false,
+          "severity": "none",
+          "details": "No val/test profit split available \u2014 check skipped",
+          "mitigation": "N/A",
+          "gap_ratio": null
+        },
+        "degenerate_policy": {
+          "check": "degenerate_policy",
+          "triggered": false,
+          "severity": "none",
+          "flagged_stores": [],
+          "details": "All stores place non-zero orders",
+          "mitigation": "Inspect theta raw values; recheck reward shaping for ordering incentive",
+          "mean_order_qty": {
+            "A": 132.10886437908496,
+            "B": 135.06805694305694,
+            "C": 132.65625
+          }
+        }
+      },
+      "description": "Phase 4.5 grid-tuned classical baseline"
+    }
+  }
+}

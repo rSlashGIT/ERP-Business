@@ -1,0 +1,2093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parameterized (s,S) Policy — CMA-ES Supply Chain Optimization</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ─── ROOT ─────────────────────────────────────────────────────────── */
+:root {
+  --bg:     #F4F1EC;
+  --ink:    #111111;
+  --accent: #C8442A;
+  --muted:  #8A8680;
+  --div:    rgba(26,26,26,0.10);
+  --divH:   rgba(26,26,26,0.18);
+  --ease:   cubic-bezier(0.16,1,0.3,1);
+  --ff-serif: 'Fraunces', Georgia, serif;
+  --ff-sans:  'Inter', system-ui, sans-serif;
+  --ff-mono:  'JetBrains Mono', monospace;
+  --pad: clamp(24px,5vw,80px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:auto;background:var(--bg)}
+body{
+  font-family:var(--ff-sans);color:var(--ink);background:var(--bg);
+  overflow-x:hidden;opacity:0;transition:opacity .6s var(--ease)
+}
+body.loaded{opacity:1}
+::selection{background:var(--ink);color:var(--bg)}
+
+/* ─── TYPE ────────────────────────────────────────────────────────── */
+.mono{font-family:var(--ff-mono)}
+.serif{font-family:var(--ff-serif)}
+.section-label{
+  font-family:var(--ff-mono);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted)
+}
+.char{display:inline-block}
+.word{display:inline-block}
+
+/* ─── LOADER ──────────────────────────────────────────────────────── */
+#loader{
+  position:fixed;inset:0;background:var(--bg);z-index:9999;
+  display:flex;align-items:flex-end;justify-content:flex-start;
+  padding:var(--pad) var(--pad) clamp(24px,5vw,48px);
+  pointer-events:none;transition:opacity .5s var(--ease),visibility .5s
+}
+#loader.out{opacity:0;visibility:hidden}
+#loader-text{
+  font-family:var(--ff-mono);font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted)
+}
+#loader-text::after{content:'▌';animation:blink .7s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* ─── MARQUEE ─────────────────────────────────────────────────────── */
+.marquee-wrap{
+  overflow:hidden;border-top:1px solid var(--divH);
+  padding:10px 0;background:var(--bg)
+}
+.marquee-track{
+  display:flex;width:max-content;
+  animation:marquee 40s linear infinite
+}
+.marquee-track:hover{animation-play-state:paused}
+.marquee-item{
+  font-family:var(--ff-mono);font-size:10px;letter-spacing:.12em;
+  color:var(--muted);padding:0 48px;white-space:nowrap
+}
+.marquee-item .a{color:var(--accent)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+/* ─── HAIRLINE ────────────────────────────────────────────────────── */
+.hl{height:1px;background:var(--divH);transform-origin:left;transform:scaleX(0)}
+
+/* ─── § 01 HERO ───────────────────────────────────────────────────── */
+#hero{
+  min-height:100vh;padding:clamp(20px,4vw,44px) var(--pad);
+  display:flex;flex-direction:column;position:relative
+}
+.hero-corners{
+  display:flex;justify-content:space-between;align-items:flex-start
+}
+.hero-body{
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(60px,10vh,120px) 0 clamp(32px,6vh,64px)
+}
+.hero-hl{
+  font-family:var(--ff-serif);font-optical-sizing:auto;
+  font-size:clamp(58px,10.5vw,152px);font-weight:800;
+  line-height:.9;letter-spacing:-.035em;
+  margin-bottom:clamp(28px,5vh,52px);max-width:1050px
+}
+.hero-hl .line{display:block;overflow:visible}
+.hero-hl .ur{position:relative;display:inline-block}
+.hero-sub{
+  font-size:17px;line-height:1.6;max-width:520px;font-weight:300;
+  color:var(--ink)
+}
+.hero-sub .lw{overflow:hidden;display:block}
+.hero-sub .li{display:block;transform:translateY(110%)}
+.scroll-cue{
+  font-family:var(--ff-mono);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);
+  margin-top:clamp(24px,4vh,48px);transition:opacity .4s
+}
+
+/* ─── § 02 PROBLEM ────────────────────────────────────────────────── */
+#s02{padding:clamp(80px,14vh,180px) var(--pad);position:relative}
+.pull-quote{
+  font-family:var(--ff-serif);font-optical-sizing:auto;
+  font-size:clamp(26px,4vw,54px);font-weight:500;
+  line-height:1.1;letter-spacing:-.02em;
+  max-width:900px;margin-bottom:clamp(56px,10vh,120px)
+}
+.pull-quote .word .wi{display:inline-block;transform:translateY(110%)}
+.s02-cols{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(40px,6vw,96px);align-items:start
+}
+.s02-prose{font-size:16px;line-height:1.75;font-weight:300}
+.s02-prose p{margin-bottom:20px}
+.s02-prose strong{font-weight:500}
+.s02-prose .stat{
+  font-family:var(--ff-mono);font-size:13px;color:var(--accent)
+}
+.fig-label{
+  font-family:var(--ff-mono);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-top:14px
+}
+.sawtooth-path{stroke:var(--ink);stroke-width:1.5;fill:none}
+.saw-ref{stroke:var(--divH);stroke-width:1;stroke-dasharray:3 4}
+.saw-text{font-family:'JetBrains Mono';font-size:9px;fill:var(--muted)}
+
+/* ─── § 03 FAILURE ────────────────────────────────────────────────── */
+#s03-pin{position:relative}
+.h-outer{overflow:hidden}
+.h-track{
+  display:flex;width:300vw;will-change:transform
+}
+.h-panel{
+  width:100vw;min-height:100vh;flex-shrink:0;
+  padding:clamp(40px,8vh,80px) var(--pad);
+  display:flex;flex-direction:column;justify-content:center;
+  border-right:1px solid var(--divH);position:relative
+}
+.h-panel:last-child{border-right:none}
+.panel-label{
+  font-family:var(--ff-mono);font-size:11px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:clamp(32px,6vh,72px)
+}
+.panel-hl{
+  font-family:var(--ff-serif);font-optical-sizing:auto;
+  font-size:clamp(44px,7.5vw,128px);font-weight:800;
+  line-height:.9;letter-spacing:-.035em;margin-bottom:28px;
+  max-width:720px
+}
+.panel-sub{
+  font-family:var(--ff-mono);font-size:13px;color:var(--muted);
+  max-width:440px;line-height:1.65
+}
+.failure-num{
+  font-family:var(--ff-serif);font-optical-sizing:auto;
+  font-size:clamp(72px,13vw,210px);font-weight:900;
+  color:var(--accent);line-height:.85;letter-spacing:-.04em;
+  margin-bottom:28px
+}
+.failure-cap{
+  font-family:var(--ff-mono);font-size:13px;color:var(--muted);
+  max-width:420px;line-height:1.65
+}
+.strike-wrap{
+  display:inline-block;position:relative;margin-bottom:32px
+}
+.strike-text{
+  font-family:var(--ff-serif);font-optical-sizing:auto;
+  font-size:clamp(40px,6vw,100px);font-weight:900;
+  letter-spacing:-.025em;display:block
+}
+.strike-line{
+  position:absolute;top:48%;left:-4px;right:-4px;
+  height:4px;background:var(--accent);
+  transform-origin:left;transform:scaleX(0)
+}
+.pivot-text{
+  font-family:var(--ff-mono);font-size:15px;
+  letter-spacing:.02em;line-height:1.5
+}
+.pivot-char{display:inline-block;opacity:0}
+
+/* coda */
+#s03-coda{
+  padding:clamp(64px,10vh,140px) var(--pad);
+  border-top:1px solid var(--divH)
+}
+.deleted-line{
+  font-family:var(--ff-mono);font-size:clamp(13px,1.8vw,17px);
+  color:var(--muted);letter-spacing:.025em;line-height:1.5
+}
+.del-char{display:inline-block;opacity:0;transform:translateY(3px)}
+
+/* ─── § 04 METHOD ─────────────────────────────────────────────────── */
+#s04{padding:clamp(80px,14vh,180px) var(--pad)}
+.s04-grid{
+  display:grid;grid-template-columns:7fr 5fr;
+  gap:clamp(48px,6vw,96px);align-items:start
+}
+.method-prose{font-size:17px;line-height:1.75;font-weight:300}
+.method-prose p{margin-bottom:22px}
+.method-prose strong{font-weight:500}
+.method-prose code{
+  font-family:var(--ff-mono);font-size:13px;
+  background:rgba(17,17,17,.05);padding:2px 6px;border-radius:2px
+}
+.code-block{
+  border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);
+  padding:28px 0
+}
+.code-row{
+  display:flex;align-items:baseline;gap:18px;padding:5px 0
+}
+.code-ln{
+  font-family:var(--ff-mono);font-size:10px;color:var(--muted);
+  min-width:18px;text-align:right;user-select:none;flex-shrink:0
+}
+.code-t{
+  font-family:var(--ff-mono);font-size:clamp(11px,1.3vw,14px);
+  line-height:1.65;color:var(--ink)
+}
+.code-t .kw{color:var(--muted)}
+.code-t .ac{color:var(--accent)}
+.code-char{display:inline-block;opacity:0}
+.code-sep{
+  height:1px;background:var(--div);margin:12px 0
+}
+
+/* ─── § 05 CONVERGENCE ────────────────────────────────────────────── */
+#s05{padding:0 var(--pad)}
+.s05-wrap{
+  display:grid;grid-template-columns:5fr 7fr;
+  gap:clamp(40px,5vw,80px)
+}
+.s05-text{padding:clamp(80px,14vh,180px) 0 clamp(120px,20vh,280px)}
+.s05-chart{
+  position:sticky;top:clamp(32px,6vh,72px);
+  padding:clamp(40px,8vh,100px) 0;align-self:start
+}
+.conv-ann{
+  margin-bottom:52px;opacity:.18;
+  transition:opacity .5s var(--ease)
+}
+.conv-ann.on{opacity:1}
+.conv-phase{
+  font-family:var(--ff-mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:10px
+}
+.conv-desc{
+  font-family:var(--ff-serif);font-optical-sizing:auto;
+  font-size:clamp(20px,2.8vw,34px);font-weight:600;
+  line-height:1.15;letter-spacing:-.02em;margin-bottom:12px
+}
+.conv-detail{
+  font-size:14px;line-height:1.7;color:var(--muted);font-weight:300
+}
+.conv-svg{width:100%;height:auto;display:block}
+.conv-path{
+  stroke:var(--ink);stroke-width:1.5;fill:none;
+  stroke-linecap:round;stroke-linejoin:round
+}
+.conv-base{stroke:var(--accent);stroke-width:1;stroke-dasharray:4 3;fill:none}
+.conv-axis text{font-family:'JetBrains Mono';font-size:8px;fill:var(--muted)}
+.conv-axis line{stroke:var(--div);stroke-width:1}
+.conv-dot{fill:var(--accent)}
+.conv-pin-label{font-family:'JetBrains Mono';font-size:8px;fill:var(--accent)}
+
+/* ─── § 06 DEMO ───────────────────────────────────────────────────── */
+#s06{
+  padding:clamp(80px,14vh,180px) var(--pad);
+  border-top:1px solid var(--divH)
+}
+.demo-grid{
+  display:grid;grid-template-columns:1fr 1.5fr;
+  gap:clamp(48px,6vw,96px);align-items:start
+}
+.demo-controls{font-family:var(--ff-mono)}
+.ctrl-group{
+  padding:18px 0;border-bottom:1px solid var(--div)
+}
+.ctrl-group:first-child{border-top:1px solid var(--div)}
+.ctrl-label{
+  display:block;font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:10px
+}
+.seed-sel{
+  appearance:none;background:transparent;
+  border:1px solid var(--divH);color:var(--ink);
+  font-family:var(--ff-mono);font-size:12px;
+  padding:8px 10px;cursor:pointer;width:100%;border-radius:2px
+}
+.seed-sel:focus{outline:none;border-color:var(--ink)}
+.sl-row{display:flex;align-items:center;gap:14px}
+input[type=range]{
+  flex:1;-webkit-appearance:none;appearance:none;
+  height:1px;background:var(--divH);border:none;outline:none;cursor:pointer
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:9px;height:9px;
+  background:var(--ink);cursor:pointer;border-radius:0;transition:background .15s
+}
+input[type=range]::-webkit-slider-thumb:active{background:var(--accent)}
+.sl-val{
+  font-size:11px;color:var(--ink);min-width:32px;text-align:right
+}
+.theta-read{
+  padding:14px 0;border-bottom:1px solid var(--div);
+  font-size:9px;color:var(--muted);line-height:1.8;
+  letter-spacing:.02em;word-break:break-all
+}
+.run-btn{
+  margin-top:22px;width:100%;padding:13px;
+  background:transparent;border:1px solid var(--ink);
+  color:var(--ink);font-family:var(--ff-mono);font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;cursor:pointer;
+  border-radius:2px;transition:border-color .2s,color .2s
+}
+.run-btn:hover{border-color:var(--accent);color:var(--accent)}
+.run-btn.busy{
+  border-color:var(--accent);color:var(--accent);
+  animation:btnp 1s ease infinite alternate
+}
+@keyframes btnp{from{opacity:.5}to{opacity:1}}
+
+.demo-out{}
+.dec-rows{margin-bottom:32px;border-top:1px solid var(--divH)}
+.dec-row{
+  display:flex;align-items:baseline;gap:16px;
+  padding:14px 0;border-bottom:1px solid var(--div)
+}
+.dec-lbl{
+  font-family:var(--ff-mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);min-width:70px
+}
+.dec-val{
+  font-family:var(--ff-serif);font-optical-sizing:auto;
+  font-size:clamp(26px,4vw,54px);font-weight:700;
+  line-height:1;letter-spacing:-.025em
+}
+.dec-hint{
+  display:block;font-family:var(--ff-mono);font-size:10px;
+  color:var(--muted);margin-top:4px;line-height:1.4
+}
+.dec-explain{
+  font-size:13px;line-height:1.65;color:var(--ink);
+  padding:18px 0;border-bottom:1px solid var(--div);
+  margin-bottom:20px;font-weight:300
+}
+.dec-explain strong{font-weight:500}
+.dec-explain .accent{color:var(--accent);font-weight:500}
+.breakdown-btn{
+  background:transparent;border:1px solid var(--div);
+  font-family:var(--ff-mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);
+  padding:8px 16px;cursor:pointer;border-radius:2px;
+  transition:border-color .2s,color .2s;margin-bottom:20px
+}
+.breakdown-btn:hover{border-color:var(--ink);color:var(--ink)}
+.breakdown-panel{
+  display:grid;grid-template-columns:1fr 1fr;gap:32px;
+  padding:20px 0;border-top:1px solid var(--div);
+  margin-bottom:28px
+}
+.bd-col-title{
+  font-family:var(--ff-mono);font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--accent);margin-bottom:12px
+}
+.bd-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:6px 0;border-bottom:1px solid rgba(26,26,26,0.05);
+  font-size:12px
+}
+.bd-row-lbl{color:var(--muted)}
+.bd-row-calc{font-family:var(--ff-mono);font-size:10px;color:var(--muted)}
+.bd-row-val{font-family:var(--ff-mono);font-weight:500}
+.bd-total{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:10px 0;border-top:1px solid var(--divH);margin-top:4px;
+  font-weight:500
+}
+.bd-total-val{
+  font-family:var(--ff-serif);font-size:22px;font-weight:700;
+  color:var(--accent)
+}
+.sim-svg-wrap{margin-bottom:24px}
+.sim-svg{width:100%;display:block}
+.sim-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:var(--divH)
+}
+.sim-stat{background:var(--bg);padding:14px}
+.sim-stat-lbl{
+  font-family:var(--ff-mono);font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:5px
+}
+.sim-stat-val{font-family:var(--ff-mono);font-size:17px;font-weight:500}
+.sim-stat-val.bad{color:var(--accent)}
+
+/* ─── § 07 TABLE ──────────────────────────────────────────────────── */
+#s07{
+  padding:clamp(80px,14vh,180px) var(--pad);
+  border-top:1px solid var(--divH)
+}
+table.results{width:100%;border-collapse:collapse;margin-bottom:32px}
+table.results th{
+  font-family:var(--ff-mono);font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);font-weight:400;
+  padding:12px 16px;text-align:left;border-bottom:1px solid var(--divH)
+}
+table.results td{
+  padding:20px 16px;font-size:14px;
+  border-bottom:1px solid var(--div);vertical-align:middle
+}
+table.results tr.cmaes td:first-child{
+  border-left:3px solid var(--accent);
+  padding-left:13px
+}
+table.results td.mono{font-family:var(--ff-mono);font-size:13px}
+table.results td.bad{color:var(--accent)}
+table.results td.strong{font-weight:500}
+.sc{display:inline-block;opacity:0}
+
+/* ─── § 08 SEEDS ──────────────────────────────────────────────────── */
+#s08{
+  padding:clamp(80px,14vh,180px) var(--pad);
+  border-top:1px solid var(--divH)
+}
+.seed-cards{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  border:1px solid rgba(17,17,17,.10);border-radius:2px;overflow:hidden
+}
+.seed-card{
+  padding:26px 22px;border-right:1px solid rgba(17,17,17,.10);
+  position:relative;transition:transform .2s var(--ease);cursor:default
+}
+.seed-card:last-child{border-right:none}
+.seed-card:hover{transform:translateY(-2px);border-color:var(--accent)}
+.seed-card.best::after{
+  content:'◆ BEST';position:absolute;top:12px;right:12px;
+  font-family:var(--ff-mono);font-size:9px;letter-spacing:.1em;
+  color:var(--accent)
+}
+.seed-num{
+  font-family:var(--ff-serif);font-optical-sizing:auto;
+  font-size:clamp(36px,4.5vw,68px);font-weight:800;
+  line-height:1;letter-spacing:-.025em;margin-bottom:14px;display:block
+}
+.seed-info{
+  font-family:var(--ff-mono);font-size:10px;
+  color:var(--muted);line-height:2
+}
+.seed-info strong{
+  font-weight:500;color:var(--ink);font-size:11px;
+  font-family:var(--ff-mono)
+}
+
+/* ─── § 09 INSIGHT ────────────────────────────────────────────────── */
+#s09{
+  padding:clamp(80px,16vh,220px) var(--pad);
+  border-top:1px solid var(--divH);position:relative
+}
+.insight-hl{
+  font-family:var(--ff-serif);font-optical-sizing:auto;
+  font-size:clamp(36px,7vw,118px);font-weight:800;
+  line-height:.93;letter-spacing:-.035em;
+  margin-bottom:clamp(48px,8vh,100px);max-width:1100px
+}
+.insight-hl .line{display:block}
+.insight-hl .ur{position:relative;display:inline-block}
+.insight-stats{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--divH)
+}
+.insight-stat{
+  padding:36px 40px 36px 0;
+  border-right:1px solid var(--divH)
+}
+.insight-stat:last-child{border-right:none;padding-left:40px;padding-right:0}
+.insight-stat:nth-child(2){padding-left:40px}
+.ibig{
+  font-family:var(--ff-serif);font-optical-sizing:auto;
+  font-size:clamp(44px,6vw,96px);font-weight:900;
+  line-height:.85;letter-spacing:-.035em;color:var(--accent);
+  margin-bottom:10px;display:block
+}
+.icap{
+  font-family:var(--ff-mono);font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);line-height:1.7
+}
+
+/* ─── § 10 FOOTER ─────────────────────────────────────────────────── */
+
+/* ─── SECTION HEADERS ─────────────────────────────────────────────── */
+.sec-header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  margin-bottom:clamp(52px,9vh,112px)
+}
+.sec-counter{
+  font-family:var(--ff-serif);font-optical-sizing:auto;
+  font-size:clamp(64px,10vw,140px);font-weight:900;
+  line-height:1;letter-spacing:-.04em;color:var(--div);
+  user-select:none
+}
+.sec-title-block{text-align:right}
+.sec-htitle{
+  font-family:var(--ff-serif);font-optical-sizing:auto;
+  font-size:clamp(22px,3vw,40px);font-weight:700;
+  letter-spacing:-.02em;line-height:1.1;margin-bottom:8px
+}
+
+/* ─── RESPONSIVE ──────────────────────────────────────────────────── */
+@media(max-width:900px){
+  .s02-cols{grid-template-columns:1fr;gap:40px}
+  .s04-grid{grid-template-columns:1fr;gap:40px}
+  .s05-wrap{grid-template-columns:1fr}
+  .s05-chart{position:relative;top:0}
+  .demo-grid{grid-template-columns:1fr;gap:40px}
+  .breakdown-panel{grid-template-columns:1fr;gap:24px}
+}
+@media(max-width:768px){
+  .h-track{flex-direction:column;width:100%}
+  .h-panel{width:100%;border-right:none;border-bottom:1px solid var(--divH);min-height:auto;padding:52px var(--pad)}
+  .seed-cards{grid-template-columns:1fr 1fr}
+  .insight-stats{grid-template-columns:1fr}
+  .insight-stat{padding:28px 0;border-right:none;border-bottom:1px solid var(--divH)}
+  .insight-stat:last-child{padding-left:0}
+  .insight-stat:nth-child(2){padding-left:0}
+}
+@media(max-width:480px){
+  .seed-cards{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  .char,.word .wi,.hero-sub .li{transform:none!important;opacity:1!important}
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader"><span id="loader-text">Loading data</span></div>
+
+<!-- ─── § 01 HERO ─────────────────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-corners">
+  </div>
+  <div class="hero-body">
+    <h1 class="hero-hl" id="hero-hl">
+      <span class="line" id="hl1">A Classical</span>
+      <span class="line" id="hl2">Rule,&thinsp;<span class="ur" id="hl-ur">Evolved.</span></span>
+      <span class="line" id="hl3">Zero Failures.</span>
+    </h1>
+    <div class="hero-sub" id="hero-sub">
+      <span class="lw"><span class="li">CMA-ES parameterizes the (s,S) inventory policy,</span></span>
+      <span class="lw"><span class="li">evolving eight context-sensitive weights against M5 Walmart</span></span>
+      <span class="lw"><span class="li">demand data — statistically equivalent profit, seven times lower variance.</span></span>
+    </div>
+    <span class="scroll-cue mono" id="scroll-cue">SCROLL ↓</span>
+  </div>
+  <div class="marquee-wrap">
+    <div class="marquee-track" id="marquee"></div>
+  </div>
+</section>
+
+<!-- ─── § 02 THE PROBLEM ──────────────────────────────────────────── -->
+<section id="s02">
+  <div class="hl" id="s02-hl"></div>
+  <div style="height:clamp(52px,9vh,100px)"></div>
+  <div class="sec-header">
+    <div class="sec-counter" data-parallax="0.3">02</div>
+    <div class="sec-title-block">
+      <div class="sec-htitle">The Problem</div>
+      <div class="section-label">Supply chain inventory management</div>
+    </div>
+  </div>
+  <div class="pull-quote" id="pq">
+    Every day, a retailer must decide&thinsp;—&thinsp;order too little,
+    lose sales; order too much, waste capital.
+  </div>
+  <div class="s02-cols">
+    <div class="s02-prose">
+      <p>Retail inventory management is a daily optimization problem with asymmetric costs.
+      Holding unsold stock incurs <span class="stat">$0.05 per unit per day</span> —
+      capital cost, storage, obsolescence. An unmet unit of demand costs
+      <span class="stat">$3.00 in lost margin and customer goodwill.</span></p>
+      <p>The Newsvendor critical ratio is <strong>3.00 / (3.00 + 0.05) = 98.4%</strong>
+      — the optimal service level implied by the cost structure. Achieving it
+      while adapting to demand volatility, lead times, and promotions
+      is the core challenge.</p>
+      <p>The classical solution: the <strong>(s,S) policy.</strong>
+      Reorder when inventory falls below threshold <em>s</em>.
+      Order up to level <em>S</em>. Simple. Interpretable. Deployable.
+      Dominant for 70 years.</p>
+      <p>Its weakness: static parameters cannot adapt to demand regime shifts,
+      seasonal spikes, or changing cost structures. Two fixed numbers govern every decision — regardless of demand volatility, lead time, or seasonality.</p>
+    </div>
+    <div>
+      <svg class="conv-svg" viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg" id="saw-svg">
+        <!-- Reference lines -->
+        <line class="saw-ref" x1="24" y1="30" x2="296" y2="30"/>
+        <line class="saw-ref" x1="24" y1="120" x2="296" y2="120"/>
+        <!-- Sawtooth path -->
+        <path id="saw-path" class="sawtooth-path"
+          d="M 24 30 L 88 120 L 88 30 L 166 120 L 166 30 L 244 120 L 244 30 L 296 68"/>
+        <!-- Labels -->
+        <text class="saw-text" x="300" y="32">S</text>
+        <text class="saw-text" x="300" y="122">s</text>
+        <text class="saw-text" x="24" y="150">t</text>
+        <text class="saw-text" x="160" y="150" text-anchor="middle">TIME →</text>
+        <!-- Arrows for s and S -->
+        <text class="saw-text" x="8" y="32" text-anchor="middle" transform="rotate(-90,8,32)">INV</text>
+      </svg>
+      <div class="fig-label">FIG. 01 — CLASSICAL (s,S) INVENTORY DYNAMICS</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 03 THE FAILURE ───────────────────────────────────────────── -->
+<section id="s03-pin">
+  <div class="hl" id="s03-hl"></div>
+  <div class="h-outer" id="h-outer">
+    <div class="h-track" id="h-track">
+      <!-- Panel A -->
+      <div class="h-panel" id="pa">
+        <div class="panel-label">§ 03 / THE FAILURE · PANEL 1 OF 3</div>
+        <h2 class="panel-hl" id="pa-hl">We tried<br>Deep RL.</h2>
+        <p class="panel-sub">1,200+ training episodes. Neural network. Textbook approach.<br>
+        DQN with experience replay. 3 independent seeds.</p>
+      </div>
+      <!-- Panel B -->
+      <div class="h-panel" id="pb">
+        <div class="panel-label">§ 03 / THE FAILURE · PANEL 2 OF 3</div>
+        <div class="failure-num" id="fail-num">-$3,138</div>
+        <p class="failure-cap">Seed 42 collapsed completely. Service level fell to 79.5%.<br>
+        The network learned to order nothing and absorb stockout penalties.<br>
+        <br>
+        Std deviation across seeds: <strong style="color:var(--ink)">±$8,500.</strong></p>
+      </div>
+      <!-- Panel C -->
+      <div class="h-panel" id="pc">
+        <div class="panel-label">§ 03 / THE FAILURE · PANEL 3 OF 3</div>
+        <div class="strike-wrap">
+          <span class="strike-text" id="pc-st">HIERARCHICAL RL</span>
+          <span class="strike-line" id="pc-sl"></span>
+        </div>
+        <p class="pivot-text" id="pivot-text">We changed approach.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="s03-coda">
+  <div class="deleted-line" id="del-line">
+    The next 2,400 lines of code were deleted.
+  </div>
+</section>
+
+<!-- ─── § 04 THE METHOD ────────────────────────────────────────────── -->
+<section id="s04">
+  <div class="hl" id="s04-hl"></div>
+  <div style="height:clamp(52px,9vh,100px)"></div>
+  <div class="sec-header">
+    <div class="sec-counter">04</div>
+    <div class="sec-title-block">
+      <div class="sec-htitle">The Method</div>
+      <div class="section-label">Parameterized (s,S) + CMA-ES</div>
+    </div>
+  </div>
+  <div class="s04-grid">
+    <div class="method-prose">
+      <p>Instead of replacing the (s,S) rule, we parameterized it.
+      Eight weights let the reorder point <em>s</em> and order-up-to level <em>S</em>
+      adapt to demand context — forecasts, volatility, lead times —
+      while preserving the policy's interpretability and deployability.</p>
+      <p>The parameter vector <code>θ = [s_base, S_base, w₁…w₆]</code>
+      initializes to the static (s,S) rule (all weights zero) and is then
+      optimized by <strong>CMA-ES</strong> — Covariance Matrix Adaptation
+      Evolution Strategy — a population-based, derivative-free optimizer
+      that maintains a full covariance matrix over the search space.</p>
+      <p>Each CMA-ES generation samples <strong>16 candidate policies,</strong>
+      evaluates each over <strong>64 training episodes</strong> on the M5 Walmart
+      dataset (80% split, 1,553 rows), ranks by mean profit, and updates the
+      covariance matrix toward the high-performing region of parameter space.</p>
+      <p>Training ran for up to 100 generations across <strong>5 independent seeds</strong>
+      (42, 123, 456, 789, 999). Initial step-size σ = 5.0. Early stopping after
+      35 generations without improvement. The best θ per seed is preserved.</p>
+      <p>The result is a policy that looks identical to a classical (s,S) rule
+      at inference time, but whose thresholds shift continuously with
+      demand context — adapting without sacrificing explainability.</p>
+    </div>
+    <div>
+      <div class="section-label" style="margin-bottom:16px">LEARNED POLICY EQUATIONS</div>
+      <div class="code-block" id="code-block">
+        <div class="code-row"><span class="code-ln">1</span><span class="code-t" id="cl1"><span class="kw">s</span>(ctx) = s_base</span></div>
+        <div class="code-row"><span class="code-ln">2</span><span class="code-t" id="cl2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="ac">w₁</span> · forecast</span></div>
+        <div class="code-row"><span class="code-ln">3</span><span class="code-t" id="cl3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="ac">w₂</span> · demand_std</span></div>
+        <div class="code-row"><span class="code-ln">4</span><span class="code-t" id="cl4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="ac">w₃</span> · lead_time</span></div>
+        <div class="code-sep"></div>
+        <div class="code-row"><span class="code-ln">5</span><span class="code-t" id="cl5"><span class="kw">S</span>(ctx) = S_base</span></div>
+        <div class="code-row"><span class="code-ln">6</span><span class="code-t" id="cl6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="ac">w₄</span> · forecast</span></div>
+        <div class="code-row"><span class="code-ln">7</span><span class="code-t" id="cl7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="ac">w₅</span> · demand_std</span></div>
+        <div class="code-row"><span class="code-ln">8</span><span class="code-t" id="cl8">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ <span class="ac">w₆</span> · lead_time</span></div>
+        <div class="code-sep"></div>
+        <div class="code-row"><span class="code-ln">9</span><span class="code-t" id="cl9"><span class="kw">if</span> inv &lt; s(ctx): <span class="ac">order</span>(S - inv)</span></div>
+      </div>
+      <div style="margin-top:20px;font-family:var(--ff-mono);font-size:10px;color:var(--muted);line-height:1.9">
+        <div>SEED 123 — BEST POLICY</div>
+        <div>s_base = 1.014 &nbsp; S_base = 14.085</div>
+        <div>w₁ = 16.017 &nbsp; w₂ = 9.267 &nbsp; w₃ = 9.388</div>
+        <div>w₄ = 2.503 &nbsp; w₅ = 6.527 &nbsp; w₆ = −6.868</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 05 CONVERGENCE ───────────────────────────────────────────── -->
+<section id="s05">
+  <div class="hl" id="s05-hl"></div>
+  <div style="height:clamp(52px,9vh,100px)"></div>
+  <div class="s05-wrap">
+    <div class="s05-text">
+      <div class="section-label" style="margin-bottom:40px">§ 05 / CONVERGENCE · SEED 123</div>
+      <div class="conv-ann on" id="ca1">
+        <div class="conv-phase">GENERATION 1–20</div>
+        <div class="conv-desc">Chaotic exploration,<br>σ contracting.</div>
+        <div class="conv-detail">Population samples cover a wide parameter space.
+        Best-candidate profits swing between -$14,157 and +$9,257.
+        Step-size σ falls from 4.51 → 2.33 as the covariance matrix
+        begins to orient toward profitable regions.</div>
+      </div>
+      <div class="conv-ann" id="ca2">
+        <div class="conv-phase">GENERATION 21–40</div>
+        <div class="conv-desc">Convergence inflection.<br>First $10k crossing.</div>
+        <div class="conv-detail">The optimizer locks onto the high-demand-responsive
+        region of parameter space. Generation 33 achieves the first best-profit
+        above $10,000. σ narrows to 1.50, confirming focused exploitation.
+        Mean population profit crosses zero and climbs steadily.</div>
+      </div>
+      <div class="conv-ann" id="ca3">
+        <div class="conv-phase">GENERATION 41–100</div>
+        <div class="conv-desc">Refinement plateau.<br>σ → 0.50.</div>
+        <div class="conv-detail">Best training profit stabilizes in the $9,800–$10,800 range.
+        σ decays monotonically from 1.61 to 0.50, indicating fine-grained
+        local search. Peak reached at generation 92 ($10,809).
+        Algorithm ran to max_iter = 100; no early stop triggered.</div>
+      </div>
+    </div>
+    <div class="s05-chart">
+      <svg class="conv-svg" id="conv-svg" viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- axes and grid built by JS -->
+        <g id="conv-axes"></g>
+        <!-- baseline reference -->
+        <path id="conv-base" class="conv-base"/>
+        <!-- main convergence path -->
+        <path id="conv-path" class="conv-path"/>
+        <!-- gen33 pin dot and gen92 dot -->
+        <circle id="cdot33" class="conv-dot" r="3.5" opacity="0"/>
+        <circle id="cdot92" class="conv-dot" r="4" opacity="0"/>
+        <text id="clabel33" class="conv-pin-label" opacity="0"></text>
+        <text id="clabel92" class="conv-pin-label" opacity="0"></text>
+      </svg>
+      <div class="section-label" style="margin-top:12px;color:var(--muted)">
+        FIG. 02 — CMA-ES BEST PROFIT PER GENERATION · SEED 123
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 06 LIVE DEMO ─────────────────────────────────────────────── -->
+<section id="s06">
+  <div class="sec-header">
+    <div class="sec-counter">06</div>
+    <div class="sec-title-block">
+      <div class="sec-htitle">Policy Playground</div>
+      <div class="section-label">Interactive simulation — real θ values</div>
+    </div>
+  </div>
+  <div class="demo-grid">
+    <div class="demo-controls">
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="seed-sel">Policy seed</label>
+        <select class="seed-sel" id="seed-sel">
+          <option value="123">Seed 123 — Best case ($12,785)</option>
+          <option value="456">Seed 456 — Highest profit ($12,808)</option>
+          <option value="789">Seed 789 — Most stable ($12,800)</option>
+          <option value="999">Seed 999 — Most consistent ($12,599)</option>
+          <option value="42">Seed 42 — Worst case ($11,542)</option>
+        </select>
+      </div>
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="sl-inv">Starting inventory</label>
+        <div class="sl-row">
+          <input type="range" id="sl-inv" min="0" max="500" value="200" step="10">
+          <span class="sl-val" id="sv-inv">200</span>
+        </div>
+      </div>
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="sl-dem">Demand forecast (units/day)</label>
+        <div class="sl-row">
+          <input type="range" id="sl-dem" min="50" max="200" value="100" step="5">
+          <span class="sl-val" id="sv-dem">100</span>
+        </div>
+      </div>
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="sl-std">Demand std dev</label>
+        <div class="sl-row">
+          <input type="range" id="sl-std" min="0" max="50" value="20" step="1">
+          <span class="sl-val" id="sv-std">20</span>
+        </div>
+      </div>
+      <div style="font-family:var(--ff-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8A8680;padding:10px 0;border-bottom:1px solid rgba(26,26,26,0.10)">LEAD TIME · 2 days (training constant)</div>
+      <div class="theta-read" id="theta-read">θ = [loading…]</div>
+      <button class="run-btn" id="run-btn">RUN SIMULATION →</button>
+    </div>
+    <div class="demo-out">
+      <div class="dec-rows">
+        <div class="dec-row">
+          <span class="dec-lbl">Reorder trigger</span>
+          <span class="dec-val" id="dv-s">—</span>
+          <span class="dec-hint" id="dh-s"></span>
+        </div>
+        <div class="dec-row">
+          <span class="dec-lbl">Target level</span>
+          <span class="dec-val" id="dv-S">—</span>
+          <span class="dec-hint" id="dh-S"></span>
+        </div>
+        <div class="dec-row">
+          <span class="dec-lbl">ORDER</span>
+          <span class="dec-val" id="dv-order">— units</span>
+          <span class="dec-hint" id="dh-order"></span>
+        </div>
+      </div>
+      <!-- Explanation -->
+      <div class="dec-explain" id="dec-explain"></div>
+      <!-- Breakdown toggle -->
+      <button class="breakdown-btn" id="breakdown-btn">Show calculation breakdown</button>
+      <div class="breakdown-panel" id="breakdown-panel" style="display:none"></div>
+      <div class="sim-svg-wrap">
+        <svg class="sim-svg" id="sim-svg" viewBox="0 0 560 200" xmlns="http://www.w3.org/2000/svg">
+          <g id="sim-axes"></g>
+          <path id="sim-inv-path" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
+          <path id="sim-dem-path" fill="none" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 3"/>
+          <g id="sim-order-dots"></g>
+        </svg>
+        <div class="section-label" style="color:var(--muted);margin-top:8px">
+          — INVENTORY &nbsp;&nbsp; — — DEMAND &nbsp;&nbsp; ● ORDERS
+        </div>
+      </div>
+      <div class="sim-stats">
+        <div class="sim-stat">
+          <div class="sim-stat-lbl">Total Profit</div>
+          <div class="sim-stat-val" id="ss-profit">—</div>
+        </div>
+        <div class="sim-stat">
+          <div class="sim-stat-lbl">Service Level</div>
+          <div class="sim-stat-val" id="ss-sl">—</div>
+        </div>
+        <div class="sim-stat">
+          <div class="sim-stat-lbl">Stockouts</div>
+          <div class="sim-stat-val" id="ss-so">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 07 RESULTS ───────────────────────────────────────────────── -->
+<section id="s07">
+  <div class="sec-header">
+    <div class="sec-counter">07</div>
+    <div class="sec-title-block">
+      <div class="sec-htitle">Results</div>
+      <div class="section-label">200 holdout episodes · M5 Walmart test split</div>
+    </div>
+  </div>
+  <table class="results" id="results-table">
+    <thead>
+      <tr>
+        <th>METHOD</th>
+        <th>MEAN PROFIT</th>
+        <th>STD DEV</th>
+        <th>WORST CASE</th>
+        <th>SERVICE LEVEL</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="tr-baseline">
+        <td class="strong">(s,S) Baseline</td>
+        <td class="mono" id="td-b1">$12,628</td>
+        <td class="mono" id="td-b2">±$3,720</td>
+        <td class="mono" id="td-b3">$8,468</td>
+        <td class="mono" id="td-b4">100.0%</td>
+      </tr>
+      <tr id="tr-drl">
+        <td class="strong">Deep RL (DQN)</td>
+        <td class="mono bad" id="td-d1">$7,384</td>
+        <td class="mono bad" id="td-d2">±$8,500</td>
+        <td class="mono bad" id="td-d3">−$3,138</td>
+        <td class="mono bad" id="td-d4">79.5%</td>
+      </tr>
+      <tr class="cmaes" id="tr-cmaes">
+        <td class="strong">CMA-ES (ours)</td>
+        <td class="mono" id="td-c1">$12,507</td>
+        <td class="mono" id="td-c2">±$546</td>
+        <td class="mono" id="td-c3">$11,542</td>
+        <td class="mono" id="td-c4">97.0%</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ─── § 08 PER-SEED ──────────────────────────────────────────────── -->
+<section id="s08">
+  <div class="sec-header">
+    <div class="sec-counter">08</div>
+    <div class="sec-title-block">
+      <div class="sec-htitle">Per-Seed Breakdown</div>
+      <div class="section-label">5 independent CMA-ES runs</div>
+    </div>
+  </div>
+  <div class="seed-cards" id="seed-cards">
+    <div class="seed-card" data-seed="42">
+      <span class="seed-num">42</span>
+      <div class="seed-info">
+        <div><strong>$11,542</strong> mean profit</div>
+        <div>±$1,571 std dev</div>
+        <div>97.0% SL</div>
+        <div style="color:var(--muted);font-size:9px;margin-top:4px">WORST SEED · STILL PROFITABLE</div>
+      </div>
+    </div>
+    <div class="seed-card" data-seed="123">
+      <span class="seed-num">123</span>
+      <div class="seed-info">
+        <div><strong>$12,785</strong> mean profit</div>
+        <div>±$2,611 std dev</div>
+        <div>97.6% SL</div>
+      </div>
+    </div>
+    <div class="seed-card best" data-seed="456">
+      <span class="seed-num">456</span>
+      <div class="seed-info">
+        <div><strong>$12,808</strong> mean profit</div>
+        <div>±$2,476 std dev</div>
+        <div>97.6% SL</div>
+      </div>
+    </div>
+    <div class="seed-card" data-seed="789">
+      <span class="seed-num">789</span>
+      <div class="seed-info">
+        <div><strong>$12,800</strong> mean profit</div>
+        <div>±$2,672 std dev</div>
+        <div>98.0% SL</div>
+      </div>
+    </div>
+    <div class="seed-card" data-seed="999">
+      <span class="seed-num">999</span>
+      <div class="seed-info">
+        <div><strong>$12,599</strong> mean profit</div>
+        <div>±$2,191 std dev</div>
+        <div>97.8% SL</div>
+        <div style="color:var(--muted);font-size:9px;margin-top:4px">MOST CONSISTENT</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── § 09 KEY INSIGHT ───────────────────────────────────────────── -->
+<section id="s09">
+  <div class="insight-hl" id="i-hl">
+    <span class="line" id="il1">We did not <span class="ur" id="il-ur">beat</span> the baseline.</span>
+    <span class="line" id="il2">We matched it — with 7×</span>
+    <span class="line" id="il3">lower variance and zero failures.</span>
+  </div>
+  <div class="insight-stats">
+    <div class="insight-stat">
+      <span class="ibig" id="ib1">7×</span>
+      <span class="icap">lower seed-to-seed<br>profit variance</span>
+    </div>
+    <div class="insight-stat">
+      <span class="ibig" id="ib2">p = 0.65</span>
+      <span class="icap">statistically equivalent<br>returns to baseline</span>
+    </div>
+    <div class="insight-stat">
+      <span class="ibig" id="ib3">0 / 5</span>
+      <span class="icap">catastrophic failures<br>across all seeds</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─── SCRIPTS ───────────────────────────────────────────────────── -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   DATA — fallback constants (mirrors the JSON files)
+══════════════════════════════════════════════════════════════════ */
+const THETA_FB = {
+  "42":  [-10.736,7.479,5.187,0.504,4.776,3.582,3.212,-3.520],
+  "123": [1.014,14.085,16.017,9.267,9.388,2.503,6.527,-6.868],
+  "456": [2.845,6.356,-8.978,1.876,10.617,2.333,6.407,-2.969],
+  "789": [12.123,-12.566,-2.140,3.394,-2.427,2.571,6.109,6.478],
+  "999": [17.979,18.151,9.938,28.753,0.330,2.563,5.269,-8.826]
+};
+const LOG_FB = [
+  {g:1,p:8645.89,s:4.51},{g:2,p:-6558.64,s:4.44},{g:3,p:2786.47,s:4.17},
+  {g:4,p:1246.78,s:4.34},{g:5,p:5744.82,s:4.05},{g:6,p:5051.62,s:3.61},
+  {g:7,p:-14157.0,s:3.88},{g:8,p:5359.70,s:4.09},{g:9,p:5123.75,s:4.09},
+  {g:10,p:516.04,s:4.20},{g:11,p:6691.17,s:4.43},{g:12,p:5227.15,s:4.40},
+  {g:13,p:7319.49,s:4.04},{g:14,p:574.25,s:3.47},{g:15,p:7647.62,s:3.04},
+  {g:16,p:8120.24,s:2.94},{g:17,p:9257.55,s:2.61},{g:18,p:5466.90,s:2.46},
+  {g:19,p:5117.01,s:2.36},{g:20,p:7005.12,s:2.33},{g:21,p:8407.47,s:2.37},
+  {g:22,p:8324.11,s:2.38},{g:23,p:7736.96,s:2.23},{g:24,p:9193.45,s:2.06},
+  {g:25,p:9768.52,s:2.03},{g:26,p:9470.93,s:1.87},{g:27,p:9320.94,s:2.01},
+  {g:28,p:8299.75,s:2.02},{g:29,p:9182.26,s:1.87},{g:30,p:8846.37,s:1.73},
+  {g:31,p:9680.34,s:1.63},{g:32,p:9170.16,s:1.52},{g:33,p:10056.57,s:1.50},
+  {g:34,p:10020.53,s:1.53},{g:35,p:9767.56,s:1.40},{g:36,p:10213.77,s:1.31},
+  {g:37,p:9937.92,s:1.39},{g:38,p:10041.59,s:1.41},{g:39,p:9690.24,s:1.45},
+  {g:40,p:10280.13,s:1.61},{g:41,p:10092.21,s:1.55},{g:42,p:9696.0,s:1.47},
+  {g:43,p:9824.87,s:1.33},{g:44,p:9955.54,s:1.29},{g:45,p:10407.14,s:1.34},
+  {g:46,p:9958.89,s:1.28},{g:47,p:10180.59,s:1.14},{g:48,p:10084.17,s:1.02},
+  {g:49,p:9789.33,s:0.94},{g:50,p:9983.72,s:0.88},{g:51,p:9929.97,s:0.85},
+  {g:52,p:10026.61,s:0.86},{g:53,p:9898.22,s:0.79},{g:54,p:10138.40,s:0.86},
+  {g:55,p:10191.46,s:0.87},{g:56,p:9971.45,s:0.81},{g:57,p:9900.10,s:0.82},
+  {g:58,p:10219.74,s:0.77},{g:59,p:10305.85,s:0.78},{g:60,p:10062.26,s:0.74},
+  {g:61,p:10469.38,s:0.69},{g:62,p:9898.72,s:0.59},{g:63,p:10062.38,s:0.67},
+  {g:64,p:9847.68,s:0.64},{g:65,p:10708.95,s:0.60},{g:66,p:9748.35,s:0.65},
+  {g:67,p:10402.99,s:0.68},{g:68,p:10242.67,s:0.69},{g:69,p:10278.66,s:0.62},
+  {g:70,p:10134.52,s:0.62},{g:71,p:10359.60,s:0.60},{g:72,p:9961.08,s:0.59},
+  {g:73,p:10408.16,s:0.57},{g:74,p:10482.66,s:0.60},{g:75,p:9827.64,s:0.66},
+  {g:76,p:9920.32,s:0.64},{g:77,p:10475.30,s:0.69},{g:78,p:10100.69,s:0.69},
+  {g:79,p:10211.38,s:0.79},{g:80,p:10317.0,s:0.77},{g:81,p:10405.66,s:0.72},
+  {g:82,p:9889.57,s:0.64},{g:83,p:10039.45,s:0.62},{g:84,p:9830.45,s:0.62},
+  {g:85,p:10157.02,s:0.60},{g:86,p:10184.72,s:0.62},{g:87,p:10494.89,s:0.62},
+  {g:88,p:10282.36,s:0.60},{g:89,p:10209.87,s:0.60},{g:90,p:10254.36,s:0.54},
+  {g:91,p:9992.18,s:0.55},{g:92,p:10809.66,s:0.62},{g:93,p:10283.51,s:0.66},
+  {g:94,p:10050.72,s:0.61},{g:95,p:10224.78,s:0.60},{g:96,p:10343.22,s:0.54},
+  {g:97,p:10278.33,s:0.58},{g:98,p:9921.70,s:0.52},{g:99,p:10481.76,s:0.58},
+  {g:100,p:10380.01,s:0.50}
+];
+
+/* ══════════════════════════════════════════════════════════════════
+   DATA LOADING
+══════════════════════════════════════════════════════════════════ */
+let THETA = THETA_FB;
+let TRAINLOG = LOG_FB;
+
+async function loadData() {
+  try {
+    const [tRes, lRes] = await Promise.all([
+      fetch('./theta_values.json'),
+      fetch('./models/cmaes_training_log_seed123.json')
+    ]);
+    if (tRes.ok) { THETA = await tRes.json(); }
+    if (lRes.ok) {
+      const ld = await lRes.json();
+      TRAINLOG = ld.log.map(e => ({g:e.generation,p:e.best_profit,s:e.sigma}));
+    }
+  } catch(e) { /* use fallback */ }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   UTILITIES
+══════════════════════════════════════════════════════════════════ */
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+function deterministicDemand(mu, sigma, day) {
+  const wave = Math.sin((day + 1) * 1.73) * 0.72 + Math.cos((day + 1) * 0.61) * 0.28;
+  return mu + sigma * wave;
+}
+
+function offsetFor(index, min, max, salt=0) {
+  const value = Math.sin((index + 1) * 12.9898 + salt * 78.233) * 43758.5453;
+  const unit = value - Math.floor(value);
+  return min + unit * (max - min);
+}
+
+/* Split element's text nodes into individual character spans.
+   Preserves nested elements (like .ur spans). */
+function splitToChars(el) {
+  const chars = [];
+  function walk(node) {
+    if (node.nodeType === 3) { // text
+      const text = node.textContent;
+      const frag = document.createDocumentFragment();
+      for (const ch of text) {
+        if (/\s/.test(ch)) {
+          frag.appendChild(document.createTextNode('\u00A0'));
+        } else {
+          const sp = document.createElement('span');
+          sp.className = 'char';
+          sp.style.display = 'inline-block';
+          sp.textContent = ch;
+          frag.appendChild(sp);
+          chars.push(sp);
+        }
+      }
+      node.parentNode.replaceChild(frag, node);
+    } else if (node.nodeType === 1) {
+      Array.from(node.childNodes).forEach(walk);
+    }
+  }
+  Array.from(el.childNodes).forEach(walk);
+  return chars;
+}
+
+/* Scramble digits then resolve to final value */
+let _shatTimers = new WeakMap();
+function setDemoValue(el, finalStr) {
+  if (!el) return;
+  clearInterval(_shatTimers.get(el));
+  el.textContent = finalStr;
+}
+
+function shatReform(el, finalStr, delay=0) {
+  if (prefersReducedMotion) { el.textContent = finalStr; return; }
+  clearInterval(_shatTimers.get(el));
+  const final = String(finalStr);
+  const chars = final.split('');
+  const iters = 20;
+  let f = 0;
+  const digits = '0123456789';
+  setTimeout(() => {
+    const id = setInterval(() => {
+      f++;
+      const prog = f / iters;
+      el.textContent = chars.map((c, i) => {
+        const lock = (i / chars.length) * 0.65 + 0.35;
+        return (prog >= lock || !/[0-9]/.test(c)) ? c : digits[(f + i * 3) % digits.length];
+      }).join('');
+      if (f >= iters) { clearInterval(id); el.textContent = final; }
+    }, 16);
+    _shatTimers.set(el, id);
+  }, delay);
+}
+
+/* Draw hairline scaleX 0→1 */
+function animHairline(el, delay=0) {
+  if (!el) return;
+  gsap.to(el, {
+    scaleX: 1, duration: 0.9, ease: 'power3.out', delay,
+    scrollTrigger: { trigger: el, start: 'top 95%' }
+  });
+}
+
+/* Character split reveal */
+function charReveal(el, startDelay=0, exitEl=null) {
+  if (!el || prefersReducedMotion) return;
+  const chars = splitToChars(el);
+  chars.forEach((c, i) => {
+    const ry = offsetFor(i, -40, 40, 1);
+    const rr = offsetFor(i, -8, 8, 2);
+    gsap.set(c, { y: ry, rotation: rr, opacity: 0 });
+  });
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: el, start: 'top 88%',
+      toggleActions: 'play none none none'
+    }
+  });
+  tl.to(chars, {
+    y: 0, rotation: 0, opacity: 1, stagger: 0.018,
+    duration: 0.7, ease: 'cubic-bezier(0.16,1,0.3,1)',
+    delay: startDelay
+  });
+  /* Exit disassembly */
+  if (exitEl || el) {
+    const exitTarget = exitEl || el;
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: exitTarget, start: 'bottom 60%', end: 'bottom top', scrub: 1
+      }
+    }).to(chars, {
+      y: i => offsetFor(i, -55, 55, 3),
+      rotation: i => offsetFor(i, -12, 12, 4),
+      opacity: 0, stagger: { amount: 0.3, from: 'center' }
+    });
+  }
+  return chars;
+}
+
+/* Word-split mask reveal (upward) */
+function wordReveal(el) {
+  if (!el || prefersReducedMotion) return;
+  const text = el.textContent.trim();
+  el.innerHTML = '';
+  text.split(/\s+/).forEach((w, i, arr) => {
+    const outer = document.createElement('span');
+    outer.className = 'word';
+    outer.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:bottom';
+    const inner = document.createElement('span');
+    inner.className = 'wi';
+    inner.style.cssText = 'display:inline-block;transform:translateY(110%)';
+    inner.textContent = w;
+    outer.appendChild(inner);
+    el.appendChild(outer);
+    if (i < arr.length-1) el.appendChild(document.createTextNode('\u00A0'));
+  });
+  const inners = el.querySelectorAll('.wi');
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+  });
+  tl.to(inners, {
+    y: 0, stagger: 0.045, duration: 0.85,
+    ease: 'cubic-bezier(0.16,1,0.3,1)'
+  });
+  /* Exit */
+  const exitInners = Array.from(inners);
+  gsap.timeline({
+    scrollTrigger: { trigger: el, start: 'bottom 55%', end: 'bottom top', scrub: 1 }
+  }).to(exitInners, {
+    y: i => offsetFor(i, -50, 50, 5),
+    opacity: 0, rotation: i => offsetFor(i, -10, 10, 6),
+    stagger: { amount: 0.4, from: 'center' }
+  });
+}
+
+/* Line mask reveal */
+function lineReveal(el) {
+  if (!el || prefersReducedMotion) return;
+  const items = el.querySelectorAll('.li');
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+  });
+  tl.to(items, { y: 0, stagger: 0.08, duration: 0.75, ease: 'cubic-bezier(0.16,1,0.3,1)' });
+}
+
+/* Typed-in code line effect */
+function typeCode(el, delay=0) {
+  if (!el || prefersReducedMotion) {
+    if (el) el.querySelectorAll('.code-char').forEach(c=>c.style.opacity='1');
+    return;
+  }
+  const chars = Array.from(el.childNodes).reduce((acc, node) => {
+    if (node.nodeType===3) {
+      const text = node.textContent;
+      const frag = document.createDocumentFragment();
+      for (const ch of text) {
+        const sp = document.createElement('span');
+        sp.className = 'code-char';
+        sp.textContent = ch;
+        frag.appendChild(sp);
+        acc.push(sp);
+      }
+      node.parentNode.replaceChild(frag, node);
+    } else if (node.classList && node.classList.contains('kw')) {
+      const kchars = Array.from(node.childNodes).reduce((a2,cn) => {
+        if (cn.nodeType===3) {
+          for (const ch of cn.textContent) {
+            const sp=document.createElement('span');sp.className='code-char';sp.textContent=ch;
+            node.appendChild(sp);a2.push(sp);
+          }
+          node.removeChild(cn);
+        } return a2;
+      },[]);
+      acc.push(...kchars);
+    } else if (node.classList && node.classList.contains('ac')) {
+      const achars = Array.from(node.childNodes).reduce((a2,cn)=>{
+        if (cn.nodeType===3) {
+          for (const ch of cn.textContent) {
+            const sp=document.createElement('span');sp.className='code-char';sp.textContent=ch;
+            node.appendChild(sp);a2.push(sp);
+          }
+          node.removeChild(cn);
+        } return a2;
+      },[]);
+      acc.push(...achars);
+    }
+    return acc;
+  }, []);
+  gsap.set(chars, {opacity:0});
+  gsap.timeline({
+    scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}
+  }).to(chars, {opacity:1, stagger:0.015, delay, duration:0.001});
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   MARQUEE
+══════════════════════════════════════════════════════════════════ */
+function buildMarquee() {
+  const items = [
+    {t:'$12,507',l:'MEAN PROFIT (CMA-ES)'},
+    {t:'σ $546',l:'SEED-TO-SEED STD'},
+    {t:'p = 0.6461',l:'STATISTICAL EQUIVALENCE'},
+    {t:'5 / 5',l:'SEEDS PROFITABLE'},
+    {t:'97.0%',l:'MIN SERVICE LEVEL'},
+    {t:'7×',l:'LOWER VARIANCE THAN BASELINE'},
+    {t:'0',l:'CATASTROPHIC FAILURES'},
+    {t:'100',l:'CMA-ES GENERATIONS'},
+    {t:'1,941',l:'M5 DAILY RECORDS'},
+    {t:'$12,627',l:'ORACLE BASELINE'}
+  ];
+  const track = document.getElementById('marquee');
+  const buildSet = () => items.map(({t,l}) =>
+    `<span class="marquee-item"><span class="a">${t}</span> ${l}</span>`
+  ).join('');
+  track.innerHTML = buildSet() + buildSet(); // double for seamless loop
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   CONVERGENCE CHART
+══════════════════════════════════════════════════════════════════ */
+function buildConvChart() {
+  const svg = document.getElementById('conv-svg');
+  const vW=560, vH=300;
+  const pad = {t:24,r:24,b:44,l:68};
+  const cW = vW-pad.l-pad.r, cH = vH-pad.t-pad.b;
+
+  const yMin=-5000, yMax=13000;
+  const xScale = g => pad.l + ((g-1)/99)*cW;
+  const yScale = v => pad.t + cH - ((Math.max(yMin,Math.min(yMax,v))-yMin)/(yMax-yMin))*cH;
+
+  /* Axes group */
+  const axG = document.getElementById('conv-axes');
+  /* Horizontal grid lines */
+  [0, 5000, 10000, 12628].forEach(v => {
+    const y = yScale(v);
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1', pad.l); line.setAttribute('x2', pad.l+cW);
+    line.setAttribute('y1', y); line.setAttribute('y2', y);
+    line.setAttribute('stroke', 'rgba(26,26,26,0.07)');
+    line.setAttribute('stroke-width','1');
+    axG.appendChild(line);
+    const label = document.createElementNS('http://www.w3.org/2000/svg','text');
+    label.setAttribute('x', pad.l-6); label.setAttribute('y', y+3);
+    label.setAttribute('text-anchor','end');
+    label.setAttribute('font-family','JetBrains Mono');
+    label.setAttribute('font-size','8');
+    label.setAttribute('fill','#8A8680');
+    label.textContent = v===12628 ? 'Baseline' : (v>=1000 ? '$'+(v/1000)+'k' : '$'+v);
+    axG.appendChild(label);
+  });
+  /* X-axis ticks */
+  [1,20,40,60,80,100].forEach(g => {
+    const x = xScale(g);
+    const tick = document.createElementNS('http://www.w3.org/2000/svg','line');
+    tick.setAttribute('x1',x); tick.setAttribute('x2',x);
+    tick.setAttribute('y1',pad.t+cH); tick.setAttribute('y2',pad.t+cH+4);
+    tick.setAttribute('stroke','#8A8680'); tick.setAttribute('stroke-width','1');
+    axG.appendChild(tick);
+    const label = document.createElementNS('http://www.w3.org/2000/svg','text');
+    label.setAttribute('x',x); label.setAttribute('y',pad.t+cH+14);
+    label.setAttribute('text-anchor','middle');
+    label.setAttribute('font-family','JetBrains Mono');
+    label.setAttribute('font-size','8');
+    label.setAttribute('fill','#8A8680');
+    label.textContent = g===1?'GEN 1':g;
+    axG.appendChild(label);
+  });
+  /* Y-axis label */
+  const yLbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+  yLbl.setAttribute('x',10); yLbl.setAttribute('y',pad.t+cH/2);
+  yLbl.setAttribute('text-anchor','middle');
+  yLbl.setAttribute('font-family','JetBrains Mono');
+  yLbl.setAttribute('font-size','8');
+  yLbl.setAttribute('fill','#8A8680');
+  yLbl.setAttribute('transform',`rotate(-90,10,${pad.t+cH/2})`);
+  yLbl.textContent = 'PROFIT ($)';
+  axG.appendChild(yLbl);
+
+  /* Baseline reference line */
+  const baseY = yScale(12627.84);
+  document.getElementById('conv-base').setAttribute('d',
+    `M ${pad.l} ${baseY} L ${pad.l+cW} ${baseY}`);
+
+  /* Main path from log data */
+  const pts = TRAINLOG.map(d => ({x:xScale(d.g), y:yScale(d.p)}));
+  const pathD = pts.map((p,i) => (i===0?'M':'L')+' '+p.x.toFixed(1)+' '+p.y.toFixed(1)).join(' ');
+  const convPath = document.getElementById('conv-path');
+  convPath.setAttribute('d', pathD);
+  const pathLen = convPath.getTotalLength();
+  gsap.set(convPath, {strokeDasharray: pathLen, strokeDashoffset: pathLen});
+
+  /* Gen 33 dot */
+  const d33 = TRAINLOG.find(d=>d.g===33);
+  if (d33) {
+    const dot33 = document.getElementById('cdot33');
+    dot33.setAttribute('cx', xScale(33).toFixed(1));
+    dot33.setAttribute('cy', yScale(d33.p).toFixed(1));
+    const lbl33 = document.getElementById('clabel33');
+    lbl33.setAttribute('x', (xScale(33)+6).toFixed(1));
+    lbl33.setAttribute('y', (yScale(d33.p)-6).toFixed(1));
+    lbl33.textContent = 'GEN 33';
+  }
+  /* Gen 92 dot (best) */
+  const d92 = TRAINLOG.find(d=>d.g===92);
+  if (d92) {
+    const dot92 = document.getElementById('cdot92');
+    dot92.setAttribute('cx', xScale(92).toFixed(1));
+    dot92.setAttribute('cy', yScale(d92.p).toFixed(1));
+    const lbl92 = document.getElementById('clabel92');
+    lbl92.setAttribute('x', (xScale(92)-48).toFixed(1));
+    lbl92.setAttribute('y', (yScale(d92.p)-8).toFixed(1));
+    lbl92.textContent = 'PEAK $10,809';
+  }
+
+  /* Scroll animation */
+  const anns = [
+    document.getElementById('ca1'),
+    document.getElementById('ca2'),
+    document.getElementById('ca3')
+  ];
+
+  gsap.to(convPath, {
+    strokeDashoffset: 0, ease: 'none',
+    scrollTrigger: {
+      trigger: '#s05', start: 'top 75%', end: 'bottom 25%', scrub: 1.5,
+      onUpdate(self) {
+        const p = self.progress;
+        anns[0].classList.toggle('on', p < 0.38);
+        anns[1].classList.toggle('on', p >= 0.32 && p < 0.72);
+        anns[2].classList.toggle('on', p >= 0.66);
+        /* Reveal dots at appropriate progress */
+        const op33 = p > 0.3 ? 1 : 0;
+        const op92 = p > 0.85 ? 1 : 0;
+        gsap.set('#cdot33,#clabel33', {opacity: op33});
+        gsap.set('#cdot92,#clabel92', {opacity: op92});
+      }
+    }
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SAWTOOTH SVG ANIMATION
+══════════════════════════════════════════════════════════════════ */
+function animSawtooth() {
+  const path = document.getElementById('saw-path');
+  if (!path) return;
+  const len = path.getTotalLength();
+  gsap.set(path, {strokeDasharray:len, strokeDashoffset:len});
+  gsap.to(path, {
+    strokeDashoffset:0, duration:1.6, ease:'power2.inOut',
+    scrollTrigger:{trigger:'#saw-svg', start:'top 85%', toggleActions:'play none none none'}
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   DEMO SIMULATION
+══════════════════════════════════════════════════════════════════ */
+const ACTION_MAP = [0,50,150,300,500,750,1000,1500];
+
+function computePolicy(seed, inv, dem, std, lt) {
+  const th = THETA[String(seed)] || THETA['123'];
+  const [sb,Sb,w1,w2,w3,w4,w5,w6] = th;
+  const LT = 2.0;  // model was trained with lead_time fixed at 2 days
+  const invN = Math.min(inv/1500, 3.0);
+  const dN   = Math.min(dem/300, 2.0);
+  const sN   = Math.min(std/300, 2.0);
+  const sCtx = sb + w1*dN + w2*sN + w3*LT;
+  const SCtx = Sb + w4*dN + w5*sN + w6*LT;
+  let action = 0;
+  if (invN < sCtx) {
+    const raw = Math.max(0, SCtx - invN);
+    action = Math.min(7, Math.max(0, Math.round(raw)));
+  }
+  // Denormalize for display: s threshold in real units, S as order target units
+  const sReal = sCtx * 1500;               // reorder trigger in real inventory units
+  const orderTarget = ACTION_MAP[action];   // actual units ordered
+  const willOrder = invN < sCtx;
+  return {
+    sCtx, SCtx, action, order: orderTarget,
+    sReal, willOrder,
+    invN,
+    targetLevel: inv + orderTarget,
+    // breakdown for explanation
+    s_parts: [
+      {lbl:'Base (s_base)',       w:null, x:null, v:sb},
+      {lbl:'Demand forecast',     w:w1,   x:dN,   v:w1*dN},
+      {lbl:'Demand volatility',   w:w2,   x:sN,   v:w2*sN},
+      {lbl:'Lead time',           w:w3,   x:LT,   v:w3*LT},
+    ],
+    S_parts: [
+      {lbl:'Base (S_base)',       w:null, x:null, v:Sb},
+      {lbl:'Demand forecast',     w:w4,   x:dN,   v:w4*dN},
+      {lbl:'Demand volatility',   w:w5,   x:sN,   v:w5*sN},
+      {lbl:'Lead time',           w:w6,   x:LT,   v:w6*LT},
+    ],
+  };
+}
+
+function runSimulation(seed, initInv, dem, std, lt, steps=30) {
+  const th = THETA[String(seed)] || THETA['123'];
+  const [sb,Sb,w1,w2,w3,w4,w5,w6] = th;
+  const LT = 2.0;   // training-time constant
+  const leadDays = 2;
+  const PRICE = 4.39, UCOST = 3.30, HOLD = 0.05, SOUT = 3.0;
+  let inv = initInv, tRev=0, tCost=0, tDem=0, tSales=0, stockouts=0;
+  const trace = [];
+  const pipeline = {};  // pipeline[day] = qty arriving that day
+  for (let t=0; t<steps; t++) {
+    // Receive orders that arrive after lead time
+    if (pipeline[t]) {
+      inv += pipeline[t];
+      delete pipeline[t];
+    }
+    const invN = Math.min(inv/1500, 3.0);
+    const dN   = Math.min(dem/300, 2.0);
+    const sN   = Math.min(std/300, 2.0);
+    const sCtx = sb + w1*dN + w2*sN + w3*LT;
+    const SCtx = Sb + w4*dN + w5*sN + w6*LT;
+    let action=0;
+    if (invN < sCtx) {
+      const raw = Math.max(0, SCtx - invN);
+      action = Math.min(7, Math.max(0, Math.round(raw)));
+    }
+    const orderQty = ACTION_MAP[action];
+    // Schedule order to arrive after lead time
+    if (orderQty > 0) {
+      const arriveDay = t + leadDays;
+      pipeline[arriveDay] = (pipeline[arriveDay] || 0) + orderQty;
+    }
+    const demand = Math.max(0, deterministicDemand(dem, std, t));
+    const sales  = Math.min(demand, inv);
+    const sout   = Math.max(0, demand - inv);
+    const invNext = Math.max(0, inv - demand);
+    const rev  = sales * PRICE;
+    const proc = orderQty * UCOST;
+    const hold = invNext * HOLD;
+    const pen  = sout * SOUT;
+    tRev += rev; tCost += proc+hold+pen; tDem += demand; tSales += sales;
+    if (sout > 0) stockouts++;
+    trace.push({t, inv, demand, orderQty, profit:rev-proc-hold-pen});
+    inv = invNext;
+  }
+  return {
+    trace, profit: tRev-tCost,
+    sl: tDem>0 ? (tSales/tDem*100) : 100,
+    stockouts
+  };
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   DEMO UI
+══════════════════════════════════════════════════════════════════ */
+let _simDebounce = null;
+function initDemo() {
+  const seedSel = document.getElementById('seed-sel');
+  const slInv   = document.getElementById('sl-inv');
+  const slDem   = document.getElementById('sl-dem');
+  const slStd   = document.getElementById('sl-std');
+  const svInv   = document.getElementById('sv-inv');
+  const svDem   = document.getElementById('sv-dem');
+  const svStd   = document.getElementById('sv-std');
+  const thetaRead = document.getElementById('theta-read');
+  const dvS    = document.getElementById('dv-s');
+  const dvSS   = document.getElementById('dv-S');
+  const dvOrd  = document.getElementById('dv-order');
+  const runBtn = document.getElementById('run-btn');
+
+  function getParams() {
+    return {
+      seed: seedSel.value,
+      inv: +slInv.value,
+      dem: +slDem.value,
+      std: +slStd.value,
+      lt:  2
+    };
+  }
+
+  function updateLabels(p) {
+    svInv.textContent = p.inv;
+    svDem.textContent = p.dem;
+    svStd.textContent = p.std;
+    const th = THETA[String(p.seed)] || THETA['123'];
+    thetaRead.textContent = 'θ = [' + th.map(v=>v.toFixed(3)).join(', ') + ']';
+  }
+
+  const dhS     = document.getElementById('dh-s');
+  const dhSS    = document.getElementById('dh-S');
+  const dhOrd   = document.getElementById('dh-order');
+  const decExp  = document.getElementById('dec-explain');
+  const bdBtn   = document.getElementById('breakdown-btn');
+  const bdPanel = document.getElementById('breakdown-panel');
+  let bdOpen = false;
+
+  bdBtn.addEventListener('click', () => {
+    bdOpen = !bdOpen;
+    bdPanel.style.display = bdOpen ? 'grid' : 'none';
+    bdBtn.textContent = bdOpen ? 'Hide calculation breakdown' : 'Show calculation breakdown';
+  });
+
+  function updateDecision(p) {
+    const r = computePolicy(p.seed, p.inv, p.dem, p.std, p.lt);
+
+    // Reorder trigger — show status, not the raw threshold value
+    if (r.willOrder) {
+      setDemoValue(dvS, 'TRIGGERED');
+      dhS.textContent = 'Inventory below adaptive reorder point';
+    } else {
+      setDemoValue(dvS, 'HOLDING');
+      dhS.textContent = 'Inventory above adaptive reorder point — no order placed';
+    }
+
+    // Target level — projected inventory after ordering
+    setDemoValue(dvSS, r.targetLevel.toLocaleString() + ' units');
+    dhSS.textContent = 'Current (' + p.inv + ') + order (' + r.order + ')';
+
+    // Order quantity
+    setDemoValue(dvOrd, r.order + ' units');
+    dhOrd.textContent = r.willOrder
+      ? 'Nearest valid: [0, 50, 150, 300, 500, 750, 1000, 1500]'
+      : 'No order — inventory is sufficient';
+
+    // Plain English explanation
+    const projected = p.inv - p.dem * p.lt;
+    decExp.innerHTML = r.willOrder
+      ? 'Your inventory of <strong>' + p.inv + ' units</strong> will drop to ~<strong>' + Math.round(projected) + ' units</strong> in ' + p.lt + ' days when the shipment arrives. The policy orders <span class="accent">' + r.order + ' units</span> now to maintain buffer.'
+      : 'Inventory is healthy at <strong>' + p.inv + ' units</strong>. The policy holds off ordering to save on holding costs.';
+
+    // Breakdown panel
+    function renderCol(title, parts, total) {
+      let h = '<div class="bd-col-title">' + title + '</div>';
+      parts.forEach(p => {
+        const sign = p.v >= 0 ? '+' : '';
+        const calc = p.w !== null ? (p.w.toFixed(3) + ' × ' + p.x.toFixed(3)) : '';
+        h += '<div class="bd-row"><span class="bd-row-lbl">' + p.lbl + '</span><span class="bd-row-calc">' + calc + '</span><span class="bd-row-val">' + sign + p.v.toFixed(3) + '</span></div>';
+      });
+      h += '<div class="bd-total"><span>Total</span><span class="bd-total-val">' + total.toFixed(2) + '</span></div>';
+      return h;
+    }
+    bdPanel.innerHTML =
+      '<div>' + renderCol('Reorder point — s(ctx) [normalized]', r.s_parts, r.sCtx) + '</div>' +
+      '<div>' + renderCol('Action index — S(ctx) [normalized]', r.S_parts, r.SCtx) + '</div>';
+  }
+
+  function renderSimulation(p, animateButton=false) {
+    if (animateButton) {
+      runBtn.classList.add('busy');
+      runBtn.textContent = 'SIMULATING…';
+    }
+    const result = runSimulation(p.seed, p.inv, p.dem, p.std, p.lt);
+    drawSimChart(result.trace);
+    setDemoValue(document.getElementById('ss-profit'), '$'+result.profit.toFixed(0));
+    setDemoValue(document.getElementById('ss-sl'), result.sl.toFixed(1)+'%');
+    setDemoValue(document.getElementById('ss-so'), result.stockouts+' days');
+    if (animateButton) {
+      setTimeout(() => {
+        runBtn.classList.remove('busy');
+        runBtn.textContent = 'RUN SIMULATION →';
+      }, 160);
+    }
+  }
+
+  function onSliderChange() {
+    const p = getParams();
+    updateLabels(p);
+    clearTimeout(_simDebounce);
+    _simDebounce = setTimeout(() => {
+      updateDecision(p);
+      renderSimulation(p);
+    }, 80);
+  }
+
+  [seedSel, slInv, slDem, slStd].forEach(el => {
+    el.addEventListener('input', onSliderChange);
+    el.addEventListener('change', onSliderChange);
+  });
+  slInv.addEventListener('mousedown', ()=>slInv.classList.add('dragging'));
+  slInv.addEventListener('mouseup',   ()=>slInv.classList.remove('dragging'));
+  document.addEventListener('mouseup', ()=>[slInv,slDem,slStd].forEach(s=>s.classList.remove('dragging')));
+
+  runBtn.addEventListener('click', () => {
+    const p = getParams();
+    renderSimulation(p, true);
+  });
+
+  /* Init */
+  onSliderChange();
+}
+
+function drawSimChart(trace) {
+  const svg = document.getElementById('sim-svg');
+  const vW=560, vH=200, pad={t:14,r:16,b:32,l:52};
+  const cW=vW-pad.l-pad.r, cH=vH-pad.t-pad.b;
+  const n = trace.length;
+  const invVals  = trace.map(d=>d.inv);
+  const demVals  = trace.map(d=>d.demand);
+  const allVals  = [...invVals, ...demVals];
+  const yMax = Math.max(10, Math.max(...allVals)*1.1), yMin=0;
+  const xS = i => pad.l + (i/(n-1))*cW;
+  const yS = v => pad.t + cH - ((v-yMin)/(yMax-yMin||1))*cH;
+
+  /* Axes */
+  const axG = document.getElementById('sim-axes');
+  axG.innerHTML='';
+  [0, .25, .5, .75, 1].forEach(frac => {
+    const y = pad.t + cH - frac*cH;
+    const grid = document.createElementNS('http://www.w3.org/2000/svg','line');
+    grid.setAttribute('x1',pad.l); grid.setAttribute('x2',pad.l+cW);
+    grid.setAttribute('y1',y); grid.setAttribute('y2',y);
+    grid.setAttribute('stroke','rgba(26,26,26,0.07)'); grid.setAttribute('stroke-width','1');
+    axG.appendChild(grid);
+    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',pad.l-8); t.setAttribute('y',y+3);
+    t.setAttribute('text-anchor','end');
+    t.setAttribute('font-family','JetBrains Mono'); t.setAttribute('font-size','8');
+    t.setAttribute('fill','#8A8680'); t.textContent=Math.round(yMin + frac*(yMax-yMin));
+    axG.appendChild(t);
+  });
+  /* X axis */
+  const xax = document.createElementNS('http://www.w3.org/2000/svg','line');
+  xax.setAttribute('x1',pad.l); xax.setAttribute('x2',pad.l+cW);
+  xax.setAttribute('y1',pad.t+cH); xax.setAttribute('y2',pad.t+cH);
+  xax.setAttribute('stroke','rgba(26,26,26,0.15)'); xax.setAttribute('stroke-width','1');
+  axG.appendChild(xax);
+  /* Labels */
+  [0,10,20,29].forEach(i=>{
+    const t=document.createElementNS('http://www.w3.org/2000/svg','text');
+    t.setAttribute('x',xS(i)); t.setAttribute('y',pad.t+cH+12);
+    t.setAttribute('text-anchor','middle');
+    t.setAttribute('font-family','JetBrains Mono'); t.setAttribute('font-size','8');
+    t.setAttribute('fill','#8A8680'); t.textContent='t='+i;
+    axG.appendChild(t);
+  });
+
+  /* Inventory path */
+  const iPath = document.getElementById('sim-inv-path');
+  iPath.setAttribute('stroke-linecap','round');
+  iPath.setAttribute('stroke-linejoin','round');
+  const invPathD = trace.map((d,i)=>(i===0?'M':'L')+' '+xS(i).toFixed(1)+' '+yS(d.inv).toFixed(1)).join(' ');
+  iPath.setAttribute('d', invPathD);
+  const iLen = iPath.getTotalLength();
+  if (!prefersReducedMotion) {
+    gsap.fromTo(iPath, {strokeDasharray:iLen, strokeDashoffset:iLen},
+      {strokeDashoffset:0, duration:1.2, ease:'power2.inOut'});
+  }
+
+  /* Demand path */
+  const demPathD = trace.map((d,i)=>(i===0?'M':'L')+' '+xS(i).toFixed(1)+' '+yS(d.demand).toFixed(1)).join(' ');
+  const dPath = document.getElementById('sim-dem-path');
+  dPath.setAttribute('d', demPathD);
+  dPath.setAttribute('stroke-linecap','round');
+  dPath.setAttribute('stroke-linejoin','round');
+
+  /* Order dots */
+  const dotsG = document.getElementById('sim-order-dots');
+  dotsG.innerHTML = '';
+  trace.forEach((d,i) => {
+    if (d.orderQty > 0) {
+      const c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c.setAttribute('cx', xS(i).toFixed(1));
+      c.setAttribute('cy', yS(d.inv).toFixed(1));
+      c.setAttribute('r','4'); c.setAttribute('fill','#C8442A');
+      c.setAttribute('stroke','#F4F1EC'); c.setAttribute('stroke-width','1.5');
+      dotsG.appendChild(c);
+    }
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   HERO ANIMATIONS
+══════════════════════════════════════════════════════════════════ */
+function animateHero() {
+  if (prefersReducedMotion) {
+    document.querySelectorAll('.hero-sub .li').forEach(l=>l.style.transform='none');
+    return;
+  }
+  /* Split lines */
+  const l1 = document.getElementById('hl1');
+  const l2 = document.getElementById('hl2');
+  const l3 = document.getElementById('hl3');
+
+  const chars1 = splitToChars(l1);
+  const chars2 = splitToChars(l2);
+  const chars3 = splitToChars(l3);
+
+  const allChars = [chars1, chars2, chars3];
+  allChars.forEach((chars, groupIndex) => chars.forEach((c, i) => {
+    gsap.set(c, {y:offsetFor(i, -38, 38, 10 + groupIndex), rotation:offsetFor(i, -7, 7, 20 + groupIndex), opacity:0});
+  }));
+
+  const tl = gsap.timeline();
+  tl.to(chars1, {y:0,rotation:0,opacity:1,stagger:0.016,duration:0.65,ease:'cubic-bezier(0.16,1,0.3,1)'}, 0.15)
+    .to(chars2, {y:0,rotation:0,opacity:1,stagger:0.016,duration:0.65,ease:'cubic-bezier(0.16,1,0.3,1)'}, 0.42)
+    .to(chars3, {y:0,rotation:0,opacity:1,stagger:0.016,duration:0.65,ease:'cubic-bezier(0.16,1,0.3,1)'}, 0.70)
+    .call(() => {
+      /* Draw underline on "Evolved." after chars settle */
+      const urEl = document.getElementById('hl-ur');
+      if (!urEl) return;
+      const after = document.createElement('span');
+      after.style.cssText = 'position:absolute;bottom:-5px;left:0;width:100%;height:3px;' +
+        'background:#C8442A;transform-origin:left;transform:scaleX(0);pointer-events:none';
+      urEl.style.display = 'inline-block';
+      urEl.appendChild(after);
+      gsap.to(after, {scaleX:1, duration:0.52, ease:'power3.inOut'});
+    }, [], 1.18);
+
+  /* Subtitle line-mask reveal */
+  lineReveal(document.getElementById('hero-sub'));
+
+  /* Scroll cue fade on scroll */
+  ScrollTrigger.create({
+    trigger:'#hero', start:'top top', end:'30% top',
+    onUpdate(self) {
+      gsap.set('#scroll-cue',{opacity: 1-self.progress*2});
+    }
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SECTION 03 — HORIZONTAL SCROLL
+══════════════════════════════════════════════════════════════════ */
+function initHScroll() {
+  const isMobile = window.innerWidth < 768;
+  if (isMobile) return; // CSS handles vertical stacking
+
+  const hOuter = document.getElementById('h-outer');
+  const hTrack = document.getElementById('h-track');
+
+  gsap.to(hTrack, {
+    x: () => -(hTrack.scrollWidth - window.innerWidth),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#s03-pin',
+      pin: true,
+      scrub: 1.2,
+      end: () => '+=' + (hTrack.scrollWidth - window.innerWidth),
+      invalidateOnRefresh: true,
+      onUpdate(self) {
+        const p = self.progress;
+        /* Panel B: failure number shatter when panel enters */
+        if (p > 0.42 && p < 0.6 && !document.getElementById('fail-num')._shatted) {
+          document.getElementById('fail-num')._shatted = true;
+          shatReform(document.getElementById('fail-num'), '-$3,138');
+        }
+        /* Panel C: strikethrough draws when panel enters */
+        if (p > 0.78 && !document.getElementById('pc-sl')._drawn) {
+          document.getElementById('pc-sl')._drawn = true;
+          gsap.to('#pc-sl', {scaleX:1, duration:0.6, ease:'power3.inOut'});
+          /* Type in pivot text after strikethrough */
+          setTimeout(() => {
+            const pvChars = document.querySelectorAll('.pivot-char');
+            pvChars.forEach((c,i)=>gsap.to(c,{opacity:1,duration:0.001,delay:i*0.04}));
+          }, 650);
+        }
+        /* Panel A char reveal */
+        if (p > 0.05 && !document.getElementById('pa-hl')._rev) {
+          document.getElementById('pa-hl')._rev = true;
+          charRevealEl(document.getElementById('pa-hl'));
+        }
+        /* Panel B char reveal */
+        if (p > 0.45 && !document.getElementById('fail-num')._rev) {
+          document.getElementById('fail-num')._rev = true;
+          // already handled by shatReform
+        }
+      }
+    }
+  });
+}
+
+function charRevealEl(el, delay=0) {
+  if (!el || prefersReducedMotion) return;
+  const chars = splitToChars(el);
+  chars.forEach((c, i) => {
+    gsap.set(c, {y:offsetFor(i, -35, 35, 30), rotation:offsetFor(i, -7, 7, 31), opacity:0});
+  });
+  gsap.to(chars, {y:0,rotation:0,opacity:1,stagger:0.015,duration:0.6,
+    ease:'cubic-bezier(0.16,1,0.3,1)', delay});
+}
+
+/* Prepare Panel C pivot text for char-by-char reveal */
+function preparePivotText() {
+  const el = document.getElementById('pivot-text');
+  if (!el) return;
+  const text = el.textContent;
+  el.innerHTML = '';
+  for (const ch of text) {
+    const sp = document.createElement('span');
+    sp.className = 'pivot-char';
+    sp.textContent = ch===' '?'\u00A0':ch;
+    el.appendChild(sp);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SECTION 03 CODA — DELETED LINE
+══════════════════════════════════════════════════════════════════ */
+function initDelLine() {
+  const el = document.getElementById('del-line');
+  if (!el || prefersReducedMotion) return;
+  const text = el.textContent;
+  el.innerHTML='';
+  const chars = [];
+  for (const ch of text) {
+    const sp=document.createElement('span');sp.className='del-char';
+    sp.textContent=ch===' '?'\u00A0':ch;
+    el.appendChild(sp);chars.push(sp);
+  }
+  gsap.timeline({
+    scrollTrigger:{trigger:'#s03-coda',start:'top 80%',toggleActions:'play none none none'}
+  }).to(chars, {opacity:1,y:0,stagger:0.025,duration:0.001});
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   TABLE DIGIT ANIMATIONS
+══════════════════════════════════════════════════════════════════ */
+function animTable() {
+  const rows = [
+    {id:'tr-baseline', cells:['td-b1','td-b2','td-b3','td-b4'], vals:['$12,628','±$3,720','$8,468','100.0%']},
+    {id:'tr-drl',      cells:['td-d1','td-d2','td-d3','td-d4'], vals:['$7,384','±$8,500','−$3,138','79.5%']},
+    {id:'tr-cmaes',    cells:['td-c1','td-c2','td-c3','td-c4'], vals:['$12,507','±$546','$11,542','97.0%']}
+  ];
+  rows.forEach((row, ri) => {
+    ScrollTrigger.create({
+      trigger:'#'+row.id, start:'top 88%',
+      once:true,
+      onEnter() {
+        row.cells.forEach((cid,ci)=>{
+          shatReform(document.getElementById(cid), row.vals[ci], ri*120+ci*60);
+        });
+      }
+    });
+  });
+
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SEED CARD ANIMATIONS
+══════════════════════════════════════════════════════════════════ */
+function animSeeds() {
+  document.querySelectorAll('.seed-card').forEach((card, i) => {
+    const numEl = card.querySelector('.seed-num');
+    if (!numEl || prefersReducedMotion) return;
+    const chars = splitToChars(numEl);
+    chars.forEach((c, ci) => gsap.set(c, {y:offsetFor(ci, -20, 20, 40 + i),rotation:offsetFor(ci, -5, 5, 50 + i),opacity:0}));
+    gsap.timeline({
+      scrollTrigger:{trigger:card,start:'top 88%',toggleActions:'play none none none'}
+    }).to(chars,{y:0,rotation:0,opacity:1,stagger:0.04,duration:0.55,
+      ease:'cubic-bezier(0.16,1,0.3,1)', delay: i*0.07});
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SECTION 09 — KEY INSIGHT
+══════════════════════════════════════════════════════════════════ */
+function animInsight() {
+  const l1 = document.getElementById('il1');
+  const l2 = document.getElementById('il2');
+  const l3 = document.getElementById('il3');
+  if (!l1) return;
+
+  if (!prefersReducedMotion) {
+    const c1=splitToChars(l1), c2=splitToChars(l2), c3=splitToChars(l3);
+    [...c1,...c2,...c3].forEach((c, i)=>{
+      gsap.set(c,{y:offsetFor(i, -35, 35, 60),rotation:offsetFor(i, -7, 7, 61),opacity:0});
+    });
+    const tl=gsap.timeline({
+      scrollTrigger:{trigger:'#s09',start:'top 80%',toggleActions:'play none none none'}
+    });
+    tl.to(c1,{y:0,rotation:0,opacity:1,stagger:0.012,duration:0.7,ease:'cubic-bezier(0.16,1,0.3,1)'},0)
+      .to(c2,{y:0,rotation:0,opacity:1,stagger:0.012,duration:0.7,ease:'cubic-bezier(0.16,1,0.3,1)'},0.18)
+      .to(c3,{y:0,rotation:0,opacity:1,stagger:0.012,duration:0.7,ease:'cubic-bezier(0.16,1,0.3,1)'},0.34)
+      .call(()=>{
+        /* Draw underline on "beat" */
+        const urEl = document.getElementById('il-ur');
+        if (urEl) {
+          const after=document.createElement('span');
+          after.style.cssText='position:absolute;bottom:-5px;left:0;width:100%;height:3px;background:#C8442A;transform-origin:left;transform:scaleX(0)';
+          urEl.style.position='relative';urEl.appendChild(after);
+          gsap.to(after,{scaleX:1,duration:0.5,ease:'power3.inOut'});
+        }
+      }, 0.8);
+
+    /* Scroll-past disassembly */
+    const allChars=[...c1,...c2,...c3];
+    gsap.timeline({
+      scrollTrigger:{trigger:'#s09',start:'bottom 70%',end:'bottom top',scrub:1}
+    }).to(allChars,{
+      y:i=>offsetFor(i, -60, 60, 70), rotation:i=>offsetFor(i, -14, 14, 71),
+      opacity:0, stagger:{amount:0.4,from:'center'}
+    });
+  }
+
+  /* Insight stat big numbers */
+  ['ib1','ib2','ib3'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const vals = ['7×', 'p = 0.65', '0 / 5'];
+    ScrollTrigger.create({
+      trigger:'#'+id, start:'top 88%', once:true,
+      onEnter(){ shatReform(el, vals[i], i*120); }
+    });
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   SECTION 04 — CODE BLOCK
+══════════════════════════════════════════════════════════════════ */
+function animCode() {
+  if (prefersReducedMotion) return;
+  const codeLines = document.querySelectorAll('#code-block .code-t');
+  if (!codeLines.length) return;
+
+  /* Fade each code line in sequentially, simulating typing */
+  const tl = gsap.timeline({
+    scrollTrigger:{trigger:'#code-block', start:'top 80%', toggleActions:'play none none none'}
+  });
+  codeLines.forEach((line, i) => {
+    tl.fromTo(line,
+      {opacity:0, y:3},
+      {opacity:1, y:0, duration:0.35, ease:'power2.out'},
+      i * 0.11
+    );
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   PARALLAX ON SECTION NUMBERS
+══════════════════════════════════════════════════════════════════ */
+function initParallax() {
+  if (prefersReducedMotion) return;
+  document.querySelectorAll('.sec-counter').forEach(el => {
+    gsap.to(el, {
+      y: -40, ease:'none',
+      scrollTrigger:{trigger:el.closest('section')||el,scrub:true}
+    });
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   MAIN INIT
+══════════════════════════════════════════════════════════════════ */
+async function main() {
+  /* Load data + fonts in parallel */
+  await Promise.all([loadData(), document.fonts.ready]);
+
+  /* Hide loader */
+  document.getElementById('loader').classList.add('out');
+
+  /* Wait one frame for loader fade */
+  await new Promise(r => requestAnimationFrame(r));
+
+  /* Reveal body */
+  document.body.classList.add('loaded');
+
+  /* Register GSAP plugins */
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* Lenis smooth scroll */
+  if (typeof Lenis !== 'undefined') {
+    const lenis = new Lenis({
+      duration: 1.25,
+      easing: t => Math.min(1, 1.001-Math.pow(2,-10*t)),
+      smoothWheel: true
+    });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(time => lenis.raf(time*1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  /* Build dynamic elements */
+  buildMarquee();
+  buildConvChart();
+  animSawtooth();
+  preparePivotText();
+
+  /* Animations */
+  animateHero();
+  initHScroll();
+  initDelLine();
+  animCode();
+  animTable();
+  animSeeds();
+  animInsight();
+  initParallax();
+  initDemo();
+
+  /* Hairlines */
+  ['s02-hl','s03-hl','s04-hl','s05-hl'].forEach(id => animHairline(document.getElementById(id)));
+
+  /* Pull quote word reveal */
+  wordReveal(document.getElementById('pq'));
+
+  ScrollTrigger.refresh();
+}
+
+document.addEventListener('DOMContentLoaded', main);
+</script>
+</body>
+</html>

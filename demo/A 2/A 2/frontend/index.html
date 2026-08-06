@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartStock — AI Inventory Management</title>
+  <meta name="description" content="AI-powered inventory decisions for small retailers. Built on real M5 Walmart data." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- Design system + components -->
+  <link rel="stylesheet" href="css/main.css?v=navfix5" />
+  <link rel="stylesheet" href="css/components.css?v=navfix5" />
+
+  <!-- Charts: Chart.js when available, bundled canvas fallback keeps local demo graphs offline-safe. -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+  <script src="js/components/chart-fallback.js?v=accuracy4"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- Alpine.js (deferred) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.0/dist/cdn.min.js"></script>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     APP SHELL — Sidebar + Main Area
+═══════════════════════════════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar">
+    <!-- populated by sidebar.js -->
+  </aside>
+
+  <!-- MAIN AREA -->
+  <div id="main-area">
+
+    <!-- TOP HEADER -->
+    <header id="top-header">
+      <!-- populated by header.js -->
+    </header>
+
+    <!-- SCREEN CONTENT -->
+    <main id="screen-content" role="main">
+      <!-- populated by router.js based on hash -->
+    </main>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     OVERLAYS — Toast, Modal, Drawer, Command Palette
+═══════════════════════════════════════════════════════════════════ -->
+
+<!-- Toast container -->
+<div id="toast-container" aria-live="polite"></div>
+
+<!-- Modal overlay -->
+<div id="modal-overlay" role="dialog" aria-modal="true"></div>
+
+<!-- Drawer overlay + drawer -->
+<div id="drawer-overlay"></div>
+<aside id="drawer" role="complementary"></aside>
+
+<!-- Command palette -->
+<div id="cmd-overlay" role="dialog" aria-label="Command palette">
+  <!-- populated by app.js -->
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     APP BOOTSTRAP
+═══════════════════════════════════════════════════════════════════ -->
+<script type="module" src="js/app.js?v=accuracy4"></script>
+
+</body>
+</html>

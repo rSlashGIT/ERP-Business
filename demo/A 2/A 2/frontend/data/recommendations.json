@@ -1,0 +1,194 @@
+[
+  {
+    "sku_id": "FOODS_3_587",
+    "current_stock": 51,
+    "recommended_order_qty": 300,
+    "confidence": 0.61,
+    "urgency": "critical",
+    "expected_coverage_days": 11.6,
+    "estimated_cost": 43200,
+    "consensus_status": "low",
+    "model_quantities": {
+      "lightgbm": 300,
+      "nhits": 250,
+      "chronos": 300
+    },
+    "status": "pending"
+  },
+  {
+    "sku_id": "HOBBIES_1_348",
+    "current_stock": 29,
+    "recommended_order_qty": 70,
+    "confidence": 0.55,
+    "urgency": "high",
+    "expected_coverage_days": 10.0,
+    "estimated_cost": 1890,
+    "consensus_status": "low",
+    "model_quantities": {
+      "lightgbm": 70,
+      "nhits": 70,
+      "chronos": 70
+    },
+    "status": "pending"
+  },
+  {
+    "sku_id": "FOODS_3_120",
+    "current_stock": 158,
+    "recommended_order_qty": 300,
+    "confidence": 0.55,
+    "urgency": "high",
+    "expected_coverage_days": 10.3,
+    "estimated_cost": 84300,
+    "consensus_status": "low",
+    "model_quantities": {
+      "lightgbm": 300,
+      "nhits": 250,
+      "chronos": 300
+    },
+    "status": "pending"
+  },
+  {
+    "sku_id": "FOODS_3_808",
+    "current_stock": 6,
+    "recommended_order_qty": 10,
+    "confidence": 0.52,
+    "urgency": "medium",
+    "expected_coverage_days": 16.0,
+    "estimated_cost": 560,
+    "consensus_status": "low",
+    "model_quantities": {
+      "lightgbm": 10,
+      "nhits": 10,
+      "chronos": 10
+    },
+    "status": "pending"
+  },
+  {
+    "sku_id": "HOBBIES_1_371",
+    "current_stock": 62,
+    "recommended_order_qty": 40,
+    "confidence": 0.69,
+    "urgency": "medium",
+    "expected_coverage_days": 10.1,
+    "estimated_cost": 1080,
+    "consensus_status": "low",
+    "model_quantities": {
+      "lightgbm": 40,
+      "nhits": 40,
+      "chronos": 40
+    },
+    "status": "pending"
+  },
+  {
+    "sku_id": "FOODS_3_090",
+    "current_stock": 321,
+    "recommended_order_qty": 200,
+    "confidence": 0.66,
+    "urgency": "medium",
+    "expected_coverage_days": 10.0,
+    "estimated_cost": 15600,
+    "consensus_status": "low",
+    "model_quantities": {
+      "lightgbm": 200,
+      "nhits": 200,
+      "chronos": 200
+    },
+    "status": "pending"
+  },
+  {
+    "sku_id": "FOODS_3_714",
+    "current_stock": 119,
+    "recommended_order_qty": 70,
+    "confidence": 0.57,
+    "urgency": "medium",
+    "expected_coverage_days": 10.0,
+    "estimated_cost": 6020,
+    "consensus_status": "low",
+    "model_quantities": {
+      "lightgbm": 70,
+      "nhits": 70,
+      "chronos": 70
+    },
+    "status": "pending"
+  },
+  {
+    "sku_id": "FOODS_3_252",
+    "current_stock": 249,
+    "recommended_order_qty": 150,
+    "confidence": 0.67,
+    "urgency": "medium",
+    "expected_coverage_days": 10.1,
+    "estimated_cost": 12900,
+    "consensus_status": "low",
+    "model_quantities": {
+      "lightgbm": 150,
+      "nhits": 150,
+      "chronos": 150
+    },
+    "status": "pending"
+  },
+  {
+    "sku_id": "FOODS_2_197",
+    "current_stock": 134,
+    "recommended_order_qty": 80,
+    "confidence": 0.67,
+    "urgency": "medium",
+    "expected_coverage_days": 10.1,
+    "estimated_cost": 14560,
+    "consensus_status": "low",
+    "model_quantities": {
+      "lightgbm": 90,
+      "nhits": 90,
+      "chronos": 80
+    },
+    "status": "pending"
+  },
+  {
+    "sku_id": "FOODS_3_376",
+    "current_stock": 37,
+    "recommended_order_qty": 40,
+    "confidence": 0.61,
+    "urgency": "medium",
+    "expected_coverage_days": 13.5,
+    "estimated_cost": 2240,
+    "consensus_status": "low",
+    "model_quantities": {
+      "lightgbm": 60,
+      "nhits": 50,
+      "chronos": 40
+    },
+    "status": "pending"
+  },
+  {
+    "sku_id": "FOODS_3_586",
+    "current_stock": 269,
+    "recommended_order_qty": 150,
+    "confidence": 0.7,
+    "urgency": "medium",
+    "expected_coverage_days": 10.4,
+    "estimated_cost": 13500,
+    "consensus_status": "low",
+    "model_quantities": {
+      "lightgbm": 150,
+      "nhits": 150,
+      "chronos": 150
+    },
+    "status": "pending"
+  },
+  {
+    "sku_id": "HOUSEHOLD_1_118",
+    "current_stock": 80,
+    "recommended_order_qty": 40,
+    "confidence": 0.52,
+    "urgency": "medium",
+    "expected_coverage_days": 12.0,
+    "estimated_cost": 2200,
+    "consensus_status": "low",
+    "model_quantities": {
+      "lightgbm": 40,
+      "nhits": 40,
+      "chronos": 40
+    },
+    "status": "pending"
+  }
+]

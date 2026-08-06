@@ -1,0 +1,135 @@
+{
+  "metadata": {
+    "series": "FOODS_3_090 @ CA_1",
+    "test_days": 389,
+    "computed_at": "2026-05-14",
+    "random_seed": 42,
+    "source": "compute_chronos_tolerance.py run on production hardware (M2 Mac, bfloat16)",
+    "notes": "Real test-set predictions, reproduced RMSE/MAE to >=4 decimals against saved evaluation JSONs"
+  },
+  "models": {
+    "naive": {
+      "name": "Naive Baseline",
+      "rmse": 27.5504,
+      "mae": 18.7301,
+      "absolute_tolerance": {
+        "within_pm10_units": {
+          "pct": 42.2
+        },
+        "within_pm15_units": {
+          "pct": 53.5
+        },
+        "within_pm20_units": {
+          "pct": 62.2
+        },
+        "within_pm25_units": {
+          "pct": 72.5
+        },
+        "within_pm30_units": {
+          "pct": 79.7
+        },
+        "within_pm40_units": {
+          "pct": 86.9
+        }
+      },
+      "relative_tolerance": {
+        "within_pm10_percent": {
+          "pct": 34.5
+        },
+        "within_pm20_percent": {
+          "pct": 42.4
+        },
+        "within_pm30_percent": {
+          "pct": 55.3
+        },
+        "within_pm50_percent": {
+          "pct": 78.7
+        }
+      }
+    },
+    "lightgbm": {
+      "name": "LightGBM",
+      "rmse": 27.4099,
+      "mae": 21.0376,
+      "absolute_tolerance": {
+        "within_pm10_units": {
+          "pct": 27.2
+        },
+        "within_pm15_units": {
+          "pct": 38.3
+        },
+        "within_pm20_units": {
+          "pct": 57.1
+        },
+        "within_pm25_units": {
+          "pct": 68.9
+        },
+        "within_pm30_units": {
+          "pct": 78.7
+        },
+        "within_pm40_units": {
+          "pct": 90.5
+        }
+      },
+      "relative_tolerance": {
+        "within_pm10_percent": {
+          "pct": 17.0
+        },
+        "within_pm20_percent": {
+          "pct": 27.0
+        },
+        "within_pm30_percent": {
+          "pct": 38.1
+        },
+        "within_pm50_percent": {
+          "pct": 54.5
+        }
+      }
+    },
+    "chronos": {
+      "name": "Chronos-Bolt",
+      "rmse": 23.2072,
+      "mae": 14.6577,
+      "absolute_tolerance": {
+        "within_pm10_units": {
+          "pct": 49.9
+        },
+        "within_pm15_units": {
+          "pct": 63.0
+        },
+        "within_pm20_units": {
+          "pct": 75.3
+        },
+        "within_pm25_units": {
+          "pct": 84.1
+        },
+        "within_pm30_units": {
+          "pct": 88.2
+        },
+        "within_pm40_units": {
+          "pct": 93.6
+        }
+      },
+      "relative_tolerance": {
+        "within_pm10_percent": {
+          "pct": 36.3
+        },
+        "within_pm20_percent": {
+          "pct": 51.2
+        },
+        "within_pm30_percent": {
+          "pct": 67.4
+        },
+        "within_pm50_percent": {
+          "pct": 84.8
+        }
+      }
+    }
+  },
+  "headline": {
+    "chronos_within_25_units_pct": 84.1,
+    "chronos_within_25_units_phrasing": "Chronos predicts daily demand within \u00b125 units on 8.4 of every 10 days",
+    "vs_naive_pp": 11.6,
+    "decision": "PATH3_GO"
+  }
+}

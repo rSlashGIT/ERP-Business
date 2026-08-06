@@ -1,0 +1,47 @@
+{
+  "n_episodes": 16,
+  "episode_length": 90,
+  "mode": "uniform",
+  "sl_floor_mode": "mean",
+  "mean_network_profit": -2335.4550007189728,
+  "std_network_profit": 505.39262163426577,
+  "mean_service_level": 0.9130151601027277,
+  "mean_store_service_level": {
+    "A": 0.988258827805389,
+    "B": 0.9508083688238076,
+    "C": 0.6180080931882478
+  },
+  "sl_warning": "WARNING: stores ['C'] have held-out fill rate below SL_FLOOR=80%: C=61.8%. Policy is abandoning these stores.",
+  "mean_store_profits": {
+    "A": 1084.412310204612,
+    "B": 552.6948030779346,
+    "C": -307.4371140015188
+  },
+  "best_theta": [
+    7.781797256301409,
+    8.744942474478295,
+    -12.321799314955266,
+    -10.536625206049028,
+    4.347822328264031,
+    1.2403358581085715,
+    2.034049157255538,
+    -4.161244411278191,
+    -8.84279847703473,
+    -13.723622347424588
+  ],
+  "deploy_source": "val_best",
+  "val_profit_deploy": -2601.351224781315,
+  "val_sl_deploy": 0.9437182136405506,
+  "val_store_sl_deploy": {
+    "A": 0.9404327804930058,
+    "B": 0.9644342101215982,
+    "C": 0.9172080119284675
+  },
+  "generalization_gap": -265.8962240623423,
+  "deploy_warehouse": {
+    "raw_s": -8.84279847703473,
+    "raw_S": -13.723622347424588,
+    "warehouse_s": 50.0,
+    "warehouse_S": 150.0
+  }
+}

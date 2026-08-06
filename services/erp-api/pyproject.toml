@@ -1,0 +1,14 @@
+[project]
+name = "erp-api"
+version = "1.0.0"
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.110", "uvicorn[standard]>=0.27", "pydantic>=2.6",
+  "sqlalchemy[asyncio]>=2.0.29", "asyncpg>=0.29", "alembic>=1.13",
+  "celery[redis]>=5.3", "httpx>=0.26", "python-dotenv>=1.0",
+]
+[project.optional-dependencies]
+dev = ["pytest>=7", "pytest-asyncio>=0.23", "aiosqlite>=0.19"]
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"

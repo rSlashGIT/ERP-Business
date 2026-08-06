@@ -1,0 +1,1001 @@
+[
+  {
+    "id": "small_grocery",
+    "name": "Small Grocery (Ramesh, Bangalore)",
+    "stores": 1,
+    "n_skus": 5,
+    "description": "Single neighbourhood store, 5 food SKUs",
+    "demand_pattern": "stable",
+    "policy": "pernode_robust",
+    "today_recommendation": {
+      "order_qty": 0.0,
+      "current_inventory": 383.0,
+      "expected_sl": 100.0,
+      "expected_daily_demand": 13.7,
+      "days_of_stock": 28.0
+    },
+    "explanation": {
+      "original_decision": 0.0,
+      "original_state": {
+        "inventory_level": 0.2555,
+        "demand_forecast": 0.0,
+        "demand_std": 0.0,
+        "lead_time": 2.0
+      },
+      "top_factors": [
+        {
+          "feature": "lead_time",
+          "sensitivity": 93.75,
+          "share": 1.0,
+          "direction": "positive",
+          "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+        },
+        {
+          "feature": "inventory_level",
+          "sensitivity": 0.0,
+          "share": 0.0,
+          "direction": "positive",
+          "description": "Current inventory is 0.26 (normalized). Higher inventory -> higher order."
+        },
+        {
+          "feature": "demand_forecast",
+          "sensitivity": 0.0,
+          "share": 0.0,
+          "direction": "positive",
+          "description": "Forecasted demand is 0.00 (normalized). Higher forecast -> higher order."
+        },
+        {
+          "feature": "demand_std",
+          "sensitivity": 0.0,
+          "share": 0.0,
+          "direction": "positive",
+          "description": "Demand uncertainty (std) is 0.00. Higher uncertainty -> higher order."
+        }
+      ],
+      "counterfactuals": [
+        "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 0.",
+        "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 0.",
+        "If inventory level were 19% higher (0.255 -> 0.307), recommend 0 units instead of 0.",
+        "If inventory level were 19% lower (0.255 -> 0.204), recommend 0 units instead of 0."
+      ],
+      "all_sensitivities": {
+        "inventory_level": 0.0,
+        "demand_forecast": 0.0,
+        "demand_std": 0.0,
+        "lead_time": 93.75
+      }
+    },
+    "forecast_30d": [
+      {
+        "day": 1,
+        "order_qty": 50.0,
+        "inventory": 76.6,
+        "demand": 17.4
+      },
+      {
+        "day": 2,
+        "order_qty": 50.0,
+        "inventory": 106.9,
+        "demand": 19.7
+      },
+      {
+        "day": 3,
+        "order_qty": 50.0,
+        "inventory": 106.5,
+        "demand": 50.4
+      },
+      {
+        "day": 4,
+        "order_qty": 50.0,
+        "inventory": 77.8,
+        "demand": 78.7
+      },
+      {
+        "day": 5,
+        "order_qty": 50.0,
+        "inventory": 31.9,
+        "demand": 95.9
+      },
+      {
+        "day": 6,
+        "order_qty": 50.0,
+        "inventory": 4.8,
+        "demand": 77.1
+      },
+      {
+        "day": 7,
+        "order_qty": 50.0,
+        "inventory": 24.9,
+        "demand": 29.9
+      },
+      {
+        "day": 8,
+        "order_qty": 50.0,
+        "inventory": 59.9,
+        "demand": 15.0
+      },
+      {
+        "day": 9,
+        "order_qty": 50.0,
+        "inventory": 83.2,
+        "demand": 26.7
+      },
+      {
+        "day": 10,
+        "order_qty": 50.0,
+        "inventory": 133.2,
+        "demand": 0.0
+      },
+      {
+        "day": 11,
+        "order_qty": 50.0,
+        "inventory": 183.2,
+        "demand": 0.0
+      },
+      {
+        "day": 12,
+        "order_qty": 50.0,
+        "inventory": 233.2,
+        "demand": 0.0
+      },
+      {
+        "day": 13,
+        "order_qty": 50.0,
+        "inventory": 283.2,
+        "demand": 0.0
+      },
+      {
+        "day": 14,
+        "order_qty": 0.0,
+        "inventory": 333.2,
+        "demand": 0.0
+      },
+      {
+        "day": 15,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 16,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 17,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 18,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 19,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 20,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 21,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 22,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 23,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 24,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 25,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 26,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 27,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 28,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 29,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      },
+      {
+        "day": 30,
+        "order_qty": 0.0,
+        "inventory": 383.2,
+        "demand": 0.0
+      }
+    ]
+  },
+  {
+    "id": "medium_store",
+    "name": "Medium Retail Chain (3 outlets)",
+    "stores": 3,
+    "n_skus": 15,
+    "description": "Three neighbourhood stores, seasonal demand, mixed SKUs",
+    "demand_pattern": "seasonal",
+    "policy": "pernode_robust",
+    "today_recommendation": {
+      "order_qty": 50.0,
+      "current_inventory": 126.0,
+      "expected_sl": 100.0,
+      "expected_daily_demand": 37.4,
+      "days_of_stock": 3.4
+    },
+    "explanation": {
+      "original_decision": 50.0,
+      "original_state": {
+        "inventory_level": 0.0843,
+        "demand_forecast": 0.1228,
+        "demand_std": 0.0732,
+        "lead_time": 2.0
+      },
+      "top_factors": [
+        {
+          "feature": "lead_time",
+          "sensitivity": 93.75,
+          "share": 1.0,
+          "direction": "negative",
+          "description": "Lead time is 2.0 days. Longer lead time -> lower order."
+        },
+        {
+          "feature": "inventory_level",
+          "sensitivity": 0.0,
+          "share": 0.0,
+          "direction": "positive",
+          "description": "Current inventory is 0.08 (normalized). Higher inventory -> higher order."
+        },
+        {
+          "feature": "demand_forecast",
+          "sensitivity": 0.0,
+          "share": 0.0,
+          "direction": "positive",
+          "description": "Forecasted demand is 0.12 (normalized). Higher forecast -> higher order."
+        },
+        {
+          "feature": "demand_std",
+          "sensitivity": 0.0,
+          "share": 0.0,
+          "direction": "positive",
+          "description": "Demand uncertainty (std) is 0.07. Higher uncertainty -> higher order."
+        }
+      ],
+      "counterfactuals": [
+        "If lead time were 19% higher (2.000 -> 2.400), recommend 0 units instead of 50.",
+        "If lead time were 19% lower (2.000 -> 1.600), recommend 50 units instead of 50.",
+        "If inventory level were 19% higher (0.084 -> 0.101), recommend 50 units instead of 50.",
+        "If inventory level were 19% lower (0.084 -> 0.067), recommend 50 units instead of 50.",
+        "If demand forecast were 19% higher (0.123 -> 0.147), recommend 50 units instead of 50."
+      ],
+      "all_sensitivities": {
+        "inventory_level": 0.0,
+        "demand_forecast": 0.0,
+        "demand_std": 0.0,
+        "lead_time": 93.75
+      }
+    },
+    "forecast_30d": [
+      {
+        "day": 1,
+        "order_qty": 50.0,
+        "inventory": 74.4,
+        "demand": 24.5
+      },
+      {
+        "day": 2,
+        "order_qty": 50.0,
+        "inventory": 108.0,
+        "demand": 16.4
+      },
+      {
+        "day": 3,
+        "order_qty": 50.0,
+        "inventory": 104.7,
+        "demand": 53.3
+      },
+      {
+        "day": 4,
+        "order_qty": 50.0,
+        "inventory": 112.4,
+        "demand": 42.3
+      },
+      {
+        "day": 5,
+        "order_qty": 50.0,
+        "inventory": 114.1,
+        "demand": 48.3
+      },
+      {
+        "day": 6,
+        "order_qty": 50.0,
+        "inventory": 135.6,
+        "demand": 28.6
+      },
+      {
+        "day": 7,
+        "order_qty": 0.0,
+        "inventory": 163.7,
+        "demand": 21.9
+      },
+      {
+        "day": 8,
+        "order_qty": 0.0,
+        "inventory": 185.5,
+        "demand": 28.2
+      },
+      {
+        "day": 9,
+        "order_qty": 0.0,
+        "inventory": 162.7,
+        "demand": 22.8
+      },
+      {
+        "day": 10,
+        "order_qty": 50.0,
+        "inventory": 87.3,
+        "demand": 75.4
+      },
+      {
+        "day": 11,
+        "order_qty": 50.0,
+        "inventory": 23.0,
+        "demand": 64.3
+      },
+      {
+        "day": 12,
+        "order_qty": 50.0,
+        "inventory": 34.0,
+        "demand": 39.1
+      },
+      {
+        "day": 13,
+        "order_qty": 50.0,
+        "inventory": 33.2,
+        "demand": 50.8
+      },
+      {
+        "day": 14,
+        "order_qty": 50.0,
+        "inventory": 60.3,
+        "demand": 22.8
+      },
+      {
+        "day": 15,
+        "order_qty": 50.0,
+        "inventory": 91.2,
+        "demand": 19.2
+      },
+      {
+        "day": 16,
+        "order_qty": 50.0,
+        "inventory": 125.8,
+        "demand": 15.4
+      },
+      {
+        "day": 17,
+        "order_qty": 50.0,
+        "inventory": 101.7,
+        "demand": 74.1
+      },
+      {
+        "day": 18,
+        "order_qty": 50.0,
+        "inventory": 112.2,
+        "demand": 39.5
+      },
+      {
+        "day": 19,
+        "order_qty": 50.0,
+        "inventory": 120.6,
+        "demand": 41.6
+      },
+      {
+        "day": 20,
+        "order_qty": 50.0,
+        "inventory": 144.8,
+        "demand": 25.8
+      },
+      {
+        "day": 21,
+        "order_qty": 0.0,
+        "inventory": 165.6,
+        "demand": 29.2
+      },
+      {
+        "day": 22,
+        "order_qty": 0.0,
+        "inventory": 201.6,
+        "demand": 14.1
+      },
+      {
+        "day": 23,
+        "order_qty": 0.0,
+        "inventory": 180.6,
+        "demand": 21.0
+      },
+      {
+        "day": 24,
+        "order_qty": 50.0,
+        "inventory": 129.2,
+        "demand": 51.3
+      },
+      {
+        "day": 25,
+        "order_qty": 50.0,
+        "inventory": 63.8,
+        "demand": 65.4
+      },
+      {
+        "day": 26,
+        "order_qty": 50.0,
+        "inventory": 69.8,
+        "demand": 44.0
+      },
+      {
+        "day": 27,
+        "order_qty": 50.0,
+        "inventory": 37.3,
+        "demand": 82.5
+      },
+      {
+        "day": 28,
+        "order_qty": 50.0,
+        "inventory": 64.3,
+        "demand": 23.0
+      },
+      {
+        "day": 29,
+        "order_qty": 50.0,
+        "inventory": 95.0,
+        "demand": 19.4
+      },
+      {
+        "day": 30,
+        "order_qty": 50.0,
+        "inventory": 126.4,
+        "demand": 18.6
+      }
+    ]
+  },
+  {
+    "id": "large_supermarket",
+    "name": "Large Supermarket (30 SKUs)",
+    "stores": 3,
+    "n_skus": 30,
+    "description": "Full supermarket, high-volume, all demand patterns",
+    "demand_pattern": "mixed",
+    "policy": "pernode_robust",
+    "today_recommendation": {
+      "order_qty": 0.0,
+      "current_inventory": 60.0,
+      "expected_sl": 90.1,
+      "expected_daily_demand": 29.9,
+      "days_of_stock": 2.0
+    },
+    "explanation": {
+      "original_decision": 0.0,
+      "original_state": {
+        "inventory_level": 0.0402,
+        "demand_forecast": 0.1087,
+        "demand_std": 0.0382,
+        "lead_time": 2.0
+      },
+      "top_factors": [
+        {
+          "feature": "demand_std",
+          "sensitivity": 4905.5445,
+          "share": 0.688,
+          "direction": "positive",
+          "description": "Demand uncertainty (std) is 0.04. Higher uncertainty -> higher order."
+        },
+        {
+          "feature": "inventory_level",
+          "sensitivity": 1555.3375,
+          "share": 0.2181,
+          "direction": "positive",
+          "description": "Current inventory is 0.04 (normalized). Higher inventory -> higher order."
+        },
+        {
+          "feature": "demand_forecast",
+          "sensitivity": 575.1064,
+          "share": 0.0807,
+          "direction": "positive",
+          "description": "Forecasted demand is 0.11 (normalized). Higher forecast -> higher order."
+        },
+        {
+          "feature": "lead_time",
+          "sensitivity": 93.75,
+          "share": 0.0131,
+          "direction": "positive",
+          "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+        }
+      ],
+      "counterfactuals": [
+        "If demand uncertainty were 19% higher (0.038 -> 0.046), recommend 50 units instead of 0.",
+        "If demand uncertainty were 19% lower (0.038 -> 0.031), recommend 0 units instead of 0.",
+        "If inventory level were 19% higher (0.040 -> 0.048), recommend 0 units instead of 0.",
+        "If inventory level were 19% lower (0.040 -> 0.032), recommend 50 units instead of 0.",
+        "If demand forecast were 19% higher (0.109 -> 0.130), recommend 50 units instead of 0."
+      ],
+      "all_sensitivities": {
+        "inventory_level": 1555.3375,
+        "demand_forecast": 575.1064,
+        "demand_std": 4905.5445,
+        "lead_time": 93.75
+      }
+    },
+    "forecast_30d": [
+      {
+        "day": 1,
+        "order_qty": 50.0,
+        "inventory": 139.5,
+        "demand": 9.7
+      },
+      {
+        "day": 2,
+        "order_qty": 0.0,
+        "inventory": 173.1,
+        "demand": 16.4
+      },
+      {
+        "day": 3,
+        "order_qty": 0.0,
+        "inventory": 194.7,
+        "demand": 28.4
+      },
+      {
+        "day": 4,
+        "order_qty": 0.0,
+        "inventory": 158.9,
+        "demand": 35.8
+      },
+      {
+        "day": 5,
+        "order_qty": 0.0,
+        "inventory": 135.6,
+        "demand": 23.2
+      },
+      {
+        "day": 6,
+        "order_qty": 0.0,
+        "inventory": 107.7,
+        "demand": 27.9
+      },
+      {
+        "day": 7,
+        "order_qty": 0.0,
+        "inventory": 88.2,
+        "demand": 19.6
+      },
+      {
+        "day": 8,
+        "order_qty": 0.0,
+        "inventory": 70.4,
+        "demand": 17.7
+      },
+      {
+        "day": 9,
+        "order_qty": 0.0,
+        "inventory": 30.7,
+        "demand": 39.8
+      },
+      {
+        "day": 10,
+        "order_qty": 50.0,
+        "inventory": 0.0,
+        "demand": 31.3
+      },
+      {
+        "day": 11,
+        "order_qty": 50.0,
+        "inventory": 0.0,
+        "demand": 50.3
+      },
+      {
+        "day": 12,
+        "order_qty": 50.0,
+        "inventory": 14.0,
+        "demand": 36.0
+      },
+      {
+        "day": 13,
+        "order_qty": 0.0,
+        "inventory": 38.6,
+        "demand": 25.4
+      },
+      {
+        "day": 14,
+        "order_qty": 0.0,
+        "inventory": 55.8,
+        "demand": 32.8
+      },
+      {
+        "day": 15,
+        "order_qty": 0.0,
+        "inventory": 42.3,
+        "demand": 13.5
+      },
+      {
+        "day": 16,
+        "order_qty": 50.0,
+        "inventory": 23.7,
+        "demand": 18.6
+      },
+      {
+        "day": 17,
+        "order_qty": 50.0,
+        "inventory": 0.0,
+        "demand": 51.9
+      },
+      {
+        "day": 18,
+        "order_qty": 50.0,
+        "inventory": 13.4,
+        "demand": 36.6
+      },
+      {
+        "day": 19,
+        "order_qty": 50.0,
+        "inventory": 26.0,
+        "demand": 37.4
+      },
+      {
+        "day": 20,
+        "order_qty": 50.0,
+        "inventory": 56.5,
+        "demand": 19.5
+      },
+      {
+        "day": 21,
+        "order_qty": 0.0,
+        "inventory": 73.0,
+        "demand": 33.5
+      },
+      {
+        "day": 22,
+        "order_qty": 0.0,
+        "inventory": 102.1,
+        "demand": 20.9
+      },
+      {
+        "day": 23,
+        "order_qty": 0.0,
+        "inventory": 70.3,
+        "demand": 31.8
+      },
+      {
+        "day": 24,
+        "order_qty": 50.0,
+        "inventory": 20.1,
+        "demand": 50.2
+      },
+      {
+        "day": 25,
+        "order_qty": 50.0,
+        "inventory": 0.0,
+        "demand": 49.8
+      },
+      {
+        "day": 26,
+        "order_qty": 50.0,
+        "inventory": 6.0,
+        "demand": 44.0
+      },
+      {
+        "day": 27,
+        "order_qty": 50.0,
+        "inventory": 21.9,
+        "demand": 34.1
+      },
+      {
+        "day": 28,
+        "order_qty": 0.0,
+        "inventory": 50.6,
+        "demand": 21.3
+      },
+      {
+        "day": 29,
+        "order_qty": 0.0,
+        "inventory": 81.2,
+        "demand": 19.4
+      },
+      {
+        "day": 30,
+        "order_qty": 0.0,
+        "inventory": 60.3,
+        "demand": 21.0
+      }
+    ]
+  },
+  {
+    "id": "online_seller",
+    "name": "Online Seller (intermittent demand)",
+    "stores": 1,
+    "n_skus": 10,
+    "description": "E-commerce, intermittent demand, grid-tuned classical policy",
+    "demand_pattern": "intermittent",
+    "policy": "grid_tuned",
+    "today_recommendation": {
+      "order_qty": 0.0,
+      "current_inventory": 178.0,
+      "expected_sl": 100.0,
+      "expected_daily_demand": 30.6,
+      "days_of_stock": 5.8
+    },
+    "explanation": {
+      "original_decision": 0.0,
+      "original_state": {
+        "inventory_level": 0.1189,
+        "demand_forecast": 0.1046,
+        "demand_std": 0.0227,
+        "lead_time": 2.0
+      },
+      "top_factors": [
+        {
+          "feature": "inventory_level",
+          "sensitivity": 0.0,
+          "share": 0.0,
+          "direction": "positive",
+          "description": "Current inventory is 0.12 (normalized). Higher inventory -> higher order."
+        },
+        {
+          "feature": "demand_forecast",
+          "sensitivity": 0.0,
+          "share": 0.0,
+          "direction": "positive",
+          "description": "Forecasted demand is 0.10 (normalized). Higher forecast -> higher order."
+        },
+        {
+          "feature": "demand_std",
+          "sensitivity": 0.0,
+          "share": 0.0,
+          "direction": "positive",
+          "description": "Demand uncertainty (std) is 0.02. Higher uncertainty -> higher order."
+        },
+        {
+          "feature": "lead_time",
+          "sensitivity": 0.0,
+          "share": 0.0,
+          "direction": "positive",
+          "description": "Lead time is 2.0 days. Longer lead time -> higher order."
+        }
+      ],
+      "counterfactuals": [
+        "If inventory level were 19% higher (0.119 -> 0.143), recommend 0 units instead of 0.",
+        "If inventory level were 19% lower (0.119 -> 0.095), recommend 0 units instead of 0.",
+        "If demand forecast were 19% higher (0.105 -> 0.125), recommend 0 units instead of 0.",
+        "If demand forecast were 19% lower (0.105 -> 0.084), recommend 0 units instead of 0.",
+        "If demand uncertainty were 19% higher (0.023 -> 0.027), recommend 0 units instead of 0."
+      ],
+      "all_sensitivities": {
+        "inventory_level": 0.0,
+        "demand_forecast": 0.0,
+        "demand_std": 0.0,
+        "lead_time": 0.0
+      }
+    },
+    "forecast_30d": [
+      {
+        "day": 1,
+        "order_qty": 0.0,
+        "inventory": 325.8,
+        "demand": 20.4
+      },
+      {
+        "day": 2,
+        "order_qty": 0.0,
+        "inventory": 289.3,
+        "demand": 36.5
+      },
+      {
+        "day": 3,
+        "order_qty": 0.0,
+        "inventory": 251.6,
+        "demand": 37.7
+      },
+      {
+        "day": 4,
+        "order_qty": 0.0,
+        "inventory": 229.9,
+        "demand": 21.7
+      },
+      {
+        "day": 5,
+        "order_qty": 0.0,
+        "inventory": 187.1,
+        "demand": 42.8
+      },
+      {
+        "day": 6,
+        "order_qty": 0.0,
+        "inventory": 157.3,
+        "demand": 29.9
+      },
+      {
+        "day": 7,
+        "order_qty": 150.0,
+        "inventory": 118.1,
+        "demand": 39.1
+      },
+      {
+        "day": 8,
+        "order_qty": 150.0,
+        "inventory": 95.5,
+        "demand": 22.6
+      },
+      {
+        "day": 9,
+        "order_qty": 0.0,
+        "inventory": 223.8,
+        "demand": 21.7
+      },
+      {
+        "day": 10,
+        "order_qty": 0.0,
+        "inventory": 311.7,
+        "demand": 62.1
+      },
+      {
+        "day": 11,
+        "order_qty": 0.0,
+        "inventory": 265.6,
+        "demand": 46.1
+      },
+      {
+        "day": 12,
+        "order_qty": 0.0,
+        "inventory": 241.5,
+        "demand": 24.2
+      },
+      {
+        "day": 13,
+        "order_qty": 0.0,
+        "inventory": 219.8,
+        "demand": 21.7
+      },
+      {
+        "day": 14,
+        "order_qty": 0.0,
+        "inventory": 205.1,
+        "demand": 14.6
+      },
+      {
+        "day": 15,
+        "order_qty": 0.0,
+        "inventory": 205.1,
+        "demand": 0.0
+      },
+      {
+        "day": 16,
+        "order_qty": 0.0,
+        "inventory": 183.0,
+        "demand": 22.1
+      },
+      {
+        "day": 17,
+        "order_qty": 0.0,
+        "inventory": 120.6,
+        "demand": 62.4
+      },
+      {
+        "day": 18,
+        "order_qty": 150.0,
+        "inventory": 97.7,
+        "demand": 23.0
+      },
+      {
+        "day": 19,
+        "order_qty": 150.0,
+        "inventory": 65.0,
+        "demand": 32.7
+      },
+      {
+        "day": 20,
+        "order_qty": 0.0,
+        "inventory": 192.1,
+        "demand": 22.9
+      },
+      {
+        "day": 21,
+        "order_qty": 0.0,
+        "inventory": 302.3,
+        "demand": 39.7
+      },
+      {
+        "day": 22,
+        "order_qty": 0.0,
+        "inventory": 277.4,
+        "demand": 24.9
+      },
+      {
+        "day": 23,
+        "order_qty": 0.0,
+        "inventory": 236.5,
+        "demand": 40.9
+      },
+      {
+        "day": 24,
+        "order_qty": 0.0,
+        "inventory": 195.9,
+        "demand": 40.6
+      },
+      {
+        "day": 25,
+        "order_qty": 0.0,
+        "inventory": 171.9,
+        "demand": 24.0
+      },
+      {
+        "day": 26,
+        "order_qty": 0.0,
+        "inventory": 145.2,
+        "demand": 26.7
+      },
+      {
+        "day": 27,
+        "order_qty": 0.0,
+        "inventory": 121.3,
+        "demand": 23.9
+      },
+      {
+        "day": 28,
+        "order_qty": 150.0,
+        "inventory": 88.8,
+        "demand": 32.5
+      },
+      {
+        "day": 29,
+        "order_qty": 150.0,
+        "inventory": 63.1,
+        "demand": 25.7
+      },
+      {
+        "day": 30,
+        "order_qty": 0.0,
+        "inventory": 178.4,
+        "demand": 34.7
+      }
+    ]
+  }
+]

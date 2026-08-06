@@ -1,0 +1,83 @@
+{
+  "model": "nhits",
+  "train_end": 1164,
+  "val_end": 1552,
+  "test_end": 1941,
+  "hyperparameters": {
+    "max_steps": 500,
+    "val_check_steps": 50,
+    "early_stop_patience_steps": 5,
+    "batch_size": 32,
+    "n_freq_downsample": [
+      7,
+      1,
+      1
+    ],
+    "loss": "MAE",
+    "scaler_type": "standard"
+  },
+  "train_seconds": 21.758058786392212,
+  "test_metrics": {
+    "mae": 16.257855168739702,
+    "rmse": 24.02841349268073,
+    "smape": 48.05944248893883,
+    "n_predictions": 389,
+    "start_index": 1552,
+    "end_index": 1941,
+    "eval_seconds": 4.521629810333252
+  },
+  "baselines": {
+    "naive": {
+      "mae": 18.73007712082262,
+      "rmse": 27.550374520989486,
+      "smape": 32.56003686719512,
+      "n_predictions": 389,
+      "start_index": 1552,
+      "end_index": 1941
+    },
+    "seasonal_naive": {
+      "mae": 21.588688946015424,
+      "rmse": 34.825676784466715,
+      "smape": 42.61507036577562,
+      "n_predictions": 389,
+      "start_index": 1552,
+      "end_index": 1941
+    },
+    "moving_avg_7": {
+      "mae": 18.802791039294895,
+      "rmse": 27.92321984281202,
+      "smape": 37.30121365980635,
+      "n_predictions": 389,
+      "start_index": 1552,
+      "end_index": 1941
+    }
+  },
+  "beats_naive": true,
+  "beats_best_baseline": true,
+  "random_seed": 42,
+  "library": "neuralforecast",
+  "hardware": "cpu",
+  "train_size": 1164,
+  "val_size": 388,
+  "test_size": 389,
+  "max_steps_used": 500,
+  "early_stop_patience_steps": 5,
+  "inference_time_per_prediction_seconds": 0.011624,
+  "gates": {
+    "beats_naive_rmse": {
+      "threshold": 27.550374520989486,
+      "actual": 24.02841349268073,
+      "pass": true
+    },
+    "train_time_lt_1200s": {
+      "threshold": 1200.0,
+      "actual": 21.758058786392212,
+      "pass": true
+    },
+    "inference_lt_100ms": {
+      "threshold": 0.1,
+      "actual": 0.011624,
+      "pass": true
+    }
+  }
+}
